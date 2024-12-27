@@ -1,0 +1,93 @@
+{
+  "config": {
+    "helper_endowment": 10.0,
+    "helping_amount": 5.0,
+    "punishment_cost": 2.0,
+    "punishment_impact": 6.0,
+    "n_rounds": 3,
+    "scenario_description": "You are in a room where a research experiment is taking place.\n    There are three roles: Helper, Recipient, and Punisher. \n    The Helper begins with an endowment of $10.0 and can decides to send $5.0 of the endowment to the Recipient. \n    If money is received by the Recipient, the money will triple in value.\n    Then, the Recipient can choose to send any amount of the tripled money back to the Helper.\n    The Punisher observes this interaction and can choose to spend $2.0 to reduce the Helper's player's payoff by $6.0 if they acted selfishly. "
+  },
+  "events": [
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Helper",
+      "action": "helper chooses to send $5.0 to the recipient.",
+      "event": "Helper sends $5.0 to the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Recipient",
+      "action": "recipient chooses to send back $7.5 to the helper.",
+      "event": "Recipient sends back $7.5 to the Helper.",
+      "helped": null,
+      "reward": -7.5
+    },
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Punisher",
+      "action": "punisher chooses not to punish the helper.",
+      "event": "Punisher chooses not to punish since the Helper was generous.",
+      "helped": null,
+      "reward": 0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:05:00",
+      "player": "Helper",
+      "action": "helper chooses to send $5.0 to the recipient.",
+      "event": "Helper sends $5.0 to the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:05:00",
+      "player": "Recipient",
+      "action": "recipient chooses to return $7.5 to the helper.",
+      "event": "Recipient keeps all the money.",
+      "helped": null,
+      "reward": 0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:05:00",
+      "player": "Punisher",
+      "action": "punisher chooses not to punish the helper. the helper's decision to send $5.0 to the recipient demonstrates trust and a willingness to cooperate. the lack of reciprocity is due to the recipient's actions, not the helper's. therefore, punishing the helper would not align with the values of trust and fairness that guide my decisions. instead, i would focus on encouraging future cooperation and addressing the recipient's behavior in a way that fosters trust and fairness.",
+      "event": "Punisher chooses not to punish since the Helper was generous.",
+      "helped": null,
+      "reward": 0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:10:00",
+      "player": "Helper",
+      "action": "helper chooses to send $5.0 to the recipient. maya patel, embodying the helper role, trusts that the recipient will act fairly and reciprocate, aligning with her values of cooperation and collective well-being.",
+      "event": "Helper sends $5.0 to the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:10:00",
+      "player": "Recipient",
+      "action": "recipient chooses to return $7.5 to the helper.",
+      "event": "Recipient keeps all the money.",
+      "helped": null,
+      "reward": 0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:10:00",
+      "player": "Punisher",
+      "action": "punisher chooses not to punish the helper. if i were the helper, i would send $5.0 to the recipient, demonstrating trust and cooperation. if i were the recipient, i would send back a fair amount, ideally returning at least $3.0 to the helper to maintain trust and fairness in the interaction.",
+      "event": "Punisher chooses not to punish since the Helper was generous.",
+      "helped": null,
+      "reward": 0
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "config": {
+    "helper_endowment": 10.0,
+    "helping_amount": 5.0,
+    "punishment_cost": 2.0,
+    "punishment_impact": 6.0,
+    "n_rounds": 3,
+    "scenario_description": "You are in a room where a research experiment is taking place.\n    There are three roles: Helpers who can share money with Recipients, and Punishers who can \n    pay to reduce a Helper's earnings if they are selfish."
+  },
+  "events": [
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Helper",
+      "action": "Helper reflects on the decision to share the $5.0 with the Recipient, considering the impact of their actions on both their own moral character and the perceptions of others in the situation.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Punisher",
+      "action": "Punisher reflects on the fairness of the Helper's decision by reviewing the details of the transaction and considering the potential impact on the Recipient.",
+      "event": "Punisher shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:05:00",
+      "player": "Helper",
+      "action": "Helper writes a thank-you note to the Recipient, expressing appreciation for their collaboration and reinforcing the positive relationship between them.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:05:00",
+      "player": "Punisher",
+      "action": "Punisher reviews the transaction history of the Helper to evaluate their past sharing behavior. This involves checking how much the Helper has shared in previous situations and comparing it to the current instance to determine if there is a pattern of selfishness or fairness.",
+      "event": "Punisher shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:10:00",
+      "player": "Helper",
+      "action": "Helper writes a thank-you note to the Recipient, expressing gratitude for their collaboration and support, which helps strengthen their relationship and fosters a sense of community.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:10:00",
+      "player": "Punisher",
+      "action": "Punisher reflects on the fairness of the Helper's actions by reviewing the distribution history and comparing it to the available resources. This involves analyzing past rounds to determine if the $5.0 contribution aligns with a pattern of equitable sharing.",
+      "event": "Punisher shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    }
+  ]
+}
