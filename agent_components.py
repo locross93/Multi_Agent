@@ -8,6 +8,7 @@ from concordia.typing import entity_component
 from concordia.language_model import language_model
 from concordia.clocks import game_clock
 from concordia.utils import measurements as measurements_lib
+from concordia.document import interactive_document
 
 from personas import Persona, PERSONAS
 import random
@@ -35,58 +36,6 @@ class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories
             **kwargs,
         )
 
-# class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories):
-#     """Component to assess agent's moral character and trustworthiness."""
-    
-#     def __init__(self, agent_name: str, **kwargs):
-#         question = f"Based on past actions and decisions, what are {agent_name}'s key traits and values?"
-#         answer_prefix = f"{agent_name} is someone who "
-#         super().__init__(
-#             pre_act_key=f"\nCharacter Assessment",
-#             question=question,
-#             answer_prefix=answer_prefix,
-#             add_to_memory=True,
-#             memory_tag="[character reflection]",
-#             components={}, 
-#             **kwargs,
-#         )
-
-    # def _make_pre_act_value(self) -> str:
-    #     print(f"\n=== {self.__class__.__name__} ===")
-    #     print("Component:", self.get_pre_act_key())
-        
-    #     # Get memories
-    #     memory = self.get_entity().get_component(
-    #         self._memory_component_name,
-    #         type_=memory_component.MemoryComponent)
-        
-    #     mems = '\n'.join([
-    #         mem.text for mem in memory.retrieve(
-    #             scoring_fn=legacy_associative_memory.RetrieveRecent(add_time=True),
-    #             limit=self._num_memories_to_retrieve,
-    #         )
-    #     ])
-        
-    #     # Create and log the full prompt
-    #     prompt = interactive_document.InteractiveDocument(self._model)
-    #     prompt.statement(f'Recent memories:\n{mems}')
-        
-    #     print("\nFull Prompt:")
-    #     print("------------")
-    #     print(prompt.view().text())
-    #     print(f"Question: {self._question}")
-    #     print("------------")
-        
-    #     result = prompt.open_question(
-    #         self._question,
-    #         max_tokens=1000,
-    #         answer_prefix=self._answer_prefix,
-    #     )
-        
-    #     print("LLM Response:", result)
-    #     print("=== End ===\n")
-    #     return result
-
 class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to assess the current game situation."""
     
@@ -99,10 +48,39 @@ class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
             answer_prefix=answer_prefix,
             add_to_memory=True,
             memory_tag="[situation assessment]",
+            memory_component_name=memory_component.DEFAULT_MEMORY_COMPONENT_NAME,  # Add this
             components={
                 'Observation': '\nObservation',
-                'ObservationSummary': '\nRecent context'
+                'ObservationSummary': '\nRecent context',
+                'TheoryOfMind': '\nTheory of Mind Analysis',
             },
+            num_memories_to_retrieve=10,  # Add this to ensure we get enough memories
+            **kwargs,
+        )
+
+class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
+    """Component to reason about the other player's personality and likely behavior."""
+    
+    def __init__(self, agent_name: str, **kwargs):
+        question = (
+            f"As {agent_name}, analyze what you know about the personality and likely behavior "
+            "of the person you are interacting with in the Trust Game. "
+            "Consider their past actions, their personality traits, and how this might influence "
+            "their decisions. What kind of person are they and how might they respond?"
+        )
+        answer_prefix = "Based on what we know, "
+        super().__init__(
+            pre_act_key="\nTheory of Mind Analysis",
+            question=question,
+            answer_prefix=answer_prefix,
+            add_to_memory=True,
+            memory_tag="[theory_of_mind]",
+            components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
+                'PersonalityReflection': '\nCharacter Assessment'
+            },
+            num_memories_to_retrieve=10,
             **kwargs,
         )
 
@@ -124,6 +102,8 @@ class HelperDecision(question_of_recent_memories.QuestionOfRecentMemories):
             add_to_memory=True,
             memory_tag="[helper decision]",
             components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
                 'PersonalityReflection': '\nCharacter Assessment',
                 'SituationAssessment': '\nSituation Analysis',
             },
@@ -148,6 +128,8 @@ class RecipientDecision(question_of_recent_memories.QuestionOfRecentMemories):
             add_to_memory=True,
             memory_tag="[recipient decision]",
             components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
                 'PersonalityReflection': '\nCharacter Assessment',
                 'SituationAssessment': '\nSituation Analysis',
             },
@@ -173,11 +155,35 @@ class PunisherDecision(question_of_recent_memories.QuestionOfRecentMemories):
             add_to_memory=True,
             memory_tag="[punisher decision]",
             components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
                 'PersonalityReflection': '\nCharacter Assessment',
                 'SituationAssessment': '\nSituation Analysis',
             },
             **kwargs,
         )
+
+class CustomObservationSummary(agent_components.observation.ObservationSummary):
+    """Custom component that includes all recent observations."""
+    
+    def _make_pre_act_value(self) -> str:
+        memory = self.get_entity().get_component(
+            self._memory_component_name,
+            type_=memory_component.MemoryComponent
+        )
+        
+        # Get all observations from memory
+        observations = [
+            mem.text for mem in memory.retrieve(
+                scoring_fn=legacy_associative_memory.RetrieveRecent(add_time=True),
+                limit=10
+            )
+        ]
+        
+        if not observations:
+            return f"{self.get_entity().name} has not been observed recently."
+        
+        return "Recent events:\n" + "\n".join(observations)
 
 def build_tpp_agent(
     config: formative_memories.AgentConfig,
@@ -218,6 +224,16 @@ def build_tpp_agent(
         logging_channel=measurements.get_channel('ObservationSummary').on_next,
     )
 
+    # # Replace default ObservationSummary with custom one
+    # obs_summary = CustomObservationSummary(
+    #     model=model,
+    #     clock_now=clock.now,
+    #     timeframe_delta_from=timedelta(hours=4),
+    #     timeframe_delta_until=timedelta(hours=0),
+    #     pre_act_key='Recent context',
+    #     logging_channel=measurements.get_channel('ObservationSummary').on_next,
+    # )
+
     # Personality component with assigned persona
     personality = PersonalityReflection(
         agent_name=agent_name,
@@ -231,6 +247,12 @@ def build_tpp_agent(
         agent_name=agent_name,
         model=model,
         logging_channel=measurements.get_channel('SituationAssessment').on_next,
+    )
+    
+    theory_of_mind = TheoryOfMind(
+        agent_name=agent_name,
+        model=model,
+        logging_channel=measurements.get_channel('TheoryOfMind').on_next,
     )
     
     # Role-specific decision component
@@ -267,9 +289,17 @@ def build_tpp_agent(
 
     # Assemble components
     entity_components = [observation, obs_summary, personality, situation, decision]
-    components = {
-        component.__class__.__name__: component 
-        for component in entity_components
+    # components = {
+    #     component.__class__.__name__: component 
+    #     for component in entity_components
+    # }
+    components={
+        'Observation': observation,  # These names must match
+        'ObservationSummary': obs_summary,  # what's in the components dict
+        'PersonalityReflection': personality,
+        'TheoryOfMind': theory_of_mind,
+        'SituationAssessment': situation,
+        decision.__class__.__name__: decision,
     }
     
     # Add memory component

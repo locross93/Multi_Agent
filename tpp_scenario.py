@@ -1,17 +1,20 @@
 from dataclasses import dataclass
+import os
 import re
 import datetime
 import json
 import pathlib
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Callable, Union
+import numpy as np
 
 from concordia.agents import entity_agent_with_logging
 from concordia.clocks import game_clock
 from concordia.language_model import language_model
 from concordia.utils import measurements as measurements_lib
 from concordia.environment import game_master
-from concordia.associative_memory import associative_memory
-from concordia.associative_memory import formative_memories
+from concordia.associative_memory import associative_memory, formative_memories
+from concordia.memory_bank import legacy_associative_memory 
+from concordia.components.agent import memory_component 
 # from concordia.typing.entity import DEFAULT_ACTION_SPEC
 
 from agent_components import build_tpp_agent
@@ -70,7 +73,8 @@ class TPPScenarioConfig:
     helper_endowment: float = 10.0
     punishment_cost: float = 2.0
     punishment_impact: float = 6.0
-    n_rounds: int = 1
+    save_dir: str = None
+    experiment_id: int = None
     scenario_description: str = """You are in a room where a two-stage research experiment is taking place.
     There are four players and you will be randomly assigned to play as Player 1, 2, 3, or 4. Every player will first get an endowment of $5.
     In Stage 1, Player 1 and Player 2 will play an economic game. 
@@ -100,6 +104,7 @@ class TPPGameMaster(game_master.GameMaster):
         measurements: measurements_lib.Measurements,
         signaller_agent: entity_agent_with_logging.EntityAgentWithLogging,
         chooser_agent: entity_agent_with_logging.EntityAgentWithLogging,    
+        public_condition: bool,
     ):
         # Create memory for game master
         memory = associative_memory.AssociativeMemory(embedder)
@@ -119,7 +124,7 @@ class TPPGameMaster(game_master.GameMaster):
         # Store agents for easier access
         self.signaller_agent = signaller_agent
         self.chooser_agent = chooser_agent
-        
+        self.public_condition = public_condition
         self.config = config
         self.clock = clock
         self.measurements = measurements
@@ -141,6 +146,7 @@ class TPPGameMaster(game_master.GameMaster):
         # Hardcoded selfish Helper outcome
         punisher_obs = 'Stage 1: You observe that Helper keeps the $10.0 and sends nothing. The Recipient received nothing from the Helper.'
         self.signaller_agent.observe(punisher_obs)
+        if self.public_condition:
         self.chooser_agent.observe(punisher_obs)
 
         # Punisher's turn
@@ -150,7 +156,13 @@ class TPPGameMaster(game_master.GameMaster):
         punisher_event = self.generate_event(self.signaller_agent.name, punisher_action)
         # add actions to both agents observations
         self.signaller_agent.observe(punisher_event)
-        self.chooser_agent.observe(punisher_event)
+        if self.public_condition:
+            self.chooser_agent.observe(punisher_event)
+        else:
+            # Chooser gets a generic observation
+            public_event = "Stage 1 has concluded. Stage 2 will now begin."
+            self.chooser_agent.observe(public_event)
+        self.was_punished = "Yes" in punisher_action
 
         return punisher_event
 
@@ -158,12 +170,43 @@ class TPPGameMaster(game_master.GameMaster):
         """Run stage 2 of the TPP game."""
         self.round += 1
 
+        # Add Stage 1 context based on condition
+        if self.public_condition:
+            stage1_summary = (
+                f"In Stage 1, when the Helper kept all $10.0 and sent nothing to the Recipient, "
+                f"the Punisher (now the Recipient in Stage 2) {'chose to punish' if self.was_punished else 'chose not to punish'} "
+                f"the Helper."
+            )
+        else:
+            stage1_summary = (
+                "In Stage 1, the Helper kept all $10.0 and sent nothing to the Recipient. "
+                "The Punisher's decision was private."
+            )
+        
+        # Make both agents observe the Stage 1 outcome
+        self.chooser_agent.observe(stage1_summary)
+        self.signaller_agent.observe(stage1_summary)
+
         # Helper's turn
+        # Get recent memories from Chooser's memory
+        memory = self.chooser_agent.get_component(
+            memory_component.DEFAULT_MEMORY_COMPONENT_NAME,
+            type_=memory_component.MemoryComponent
+        )
+        recent_memories = '\n'.join([
+            mem.text for mem in memory.retrieve(
+                scoring_fn=legacy_associative_memory.RetrieveRecent(add_time=True),
+                limit=10  # Adjust this number to control how many memories to include
+            )
+        ])
+
+        # Format the action spec with memories
         helper_spec = free_action_spec(
             call_to_action=STAGE2_HELPER_ACTION_SPEC.call_to_action.format(
+                memories=recent_memories,
                 name=self.chooser_agent.name,
                 endowment=self.config.helper_endowment
-            ),
+        ),
             tag="helper_action"
         )
         helper_obs = f"Round {self.round}: You are the Helper. You have ${self.config.helper_endowment}."
@@ -177,8 +220,22 @@ class TPPGameMaster(game_master.GameMaster):
         # Recipient's turn
         if amount_sent > 0:
             tripled_amount = amount_sent * 3
+
+            # Get Signaller's memories
+            memory = self.signaller_agent.get_component(
+                memory_component.DEFAULT_MEMORY_COMPONENT_NAME,
+                type_=memory_component.MemoryComponent
+            )
+            recent_memories = '\n'.join([
+                mem.text for mem in memory.retrieve(
+                    scoring_fn=legacy_associative_memory.RetrieveRecent(add_time=True),
+                    limit=10
+                )
+            ])
+
             recipient_spec = free_action_spec(
                 call_to_action=STAGE2_RECIPIENT_ACTION_SPEC.call_to_action.format(
+                    memories=recent_memories,
                     name=self.signaller_agent.name,
                     amount=f"{tripled_amount:.1f}"
                 ),
@@ -193,8 +250,6 @@ class TPPGameMaster(game_master.GameMaster):
             recipient_event = self.generate_recipient_event(f"returns ${amount_returned:.1f}")
         else:
             recipient_event = f"Round {self.round}: Recipient received nothing from the Helper."
-
-        breakpoint()
 
         return helper_event, recipient_event
 
@@ -316,9 +371,10 @@ class TPPGameMaster(game_master.GameMaster):
         }
         
         # Create results directory if it doesn't exist
-        pathlib.Path('results').mkdir(exist_ok=True)
+        results_file = os.path.join(self.config.save_dir, f'tpp_exp_{self.config.experiment_id}.json')
         
-        with open(f'results/{filename}.json', 'w') as f:
+        # Save results to file
+        with open(results_file, 'w') as f:
             json.dump(results, f, indent=2)
 
 def run_tpp_experiment(
@@ -418,10 +474,31 @@ def analyze_results(public_file: str, anonymous_file: str) -> Dict:
 
     return analysis
 
+def setup_logging(save_dir: str, experiment_id: int):
+    measurements = measurements_lib.Measurements()
+    
+    # Create a log file with timestamp
+    log_file = os.path.join(save_dir, f'experiment_log_{experiment_id}.jsonl')
+    
+    def log_to_file(data):
+        with open(log_file, 'a') as f:
+            f.write(json.dumps(data) + '\n')
+    
+    # Subscribe to all channels
+    measurements.get_channel('Agent').subscribe(log_to_file)
+    measurements.get_channel('Observation').subscribe(log_to_file)
+    measurements.get_channel('ObservationSummary').subscribe(log_to_file)
+    measurements.get_channel('PersonalityReflection').subscribe(log_to_file)
+    measurements.get_channel('SituationAssessment').subscribe(log_to_file)
+    measurements.get_channel('ConcatActComponent').subscribe(log_to_file)
+    
+    return measurements
+
 def test_tpp_hypothesis(
     model: language_model.LanguageModel,
-    embedder,
-    n_rounds: int = 3,
+    embedder: Callable[[Union[str, List[str]]], np.ndarray],
+    save_dir: str,
+    experiment_id: int,
 ):
     """Run complete TPP experiment testing public vs anonymous hypothesis."""
     
@@ -432,10 +509,11 @@ def test_tpp_hypothesis(
     )
     
     # Initialize measurements
-    measurements = measurements_lib.Measurements()
+    #measurements = measurements_lib.Measurements()
+    measurements = setup_logging(save_dir, experiment_id)
     
     # Create experiment config
-    config = TPPScenarioConfig(n_rounds=n_rounds)
+    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id)
 
     # Sample three distinct personas for the roles
     signaller_persona, chooser_persona = assign_personas(n=2)
@@ -465,7 +543,7 @@ def test_tpp_hypothesis(
     
     # Analyze results
     results_dir = pathlib.Path('results')
-    public_file = max(results_dir.glob('tpp_experiment_public_*.json'))
+    #public_file = max(results_dir.glob('tpp_experiment_public_*.json'))
     #anonymous_file = max(results_dir.glob('tpp_experiment_anonymous_*.json'))
     
     # analysis = analyze_results(public_file.name, anonymous_file.name)

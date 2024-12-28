@@ -1,0 +1,66 @@
+{
+  "config": {
+    "helper_endowment": 10.0,
+    "helping_amount": 5.0,
+    "punishment_cost": 2.0,
+    "punishment_impact": 6.0,
+    "n_rounds": 3,
+    "scenario_description": "You are in a room where a research experiment is taking place.\n    There are three roles: Helper, Recipient, and Punisher. \n    The Helper begins with an endowment of $10.0 and can decides to send $5.0 of the endowment to the Recipient. \n    If money is received by the Recipient, the money will triple in value.\n    Then, the Recipient can choose to send any amount of the tripled money back to the Helper.\n    The Punisher observes this interaction and can choose to spend $2.0 to reduce the Helper's player's payoff by $6.0 if they acted selfishly. "
+  },
+  "events": [
+    {
+      "round": 1,
+      "time": "2024-01-01 00:15:00",
+      "player": "Helper",
+      "action": "Helper takes a moment to write a thoughtful note to the Recipient, explaining their decision to share the $5.0 and expressing hope for a positive relationship moving forward.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 1,
+      "time": "2024-01-01 00:15:00",
+      "player": "Punisher",
+      "action": "Punisher reflects on the fairness of the situation and considers alternative ways to encourage cooperative behavior in future interactions.",
+      "event": "Punisher takes no action.",
+      "helped": false,
+      "reward": 0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:20:00",
+      "player": "Helper",
+      "action": "Helper reflects on their decision to share $5.0 with the Recipient, considering the potential outcomes and reinforcing their commitment to trust and generosity.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:20:00",
+      "player": "Punisher",
+      "action": "Punisher takes a moment to reflect on the situation by writing in a journal about the importance of fairness and how the Helper's actions align with those values.",
+      "event": "Punisher shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:25:00",
+      "player": "Helper",
+      "action": "Helper writes a thoughtful message to the Recipient, expressing their desire to understand and resolve the recent issue.",
+      "event": "Helper shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    },
+    {
+      "round": 3,
+      "time": "2024-01-01 00:25:00",
+      "player": "Punisher",
+      "action": "Punisher reflects on the fairness of the Helper's actions and considers how their own principles of justice are being upheld in this situation.",
+      "event": "Punisher shares $5.0 with the Recipient.",
+      "helped": true,
+      "reward": -5.0
+    }
+  ]
+}
