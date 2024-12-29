@@ -140,14 +140,33 @@ class PunisherDecision(question_of_recent_memories.QuestionOfRecentMemories):
     """Component for Punisher's decision-making."""
     
     def __init__(self, agent_name: str, is_public: bool = True, **kwargs):
-        context = "public" if is_public else "private"
-        question = (
-            f"As the Punisher observing the interaction, {agent_name} can spend $2.0 to reduce "
-            f"the Helper's payoff by $6.0. This is a {context} decision. "
-            f"What will {agent_name} do?"
+        # context = "public" if is_public else "private"
+        # question = (
+        #     f"As the Punisher observing the interaction, {agent_name} can spend $2.0 to reduce "
+        #     f"the Helper's payoff by $6.0. This is a {context} decision. "
+        #     f"What will {agent_name} do?"
+        # )
+        visibility = (
+            "Your decision WILL be announced to Player 4 before Stage 2 begins. "
+            "Player 4 will know whether you chose to punish or not when they decide "
+            "how much money to send you in the trust game."
+        ) if is_public else (
+            "Your decision will be kept PRIVATE from Player 4. "
+            "Player 4 will NOT know whether you chose to punish or not when they decide "
+            "how much money to send you in the trust game."
         )
-        answer_prefix = f"{agent_name} "
         
+        question = (
+            f"As Player 3 (the Punisher), {agent_name} observes that Player 1 (the Helper) "
+            f"kept all $10.0 and sent nothing to Player 2 (the Recipient). "
+            f"\n\n{agent_name} can spend $2.0 to reduce Player 1's payoff by $6.0. "
+            f"\n\nImportantly: {visibility}"
+            f"\n\nRemember: In Stage 2, {agent_name} will play as Player 3 (the Recipient) "
+            f"in a trust game with Player 4 (who observed this interaction). "
+            f"\n\nConsidering these factors, what will {agent_name} do?"
+        )
+
+        answer_prefix = f"{agent_name} "
         super().__init__(
             pre_act_key=f"\nPunisher Decision",
             question=question,

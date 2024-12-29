@@ -38,13 +38,38 @@ TPP_ACTION_SPEC = free_action_spec(
 )
 
 # Create a specific action spec for the Punisher's decision
-PUNISHER_ACTION_SPEC = choice_action_spec(
-    call_to_action=(
-        "Do you want to spend $2.0 to reduce the Helper's payoff by $6.0?"
-    ),
-    options=["Yes, I choose to punish the Helper", "No, I choose not to punish the Helper"],
-    tag="punisher_action"
-)
+# PUNISHER_ACTION_SPEC = choice_action_spec(
+#     call_to_action=(
+#         "Do you want to spend $2.0 to reduce the Helper's payoff by $6.0?"
+#     ),
+#     options=["Yes, I choose to punish the Helper", "No, I choose not to punish the Helper"],
+#     tag="punisher_action"
+# )
+
+def get_punisher_action_spec(public_condition: bool) -> choice_action_spec:
+    """Create action spec for Punisher's decision based on condition."""
+    
+    visibility = (
+        "Your decision WILL be announced to Player 4 before Stage 2 begins. "
+        "They will know your choice when deciding how much money to send you in the trust game."
+    ) if public_condition else (
+        "Your decision will be kept PRIVATE from Player 4. "
+        "They will NOT know your choice when deciding how much money to send you in the trust game."
+    )
+    
+    return choice_action_spec(
+        call_to_action=(
+            "Do you want to spend $2.0 to reduce Player 1/the Helper's payoff by $6.0?"
+            f"\nImportantly: {visibility}\n"
+            "\nRemember: In Stage 2, you will play as the Recipient in a trust game with Player 4.\n"
+            "\nDo you want to spend $2.0 to reduce Player 1's payoff by $6.0?"
+        ),
+        options=[
+            "Yes, I choose to punish Player 1/the Helper", 
+            "No, I choose not to punish Player 1/the Helper"
+        ],
+        tag="punisher_action"
+    )
 
 # Stage 2 Helper action spec
 STAGE2_HELPER_ACTION_SPEC = free_action_spec(
@@ -75,6 +100,7 @@ class TPPScenarioConfig:
     punishment_impact: float = 6.0
     save_dir: str = None
     experiment_id: int = None
+    public_condition: bool = True
     scenario_description: str = """You are in a room where a two-stage research experiment is taking place.
     There are four players and you will be randomly assigned to play as Player 1, 2, 3, or 4. Every player will first get an endowment of $5.
     In Stage 1, Player 1 and Player 2 will play an economic game. 
@@ -83,8 +109,9 @@ class TPPScenarioConfig:
     For example, if Player 1 sends $5, Player 2 will receive $15. 
     Player 2 can then choose to send any amount of this tripled money back to Player 1. 
     While this interaction occurs, Player 3 and Player 4 will observe the decisions made. 
-    After Player 1 and Player 2 complete their interaction, Player 3 will have the option to spend $2 of their endowment to reduce Player 1's payoff by $6 if they want to punish Player 1. 
-    Player 4 will observe whether Player 3 chooses to punish Player 1 or not.
+    After Player 1 and Player 2 complete their interaction, Player 3 will have the option to spend $2 of their endowment to reduce Player 1's payoff by $6 if they want to punish Player 1. """ + (
+    """Player 4 will observe whether Player 3 chooses to punish Player 1 or not.""" if public_condition else 
+    """Player 4 will not be informed whether Player 3 chooses to punish Player 1 or not.""") + """
     In Stage 2, Player 4 and Player 3 will play the same type of economic game. 
     Player 4 will begin with $10 and can choose to send any portion of this money to Player 3. 
     Any amount sent to Player 3 will be tripled by the experimenter. 
@@ -125,6 +152,7 @@ class TPPGameMaster(game_master.GameMaster):
         self.signaller_agent = signaller_agent
         self.chooser_agent = chooser_agent
         self.public_condition = public_condition
+        self.punisher_action_spec = get_punisher_action_spec(public_condition)
         self.config = config
         self.clock = clock
         self.measurements = measurements
@@ -147,11 +175,11 @@ class TPPGameMaster(game_master.GameMaster):
         punisher_obs = 'Stage 1: You observe that Helper keeps the $10.0 and sends nothing. The Recipient received nothing from the Helper.'
         self.signaller_agent.observe(punisher_obs)
         if self.public_condition:
-        self.chooser_agent.observe(punisher_obs)
+            self.chooser_agent.observe(punisher_obs)
 
         # Punisher's turn
         # Use the multiple choice action spec for Punisher
-        punisher_action = self.signaller_agent.act(PUNISHER_ACTION_SPEC)
+        punisher_action = self.signaller_agent.act(self.punisher_action_spec)
         #punisher_action = self.signaller_agent.act(TPP_ACTION_SPEC)
         punisher_event = self.generate_event(self.signaller_agent.name, punisher_action)
         # add actions to both agents observations
@@ -288,7 +316,8 @@ class TPPGameMaster(game_master.GameMaster):
             'action': action,
             'event': event,
             'helped': None,
-            'reward': reward
+            'reward': reward,
+            'condition': "public" if self.public_condition else "anonymous"
         })
 
         return event
@@ -325,7 +354,8 @@ class TPPGameMaster(game_master.GameMaster):
             'action': action,
             'event': event,
             'helped': helped,  # 'helped' is now always defined
-            'reward': reward
+            'reward': reward,
+            'condition': "public" if self.public_condition else "anonymous"
         })
 
         return event
@@ -363,7 +393,7 @@ class TPPGameMaster(game_master.GameMaster):
             'punisher_payoff': punisher_payoff
         })
 
-    def save_results(self, filename: str):
+    def save_results(self):
         """Save results to JSON file."""
         results = {
             'config': self.config.__dict__,
@@ -371,7 +401,8 @@ class TPPGameMaster(game_master.GameMaster):
         }
         
         # Create results directory if it doesn't exist
-        results_file = os.path.join(self.config.save_dir, f'tpp_exp_{self.config.experiment_id}.json')
+        public_condition = "public" if self.public_condition else "private"
+        results_file = os.path.join(self.config.save_dir, f'tpp_exp_{self.config.experiment_id}_{public_condition}.json')
         
         # Save results to file
         with open(results_file, 'w') as f:
@@ -424,6 +455,7 @@ def run_tpp_experiment(
         measurements=measurements,
         signaller_agent=signaller,
         chooser_agent=chooser,
+        public_condition=public_condition,
     )
 
     # Initialize agents with scenario context
@@ -438,8 +470,7 @@ def run_tpp_experiment(
     helper_event, recipient_event = gm.run_tpp_round2()
 
     # Save results
-    condition = "public" if public_condition else "anonymous"
-    gm.save_results(f"tpp_experiment_{condition}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}")
+    gm.save_results()
 
 
 def analyze_results(public_file: str, anonymous_file: str) -> Dict:
@@ -511,15 +542,13 @@ def test_tpp_hypothesis(
     # Initialize measurements
     #measurements = measurements_lib.Measurements()
     measurements = setup_logging(save_dir, experiment_id)
-    
-    # Create experiment config
-    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id)
 
     # Sample three distinct personas for the roles
     signaller_persona, chooser_persona = assign_personas(n=2)
     personas = [signaller_persona, chooser_persona]
     
     print("Running public condition...")
+    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id, public_condition=True)
     run_tpp_experiment(
         model=model,
         embedder=embedder,
@@ -530,16 +559,17 @@ def test_tpp_hypothesis(
         personas=personas,
     )
     
-    # print("Running anonymous condition...")
-    # run_tpp_experiment(
-    #     model=model,
-    #     embedder=embedder,
-    #     clock=clock,
-    #     measurements=measurements,
-    #     config=config,
-    #     public_condition=False,
-    #     personas=personas,
-    # )
+    print("Running anonymous condition...")
+    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id, public_condition=False)
+    run_tpp_experiment(
+        model=model,
+        embedder=embedder,
+        clock=clock,
+        measurements=measurements,
+        config=config,
+        public_condition=False,
+        personas=personas,
+    )
     
     # Analyze results
     results_dir = pathlib.Path('results')

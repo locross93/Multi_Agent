@@ -11,7 +11,7 @@ def load_experiments(results_dir: str) -> List[Dict]:
     dir_path = pathlib.Path(results_dir)
     experiments = []
     
-    for exp_file in dir_path.glob('tpp_exp_*.json'):
+    for exp_file in dir_path.glob('tpp_exp_*_public.json'):
         with open(exp_file) as f:
             experiments.append(json.load(f))
     
@@ -137,7 +137,8 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
 
 def main():
     # Load experiments from the specified directory
-    results_dir = "results/12-28-2024_13-04"
+    #results_dir = "results/12-28-2024_13-04"
+    results_dir = "results/12-28-2024_17-35"
     experiments = load_experiments(results_dir)
     
     # Analyze data
