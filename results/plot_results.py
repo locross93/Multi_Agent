@@ -11,9 +11,19 @@ def load_experiments(results_dir: str) -> List[Dict]:
     dir_path = pathlib.Path(results_dir)
     experiments = []
     
-    for exp_file in dir_path.glob('tpp_exp_*_public.json'):
-        with open(exp_file) as f:
-            experiments.append(json.load(f))
+    # Check if there are any files with _public/_private suffix
+    public_private_files = list(dir_path.glob('tpp_exp_*_public.json')) + list(dir_path.glob('tpp_exp_*_private.json'))
+    
+    if public_private_files:
+        # If we have public/private files, load those
+        for exp_file in public_private_files:
+            with open(exp_file) as f:
+                experiments.append(json.load(f))
+    else:
+        # Otherwise load all experiment files
+        for exp_file in dir_path.glob('tpp_exp_*.json'):
+            with open(exp_file) as f:
+                experiments.append(json.load(f))
     
     return experiments
 
@@ -68,14 +78,47 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     sns.set_theme(style="whitegrid")
     colors = sns.color_palette("Set2")
     
+    # # 1. Percentage of signallers that punished
+    # plt.figure(figsize=(8, 6))
+    # punishment_pct = (data['signaller_punished'].mean() * 100)
+    # sns.barplot(x=['Punished'], y=[punishment_pct], color=colors[0])
+    # plt.ylabel('Percentage of Signallers (%)')
+    # plt.title('Percentage of Signallers Who Punished in Round 1')
+    # plt.ylim(0, 100)
+    # plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight')
+    # plt.close()
+
     # 1. Percentage of signallers that punished
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(4, 6))
+    
+    # Calculate statistics
     punishment_pct = (data['signaller_punished'].mean() * 100)
-    sns.barplot(x=['Punished'], y=[punishment_pct], color=colors[0])
-    plt.ylabel('Percentage of Signallers (%)')
-    plt.title('Percentage of Signallers Who Punished in Round 1')
+    n = len(data)
+    se = np.sqrt((punishment_pct/100 * (1 - punishment_pct/100)) / n)
+    ci = 1.96 * se * 100
+    
+    # Create bar plot
+    ax = sns.barplot(x=['Overall'], y=[punishment_pct], 
+                    color=colors[4],
+                    width=1.5,
+                    capsize=0.1)
+    
+    # Add error bars
+    ax.errorbar(0, punishment_pct, yerr=ci,
+                color='black', capsize=5, capthick=1)
+    
+    # Set x-axis limits to make the bar appear thinner relative to plot
+    plt.xlim(-2, 2)  # Extend x-axis on both sides
+    
+    # Customize aesthetics
+    plt.ylabel('Percentage of Signallers Who Punished (%)', fontsize=14)
+    plt.xlabel('')
+    plt.xticks(fontsize=16, fontweight='bold')
+    plt.yticks(fontsize=16)
+    plt.title('Punishment Rate', fontsize=24, pad=20)
     plt.ylim(0, 100)
-    plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight')
+    
+    plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight', dpi=300)
     plt.close()
     
     # 2. Average money sent by Chooser based on whether recipient (as signaller) punished
@@ -137,8 +180,11 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
 
 def main():
     # Load experiments from the specified directory
+    #results_dir = "results/12-28-2024_12-55"
     #results_dir = "results/12-28-2024_13-04"
-    results_dir = "results/12-28-2024_17-35"
+    #results_dir = "results/12-28-2024_17-35"
+    #results_dir = "results/12-31-2024_15-05"
+    results_dir = "results/01-04-2025_18-39"
     experiments = load_experiments(results_dir)
     
     # Analyze data
