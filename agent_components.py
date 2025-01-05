@@ -52,7 +52,7 @@ class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
             components={
                 'Observation': '\nObservation',
                 'ObservationSummary': '\nRecent context',
-                #'TheoryOfMind': '\nTheory of Mind Analysis',
+                'TheoryOfMind': '\nTheory of Mind Analysis',
             },
             num_memories_to_retrieve=10,  # Add this to ensure we get enough memories
             **kwargs,
@@ -268,11 +268,11 @@ def build_tpp_agent(
         logging_channel=measurements.get_channel('SituationAssessment').on_next,
     )
     
-    # theory_of_mind = TheoryOfMind(
-    #     agent_name=agent_name,
-    #     model=model,
-    #     logging_channel=measurements.get_channel('TheoryOfMind').on_next,
-    # )
+    theory_of_mind = TheoryOfMind(
+        agent_name=agent_name,
+        model=model,
+        logging_channel=measurements.get_channel('TheoryOfMind').on_next,
+    )
     
     # Role-specific decision component
     if "Helper" in agent_name:
@@ -316,7 +316,7 @@ def build_tpp_agent(
         'Observation': observation,  # These names must match
         'ObservationSummary': obs_summary,  # what's in the components dict
         'PersonalityReflection': personality,
-        #'TheoryOfMind': theory_of_mind,
+        'TheoryOfMind': theory_of_mind,
         'SituationAssessment': situation,
         decision.__class__.__name__: decision,
     }
