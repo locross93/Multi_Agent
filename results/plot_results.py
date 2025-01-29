@@ -75,19 +75,9 @@ def analyze_experiments(experiments: List[Dict]):
 def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     """Create and save all plots."""
     # Set seaborn style and palette
-    sns.set_theme(style="whitegrid")
+    sns.set_theme(style="white")
     colors = sns.color_palette("Set2")
     
-    # # 1. Percentage of signallers that punished
-    # plt.figure(figsize=(8, 6))
-    # punishment_pct = (data['signaller_punished'].mean() * 100)
-    # sns.barplot(x=['Punished'], y=[punishment_pct], color=colors[0])
-    # plt.ylabel('Percentage of Signallers (%)')
-    # plt.title('Percentage of Signallers Who Punished in Round 1')
-    # plt.ylim(0, 100)
-    # plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight')
-    # plt.close()
-
     # 1. Percentage of signallers that punished
     plt.figure(figsize=(4, 6))
     
@@ -107,6 +97,10 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     ax.errorbar(0, punishment_pct, yerr=ci,
                 color='black', capsize=5, capthick=1)
     
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
     # Set x-axis limits to make the bar appear thinner relative to plot
     plt.xlim(-2, 2)  # Extend x-axis on both sides
     
@@ -120,40 +114,103 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     
     plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight', dpi=300)
     plt.close()
+
+    # 1.5 Comparison of punishment rates with/without personas
+    plt.figure(figsize=(6, 6))
+    
+    # Create comparison data
+    conditions = ['Without\nPersonas', 'With\nPersonas']
+    percentages = [100, punishment_pct]  # 100% for without personas
+    
+    # Calculate CI for with personas (same as before)
+    n = len(data)
+    se = np.sqrt((punishment_pct/100 * (1 - punishment_pct/100)) / n)
+    ci = 1.96 * se * 100
+    
+    # Create error bars array (no error bar for without personas condition)
+    yerr = np.array([[0, ci]])  # [[lower errors], [upper errors]]
+    
+    # Create bar plot
+    ax = sns.barplot(x=conditions, y=percentages,
+                    palette=[colors[4], colors[4]],  # Different colors for comparison
+                    width=0.7,
+                    capsize=0.1)
+    
+    # Add error bars manually (only for with personas condition)
+    ax.errorbar(1, percentages[1], yerr=ci,
+               color='black', capsize=5, capthick=1)
+    
+    # Despine and remove grid
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
+    # Customize aesthetics
+    plt.ylabel('Percentage of Signallers Who Punished (%)', fontsize=14)
+    plt.xlabel('')
+    plt.xticks(fontsize=16, fontweight='bold')
+    plt.yticks(fontsize=16)
+    plt.title('Punishment Rate Comparison', fontsize=24, pad=20)
+    plt.ylim(0, 100)
+    
+    """ # Add exact percentages on top of bars
+    for i, pct in enumerate(percentages):
+        ax.text(i, pct + 2, f'{pct:.1f}%', 
+                ha='center', va='bottom', fontsize=14, fontweight='bold') """
+    
+    plt.savefig(save_dir / 'punishment_percentage_comparison.png', bbox_inches='tight', dpi=300)
+    plt.close()
     
     # 2. Average money sent by Chooser based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
-    sns.barplot(data=data, x='signaller_punished', y='chooser_amount', 
-                errorbar='se', capsize=0.1, palette=colors[:2])
-    plt.xticks([0, 1], ['Did Not Punish\nas Signaller', 'Punished\nas Signaller'])
-    plt.xlabel('Recipient\'s Previous Punishment Decision')
-    plt.ylabel('Amount Sent by Chooser ($)')
-    plt.title('Amount Sent by Chooser vs Recipient\'s Previous Punishment')
+    ax = sns.barplot(data=data, x='signaller_punished', y='chooser_amount', 
+                    errorbar='se', capsize=0.1, palette=colors[:2])
+    
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
+    plt.xticks([0, 1], ['Did Not Punish\nas Signaller', 'Punished\nas Signaller'], fontsize=16, fontweight='bold')
+    plt.xlabel('Recipient\'s Previous Punishment Decision', fontsize=16)
+    plt.ylabel('Amount Sent by Chooser ($)', fontsize=16)
+    plt.title('Amount Sent by Chooser vs Recipient\'s Previous Punishment', fontsize=16)
+    
     plt.savefig(save_dir / 'chooser_amounts.png', bbox_inches='tight')
     plt.close()
     
     # 3. Return percentage based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
-    sns.barplot(data=data, x='signaller_punished', y='return_percentage',
-                errorbar='se', capsize=0.1, palette=colors[:2])
-    plt.xticks([0, 1], ['Did Not Punish\nas Signaller', 'Punished\nas Signaller'])
-    plt.xlabel('Recipient\'s Previous Punishment Decision')
-    plt.ylabel('Percentage of Tripled Amount Returned (%)')
-    plt.title('Return Percentage vs Recipient\'s Previous Punishment')
+    ax = sns.barplot(data=data, x='signaller_punished', y='return_percentage',
+                    errorbar='se', capsize=0.1, palette=colors[:2])
+    
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
+    plt.xticks([0, 1], ['Did Not Punish\nas Signaller', 'Punished\nas Signaller'], fontsize=16, fontweight='bold')
+    plt.xlabel('Recipient\'s Previous Punishment Decision', fontsize=16)
+    plt.ylabel('Percentage of Tripled Amount Returned (%)', fontsize=16)
+    plt.title('Return Percentage vs Recipient\'s Previous Punishment', fontsize=16)
+    
     plt.savefig(save_dir / 'return_percentages.png', bbox_inches='tight')
     plt.close()
     
     # 4. Return percentage vs received amount scatter
     plt.figure(figsize=(10, 6))
-    sns.scatterplot(data=data, x='tripled_amount', y='return_percentage',
-                    hue='signaller_punished', style='signaller_punished',
-                    palette=colors[:2])
+    ax = sns.scatterplot(data=data, x='tripled_amount', y='return_percentage',
+                        hue='signaller_punished', style='signaller_punished',
+                        palette=colors[:2])
+    
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
     plt.xlabel('Amount Received (Tripled Amount) ($)')
     plt.ylabel('Percentage Returned (%)')
     plt.title('Return Percentage vs Received Amount')
     # Update legend labels
     handles, _ = plt.gca().get_legend_handles_labels()
     plt.legend(handles, ['Did Not Punish as Signaller', 'Punished as Signaller'])
+    
     plt.savefig(save_dir / 'return_vs_received.png', bbox_inches='tight')
     plt.close()
 

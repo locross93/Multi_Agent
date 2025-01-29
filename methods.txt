@@ -1,0 +1,43 @@
+Methods: Trust Game with Third-Party Punishment using Generative Agents
+
+We implemented a Trust Game with Third-Party Punishment (TPP) using generative agents powered by large language models. The experiment was designed to test how public versus private punishment decisions affect subsequent trust and reciprocity.
+
+Experimental Design
+The TPP game consisted of two stages with four players. In Stage 1, a Helper could send any portion of $10 to a Recipient, with the sent amount being tripled. After observing this interaction, a Punisher could spend $2 to reduce the Helper's payoff by $6. In Stage 2, the Punisher became the Recipient in a new trust game with the previous observer (now Helper) who had witnessed the punishment decision. We manipulated whether the punishment decision was public or private to the new Helper.
+
+Generative Agent Implementation
+Each agent was implemented as an autonomous entity with:
+1. A distinct persona randomly selected from a pool of 50 diverse characters with varying cooperation tendencies (0.1-0.9)
+2. An associative memory system that stored and retrieved relevant past experiences
+3. Action generation capabilities through a large language model
+4. The ability to observe and react to other agents' decisions
+
+The agents were initialized with:
+- A unique identity (name, age, occupation, background)
+- Personality traits that influenced their decision-making
+- A cooperation tendency score
+- The full scenario description
+- Role-specific goals (e.g., "You are player 3")
+
+Agent Decision-Making
+Agents made decisions by:
+1. Accessing their recent memories of the game
+2. Considering their persona's traits and cooperation tendency
+3. Generating actions through natural language responses to specific prompts
+4. Having their responses parsed to extract numerical decisions
+
+Experimental Conditions
+We ran two conditions:
+1. Public: The Stage 1 Helper's punishment status was known to the Stage 2 Helper
+2. Private: The Stage 1 Helper's punishment status was not revealed
+
+Data Collection
+For each experimental run, we recorded:
+- Punishment decisions in Stage 1
+- Amount sent by Helper in Stage 2
+- Amount returned by Recipient in Stage 2
+- The personas of both agents
+- All agent observations and decisions
+- Whether the condition was public or private
+
+This implementation allowed us to study how knowledge of past punishment decisions affects subsequent trust and reciprocity in a controlled setting with autonomous agents exhibiting consistent but diverse personalities. 

@@ -71,7 +71,7 @@ def analyze_experiments(experiments: List[Dict]):
 
 def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     """Create and save all plots comparing public vs private conditions."""
-    sns.set_theme(style="whitegrid")
+    sns.set_theme(style="white")
     colors = sns.color_palette("Set2")
     
     # # 1. Percentage of signallers that punished by condition
@@ -115,6 +115,10 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     for i, row in plot_data.iterrows():
         ax.errorbar(i, row['mean'], yerr=row['ci'], 
                    color='black', capsize=5, capthick=1)
+
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
     
     plt.ylabel('Percentage of Signallers Who Punished (%)', fontsize=14)
     plt.xlabel('Condition', fontsize=18)
@@ -170,6 +174,11 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     sns.barplot(data=data, x='condition', y='chooser_amount', 
                 hue='signaller_punished', palette=colors[:2],
                 errorbar='se', capsize=0.1)
+    
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
     plt.xlabel('Condition', fontsize=18)
     plt.ylabel('Amount Sent by Chooser ($)', fontsize=18)
     plt.title('Amount Sent by Chooser vs Condition and Punishment', fontsize=20)
@@ -184,6 +193,11 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     sns.barplot(data=data, x='condition', y='return_percentage',
                 hue='signaller_punished', palette=colors[:2],
                 errorbar='se', capsize=0.1)
+    
+    # Despine top and right
+    sns.despine(top=True, right=True)
+    ax.grid(False)
+    
     plt.xlabel('Condition')
     plt.ylabel('Percentage of Tripled Amount Returned (%)')
     plt.title('Return Percentage vs Condition and Punishment')
