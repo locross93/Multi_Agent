@@ -12,7 +12,8 @@ def load_experiments(results_dir: str) -> List[Dict]:
     experiments = []
     
     # Check if there are any files with _public/_private suffix
-    public_private_files = list(dir_path.glob('tpp_exp_*_public.json')) + list(dir_path.glob('tpp_exp_*_private.json'))
+    #public_private_files = list(dir_path.glob('tpp_exp_*_public.json')) + list(dir_path.glob('tpp_exp_*_private.json'))
+    public_private_files = list(dir_path.glob('tpp_exp_*_public.json'))
     
     if public_private_files:
         # If we have public/private files, load those
@@ -109,35 +110,40 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     plt.xlabel('')
     plt.xticks(fontsize=16, fontweight='bold')
     plt.yticks(fontsize=16)
-    plt.title('Punishment Rate', fontsize=24, pad=20)
+    plt.title('Punishment Rate Comparison: Personas Needed to Not Punish', fontsize=24, pad=20)
     plt.ylim(0, 100)
     
-    plt.savefig(save_dir / 'punishment_percentage.png', bbox_inches='tight', dpi=300)
+    plt.savefig(save_dir / 'punishment_percentage2.png', bbox_inches='tight', dpi=300)
     plt.close()
 
     # 1.5 Comparison of punishment rates with/without personas
     plt.figure(figsize=(6, 6))
     
     # Create comparison data
-    conditions = ['Without\nPersonas', 'With\nPersonas']
-    percentages = [100, punishment_pct]  # 100% for without personas
+    conditions = ['Base Agent', 'Full Model\n (w/ Personas)', 'Tom\nAblation']
+    tom_ablation = 56.98924731182796
+    percentages = [100, punishment_pct, tom_ablation]  # 100% for without personas
+    print(punishment_pct)
     
     # Calculate CI for with personas (same as before)
     n = len(data)
     se = np.sqrt((punishment_pct/100 * (1 - punishment_pct/100)) / n)
     ci = 1.96 * se * 100
+    ci_tom = 10.06235369824019
     
     # Create error bars array (no error bar for without personas condition)
     yerr = np.array([[0, ci]])  # [[lower errors], [upper errors]]
     
     # Create bar plot
     ax = sns.barplot(x=conditions, y=percentages,
-                    palette=[colors[4], colors[4]],  # Different colors for comparison
+                    palette=[colors[4], colors[4], colors[4]],  # Different colors for comparison
                     width=0.7,
                     capsize=0.1)
     
     # Add error bars manually (only for with personas condition)
     ax.errorbar(1, percentages[1], yerr=ci,
+               color='black', capsize=5, capthick=1)
+    ax.errorbar(2, percentages[2], yerr=ci_tom,
                color='black', capsize=5, capthick=1)
     
     # Despine and remove grid
@@ -157,8 +163,10 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
         ax.text(i, pct + 2, f'{pct:.1f}%', 
                 ha='center', va='bottom', fontsize=14, fontweight='bold') """
     
-    plt.savefig(save_dir / 'punishment_percentage_comparison.png', bbox_inches='tight', dpi=300)
+    plt.savefig(save_dir / 'punishment_percentage_comparison3.png', bbox_inches='tight', dpi=300)
     plt.close()
+
+    breakpoint()
     
     # 2. Average money sent by Chooser based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
@@ -174,8 +182,13 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     plt.ylabel('Amount Sent by Chooser ($)', fontsize=16)
     plt.title('Amount Sent by Chooser vs Recipient\'s Previous Punishment', fontsize=16)
     
-    plt.savefig(save_dir / 'chooser_amounts.png', bbox_inches='tight')
+    plt.savefig(save_dir / 'chooser_amounts2.png', bbox_inches='tight')
     plt.close()
+
+    # print difference in chooser amounts between punished and not punished
+    print(f"Difference in chooser amounts between punished and not punished: {data['chooser_amount'][data['signaller_punished']].mean() - data['chooser_amount'][~data['signaller_punished']].mean()}")
+
+    breakpoint()
     
     # 3. Return percentage based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
@@ -191,7 +204,7 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     plt.ylabel('Percentage of Tripled Amount Returned (%)', fontsize=16)
     plt.title('Return Percentage vs Recipient\'s Previous Punishment', fontsize=16)
     
-    plt.savefig(save_dir / 'return_percentages.png', bbox_inches='tight')
+    plt.savefig(save_dir / 'return_percentages2.png', bbox_inches='tight')
     plt.close()
     
     # 4. Return percentage vs received amount scatter
@@ -211,7 +224,7 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     handles, _ = plt.gca().get_legend_handles_labels()
     plt.legend(handles, ['Did Not Punish as Signaller', 'Punished as Signaller'])
     
-    plt.savefig(save_dir / 'return_vs_received.png', bbox_inches='tight')
+    plt.savefig(save_dir / 'return_vs_received2.png', bbox_inches='tight')
     plt.close()
 
     # Print statistical tests
@@ -240,8 +253,8 @@ def main():
     #results_dir = "results/12-28-2024_12-55"
     #results_dir = "results/12-28-2024_13-04"
     #results_dir = "results/12-28-2024_17-35"
-    #results_dir = "results/12-31-2024_15-05"
-    results_dir = "results/01-04-2025_18-39"
+    results_dir = "results/12-31-2024_15-05" # main results
+    # results_dir = "results/01-04-2025_18-39" $ tom ablation
     experiments = load_experiments(results_dir)
     
     # Analyze data

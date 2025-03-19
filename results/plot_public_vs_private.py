@@ -149,6 +149,8 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     
     plt.savefig(save_dir / 'punishment_by_condition.png', bbox_inches='tight')
     plt.close()
+
+    breakpoint()
     
     # Print detailed statistics
     print("\nPunishment Rate Analysis:")
