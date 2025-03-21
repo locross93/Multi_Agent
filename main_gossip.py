@@ -64,8 +64,8 @@ def main():
     parser.add_argument('--save_dir', type=str, 
                        default=datetime.now().strftime('%m-%d-%Y_%H-%M'),
                        help='Directory name for saving results (default: current timestamp)')
-    parser.add_argument('--n_experiments', type=int, default=5,
-                       help='Number of experiments to run (default: 5)')
+    parser.add_argument('--n_experiments', type=int, default=1,
+                       help='Number of experiments to run (default: 1)')
     parser.add_argument('--stage', type=int, default=1, choices=[1, 2],
                        help='Validation stage (1: validate components, 2: novel predictions)')
     args = parser.parse_args()

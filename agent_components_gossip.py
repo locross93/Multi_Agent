@@ -12,6 +12,8 @@ from concordia.utils import measurements as measurements_lib
 from concordia.document import interactive_document
 
 from personas import Persona, PERSONAS
+import os
+import json
 import random
 
 class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories):
@@ -36,6 +38,18 @@ class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories
             components={}, 
             **kwargs,
         )
+
+        self.agent_name = agent_name
+        with open("component_debug.log", "a") as f:
+            f.write(f"PersonalityReflection initialized for {agent_name}\n")
+
+    def _make_pre_act_value(self) -> str:
+        # Add direct file logging
+        with open("component_debug.log", "a") as f:
+            f.write(f"PersonalityReflection executing for {self.agent_name}\n")
+        
+        # Call the original implementation
+        return super()._make_pre_act_value()
 
 class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to assess the current game situation."""
@@ -120,6 +134,11 @@ class ContributionDecision(question_of_recent_memories.QuestionOfRecentMemories)
         if has_theory_of_mind:
             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
         
+        # Add direct debug logging
+        self.agent_name = agent_name
+        with open("component_debug.log", "a") as f:
+            f.write(f"ContributionDecision initialized for {agent_name}\n")
+        
         super().__init__(
             pre_act_key=f"\nContribution Decision",
             question=question,
@@ -129,6 +148,73 @@ class ContributionDecision(question_of_recent_memories.QuestionOfRecentMemories)
             components=components,
             **kwargs,
         )
+        
+    def _make_pre_act_value(self) -> str:
+        # Add direct file logging
+        with open("component_debug.log", "a") as f:
+            f.write(f"ContributionDecision executing for {self.agent_name}\n")
+            
+        # Check if logging_channel exists and log directly
+        if hasattr(self, '_logging_channel') and self._logging_channel:
+            with open("component_debug.log", "a") as f:
+                f.write(f"ContributionDecision has logging channel\n")
+                
+            # Try direct logging
+            try:
+                self._logging_channel({
+                    'agent': self.agent_name,
+                    'component': 'ContributionDecision',
+                    'text': 'This is a test direct log'
+                })
+                with open("component_debug.log", "a") as f:
+                    f.write(f"Direct log attempt made\n")
+            except Exception as e:
+                with open("component_debug.log", "a") as f:
+                    f.write(f"Error in direct logging: {str(e)}\n")
+        else:
+            with open("component_debug.log", "a") as f:
+                f.write(f"No logging channel found for ContributionDecision\n")
+        
+        # Call the original implementation
+        return super()._make_pre_act_value()
+
+# class ContributionDecision(question_of_recent_memories.QuestionOfRecentMemories):
+#     """Component for deciding how much to contribute to the public good."""
+    
+#     def __init__(self, agent_name: str, has_persona=False, has_theory_of_mind=False, **kwargs):
+#         question = (
+#             f"As {agent_name}, you must decide how much of your $10 endowment to contribute to the public good. "
+#             f"The amount you contribute will be multiplied and shared equally among all group members. "
+#             f"Any amount you don't contribute stays in your private account. "
+#             f"Taking into account your personality, the current situation, and what you know about your group members, "
+#             f"how much will you contribute and why?"
+#         )
+#         answer_prefix = f"{agent_name} "
+        
+#         # Define components based on available capabilities
+#         components = {
+#             'Observation': '\nObservation',
+#             'ObservationSummary': '\nRecent context',
+#             'SituationAssessment': '\nSituation Analysis',
+#         }
+        
+#         # Only add PersonalityReflection if the agent has a persona
+#         if has_persona:
+#             components['PersonalityReflection'] = '\nCharacter Assessment'
+            
+#         # Only add TheoryOfMind if the agent has that capability
+#         if has_theory_of_mind:
+#             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+        
+#         super().__init__(
+#             pre_act_key=f"\nContribution Decision",
+#             question=question,
+#             answer_prefix=answer_prefix,
+#             add_to_memory=True,
+#             memory_tag="[contribution decision]",
+#             components=components,
+#             **kwargs,
+#         )
 
 class GossipDecision(question_of_recent_memories.QuestionOfRecentMemories):
     """Component for deciding who to gossip about and what to say."""
@@ -353,5 +439,40 @@ def build_gossip_agent(
         context_components=components,
         component_logging=measurements,
     )
+
+    # Wrap components to add direct logging for their outputs
+    for component_name, component in components.items():
+        # Skip non-component items
+        if not hasattr(component, '_make_pre_act_value'):
+            continue
+            
+        # Store original method
+        original_make_pre_act_value = component._make_pre_act_value
+        
+        # Create wrapper function with the component's name captured
+        def wrap_pre_act_value(original_func, component_name=component_name, agent_name=agent_name):
+            def wrapped_func(*args, **kwargs):
+                # Call original function
+                result = original_func(*args, **kwargs)
+                
+                # Log the result to the agent's log file
+                log_dir = os.path.join("agent_logs", f"{agent_name}")
+                os.makedirs(log_dir, exist_ok=True)
+                component_log = os.path.join(log_dir, f"{agent_name}_components.jsonl")
+                
+                with open(component_log, "a") as f:
+                    log_entry = {
+                        "timestamp": datetime.now().isoformat(),
+                        "type": "component_output",
+                        "component": component_name,
+                        "content": result
+                    }
+                    f.write(json.dumps(log_entry) + "\n")
+                    
+                return result
+            return wrapped_func
+        
+        # Replace the original method with wrapped version
+        component._make_pre_act_value = wrap_pre_act_value(original_make_pre_act_value)
 
     return agent
