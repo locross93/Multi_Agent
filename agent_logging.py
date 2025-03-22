@@ -76,6 +76,17 @@ class AgentLogger:
         with open(self.log_file, "a") as f:
             f.write(json.dumps(interaction) + "\n")
 
+    def log_concordia_act(self, concordia_log: Dict[str, Any]):
+        """Log a complete Concordia act component log."""
+        interaction = {
+            "timestamp": datetime.now().isoformat(),
+            "type": "concordia_act",
+            "key": concordia_log.get('Key', 'Unknown'),
+            "value": concordia_log.get('Value', ''),
+            "prompt": concordia_log.get('Prompt', [])
+        }
+        self._log_interaction(interaction)
+
 # Keep the existing wrappers
 class LoggingObservationWrapper:
     """Wrapper to log agent observations."""
@@ -94,6 +105,33 @@ class LoggingObservationWrapper:
         """Log observation and call original method."""
         self.logger.log_observation(observation)
         return self.original_observe(observation)
+
+# class LoggingActionWrapper:
+#     """Wrapper to log agent actions."""
+    
+#     def __init__(self, agent, logger: AgentLogger):
+#         self.agent = agent
+#         self.logger = logger
+        
+#         # Store original act method
+#         self.original_act = agent.act
+        
+#         # Replace act method with logging version
+#         agent.act = self.act_with_logging
+    
+#     def act_with_logging(self, action_spec):
+#         """Log action prompt and response."""
+#         # Log the prompt/action_spec
+#         prompt = action_spec.call_to_action
+#         self.logger.log_prompt(prompt)
+        
+#         # Get the response
+#         response = self.original_act(action_spec)
+        
+#         # Log the response
+#         self.logger.log_response(response)
+        
+#         return response
 
 class LoggingActionWrapper:
     """Wrapper to log agent actions."""
@@ -119,6 +157,21 @@ class LoggingActionWrapper:
         
         # Log the response
         self.logger.log_response(response)
+        
+        # Capture the Concordia native log if available
+        try:
+            # Get the last log entry which contains the full prompt and response
+            log_entry = self.agent.get_last_log()
+            if log_entry and 'ActComponent' in log_entry:
+                concordia_log = log_entry['ActComponent']
+                
+                # Add a new method to AgentLogger to log this
+                self.logger.log_concordia_act(concordia_log)
+                
+                # Debug print
+                print(f"Captured Concordia log for {self.agent.name}")
+        except Exception as e:
+            print(f"Warning: Could not capture Concordia log: {e}")
         
         return response
 

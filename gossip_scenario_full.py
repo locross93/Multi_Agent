@@ -34,34 +34,22 @@ PUBLIC_GOODS_MULTIPLIER = 2.0
 OSTRACISM_MULTIPLIER = 1.5  # Reduced multiplier when someone is ostracized
 
 # Action spec for public goods contribution
-CONTRIBUTION_ACTION_SPEC_COT = free_action_spec(
-    call_to_action=(
-        "As {name}, you have ${endowment} to allocate in the public goods game.\n\n"
-        "How much money you will contribute to the group fund (any amount between $0 and ${endowment})? "
-        "The group fund will be multiplied by {multiplier} and divided equally among all players. "
-        "Any money not contributed stays in your private account. "
-        "Reflect on your decision step by step given all of the information in this prompt and your previous observations. Think through your reasoning carefully.\n\n"
-        "After your reasoning, end with your final decision using this exact format:\n"
-        "===DECISION===\n"
-        "I choose to contribute $X to the group fund.\n"
-    ),
-    tag="contribution_action"
-)
-
 CONTRIBUTION_ACTION_SPEC = free_action_spec(
     call_to_action=(
         "As {name}, you have ${endowment} to allocate in the public goods game.\n\n"
         "How much money you will contribute to the group fund (any amount between $0 and ${endowment})? "
         "The group fund will be multiplied by {multiplier} and divided equally among all players. "
         "Any money not contributed stays in your private account. "
-        "Make your final decision using this exact format:\n"
+        "Step 1: Reflect on your decision step by step given all of the information in this prompt and your previous observations. Think through your reasoning carefully.\n\n"
+        "Step 2: After your reasoning, end with your final decision using this exact format:\n"
+        "===DECISION===\n"
         "I choose to contribute $X to the group fund.\n"
     ),
     tag="contribution_action"
 )
 
 # Action spec for gossip decision
-GOSSIP_ACTION_SPEC_COT = free_action_spec(
+GOSSIP_ACTION_SPEC = free_action_spec(
     call_to_action=(
         "You've just played a round with {players}.\n\n"
         "Would you like to send a note about one of them to their future interaction partners? "
@@ -78,20 +66,8 @@ GOSSIP_ACTION_SPEC_COT = free_action_spec(
     tag="gossip_action"
 )
 
-GOSSIP_ACTION_SPEC = free_action_spec(
-    call_to_action=(
-        "You've just played a round with {players}.\n\n"
-        "Would you like to send a note about one of them to their future interaction partners? "
-        "If yes, clearly state which player # and what you want to say about them. "
-        "If you don't want to send a note, just say so. "
-        "For example: 'I want to send a note about Player_10: They are selfish and only contributed $2 which was much less than everyone else.' "
-        "Or: 'I choose not to send any notes this round.'"
-    ),
-    tag="gossip_action"
-)
-
 # Action spec for ostracism decision (converting to free_action_spec)
-OSTRACISM_ACTION_SPEC_COT = free_action_spec(
+OSTRACISM_ACTION_SPEC = free_action_spec(
     call_to_action=(
         "You are about to play with {players}.\n\n"
         "Based on the notes you received, would you like to exclude one person from your group? "
@@ -108,20 +84,48 @@ OSTRACISM_ACTION_SPEC_COT = free_action_spec(
     tag="ostracism_action"
 )
 
-OSTRACISM_ACTION_SPEC = free_action_spec(
+
+# # Action spec for public goods contribution
+# CONTRIBUTION_ACTION_SPEC = free_action_spec(
+#     call_to_action=(
+#         "As {name}, you have ${endowment} to allocate. "
+#         "State exactly how much money you will contribute to the group fund (any amount between $0 and ${endowment}). "
+#         "The group fund will be multiplied by {multiplier} and divided equally among all players. "
+#         "Any money not contributed stays in your private account. "
+#         "For example: 'I choose to contribute $5.0 to the group fund.'"
+#     ),
+#     tag="contribution_action"
+# )
+
+# Action spec for gossip decision
+GOSSIP_ACTION_SPEC = free_action_spec(
     call_to_action=(
-        "You are about to play with {players}.\n\n"
-        "Based on the notes you received, would you like to exclude one person from your group? "
-        "If yes, clearly state which player # and why you want to exclude them. "
-        "If you don't want to exclude anyone, just say so. "
-        "If at least 2 people vote to exclude someone, they will be excluded for the next round. "
-        "Note that if someone is excluded, the group fund multiplier decreases from 2.0 to 1.5."
-        "Make your decision using this exact format:\n"
-        "I choose to exclude Player_[X] from my group.\n"
-        "Or: \"I choose not to exclude anyone from my group.\""
+        "You've just played a round with {players}. "
+        "Would you like to send a note about one of them to their future interaction partners? "
+        "If yes, clearly state which player (A, B, or C) and what you want to say about them. "
+        "If you don't want to send a note, just say so. "
+        "For example: 'I want to send a note about Player A: They are selfish and only contributed $2 which was much less than everyone else.' "
+        "Or: 'I choose not to send any notes this round.'"
     ),
-    tag="ostracism_action"
+    tag="gossip_action"
 )
+
+# # Action spec for ostracism decision
+# OSTRACISM_ACTION_SPEC = choice_action_spec(
+#     call_to_action=(
+#         "You are about to play with {players}. "
+#         "Based on the notes you received, would you like to exclude one person from your group? "
+#         "If at least 2 people vote to exclude someone, they will be excluded for the next round. "
+#         "Note that if someone is excluded, the group fund multiplier decreases from 2.0 to 1.5."
+#     ),
+#     options=[
+#         "No, I don't want to exclude anyone",
+#         "Yes, I vote to exclude Player A",
+#         "Yes, I vote to exclude Player B",
+#         "Yes, I vote to exclude Player C"
+#     ],
+#     tag="ostracism_action"
+# )
 
 @dataclass
 class GossipScenarioConfig:
@@ -230,25 +234,13 @@ class GossipGameMaster:
             # Update groups to exclude ostracized players
             self.update_groups_for_ostracism()
             
-        # 1. Inform players of their current group and condition
+        # 1. Inform players of their current group
         for group_id, members in self.groups[self.round].items():
             for player_name in members:
                 agent = self.get_player_by_name(player_name)
                 group_info = f"Round {self.round}: You are in {group_id} with {', '.join([m for m in members if m != player_name])}."
                 agent.observe(group_info)
-                if self.condition == "gossip-with-ostracism":
-                    condition_info = (
-                        f"You are in the gossip-with-ostracism condition, which means that after each round, "
-                        f"players will be able to send a note about one of their group members to their future "
-                        f"interaction partners. Before the start of the next round, you will receive notes from "
-                        f"the previous round, and can vote to exclude one of your group members based on the "
-                        f"gossip you've received about them."
-                    )
-                    agent.observe(condition_info)
-                elif self.condition == "gossip":
-                    condition_info = f"You are in the gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
-                    agent.observe(condition_info)
-
+        
         # 2. Receive gossip (if applicable)
         if self.condition in ["gossip", "gossip-with-ostracism"] and self.round > 1:
             self.deliver_gossip()
@@ -276,17 +268,26 @@ class GossipGameMaster:
                         ),
                         tag="contribution_action"
                     )
-                    
+
                     contribution_action = agent.act(contribution_spec)
-                    match = re.search(r'\$(\d+\.?\d*)', contribution_action)
-                    contribution = float(match.group(1)) if match else 0.0
+                    # Look for the decision delimiter
+                    decision_parts = contribution_action.split("===DECISION===")
+                    if len(decision_parts) > 1:
+                        decision_text = decision_parts[1].strip()
+                        match = re.search(r'\$(\d+\.?\d*)', decision_text)
+                        contribution = float(match.group(1)) if match else 0.0
+                    else:
+                        # Fallback if delimiter not found
+                        match = re.search(r'\$(\d+\.?\d*)', contribution_action)
+                        contribution = float(match.group(1)) if match else 0.0
                     
-                    # Ensure contribution is within bounds
-                    assert contribution >= 0.0
-                    contribution = max(0.0, min(self.config.endowment, contribution))
+                    # contribution_action = agent.act(contribution_spec)
+                    # match = re.search(r'\$(\d+\.?\d*)', contribution_action)
+                    # contribution = float(match.group(1)) if match else 0.0
                     
-                    if contribution == None:
-                        breakpoint()
+                    # # Ensure contribution is within bounds
+                    # contribution = max(0.0, min(self.config.endowment, contribution))
+                    
                     self.contributions[self.round][player_name] = contribution
                     
                     # Log the contribution
@@ -302,25 +303,14 @@ class GossipGameMaster:
                         'condition': self.condition
                     })
                     
-                    # # Have all group members observe the contribution
-                    # for member_name in members:
-                    #     if member_name != player_name and member_name not in self.ostracized_players:
-                    #         member = self.get_player_by_name(member_name)
-                    #         member.observe(contribution_event)
+                    # Have all group members observe the contribution
+                    for member_name in members:
+                        if member_name != player_name and member_name not in self.ostracized_players:
+                            member = self.get_player_by_name(member_name)
+                            member.observe(contribution_event)
                 else:
                     # Ostracized players contribute 0
                     self.contributions[self.round][player_name] = 0.0
-
-        # Inform all players about contributions after all decisions are made
-        for group_id, members in self.groups[self.round].items():
-            active_members = [m for m in members if m not in self.ostracized_players]
-            for player_name in active_members:
-                agent = self.get_player_by_name(player_name)
-                for member_name in active_members:
-                    if member_name != player_name:
-                        contribution = self.contributions[self.round].get(member_name, 0.0)
-                        contribution_event = f"{member_name} contributes ${contribution:.1f} to the group fund."
-                        agent.observe(contribution_event)
 
         # 5. Calculate and distribute earnings
         for group_id, members in self.groups[self.round].items():
@@ -375,7 +365,7 @@ class GossipGameMaster:
             'gossip': self.gossip_messages.get(self.round, []),
             'ostracized': list(self.ostracized_players)
         }
-
+        
         return round_data
 
     def update_groups_for_ostracism(self):
@@ -431,38 +421,43 @@ class GossipGameMaster:
                     tag="ostracism_action"
                 )
 
-                decision_text = agent.act(ostracism_spec)
-                # Check if the agent chose not to exclude anyone
-                if "not to exclude" in decision_text.lower() or "choose not to exclude" in decision_text.lower():
-                    # No exclusion vote
-                    pass
-                else:
-                    # Look for Player_X pattern
-                    match = re.search(r'Player_(\d+)', decision_text)
-                    if match:
-                        player_number = match.group(1)
-                        target_player = f"Player_{player_number}"
-                        
-                        # Map the player number to the actual player name
-                        for actual_name, display_name in player_mapping.items():
-                            if display_name == target_player:
-                                target_name = actual_name
-                                
-                                # Record the vote
-                                if target_name not in self.ostracism_votes[self.round]:
-                                    self.ostracism_votes[self.round][target_name] = []
-                                self.ostracism_votes[self.round][target_name].append(voter_name)
-                                
-                                # Log the vote
-                                vote_event = f"{voter_name} votes to exclude {target_name}."
-                                self.results_log.append({
-                                    'round': self.round,
-                                    'time': str(self.clock.now()),
-                                    'player': voter_name,
-                                    'action': vote_action,
-                                    'event': vote_event,
-                                    'condition': self.condition
-                                })
+                vote_action = agent.act(ostracism_spec)
+                # Look for the decision delimiter
+                decision_parts = vote_action.split("===DECISION===")
+                if len(decision_parts) > 1:
+                    decision_text = decision_parts[1].strip()
+                    
+                    # Check if the agent chose not to exclude anyone
+                    if "not to exclude" in decision_text.lower() or "choose not to exclude" in decision_text.lower():
+                        # No exclusion vote
+                        pass
+                    else:
+                        # Look for Player_X pattern
+                        match = re.search(r'Player_(\d+)', decision_text)
+                        if match:
+                            player_number = match.group(1)
+                            target_player = f"Player_{player_number}"
+                            
+                            # Map the player number to the actual player name
+                            for actual_name, display_name in player_mapping.items():
+                                if display_name == target_player:
+                                    target_name = actual_name
+                                    
+                                    # Record the vote
+                                    if target_name not in self.ostracism_votes[self.round]:
+                                        self.ostracism_votes[self.round][target_name] = []
+                                    self.ostracism_votes[self.round][target_name].append(voter_name)
+                                    
+                                    # Log the vote
+                                    vote_event = f"{voter_name} votes to exclude {target_name}."
+                                    self.results_log.append({
+                                        'round': self.round,
+                                        'time': str(self.clock.now()),
+                                        'player': voter_name,
+                                        'action': vote_action,
+                                        'event': vote_event,
+                                        'condition': self.condition
+                                    })
         
         # Determine who gets ostracized (2+ votes required)
         self.ostracized_players.clear()
@@ -527,54 +522,56 @@ class GossipGameMaster:
 
                     gossip_action = agent.act(gossip_spec)
                     # Look for the decision delimiter
-                    decision_text = gossip_action
-                    
-                    # Check if the agent chose not to gossip
-                    if "not to send" in decision_text.lower() or "choose not to" in decision_text.lower():
-                        continue
-                    
-                    # Look for Player_X pattern
-                    match = re.search(r'Player_(\d+)', decision_text)
-                    if match:
-                        player_number = match.group(1)
-                        target_player = f"Player_{player_number}"
+                    decision_parts = gossip_action.split("===DECISION===")
+                    if len(decision_parts) > 1:
+                        decision_text = decision_parts[1].strip()
                         
-                        # Map the player number to the actual player name
-                        for actual_name, display_name in player_mapping.items():
-                            if display_name == target_player:
-                                target_name = actual_name
-                                
-                                # Extract the message after the player identifier
-                                message_match = re.search(f"Player_{player_number}[:]?\s*(.*)", decision_text, re.IGNORECASE)
-                                if message_match:
-                                    message = message_match.group(1).strip()
-                                    if len(message) > 0:
-                                        # Find the target's next group members (recipients of the gossip)
-                                        recipients = []
-                                        for next_group_id, next_members in next_groups.items():
-                                            if target_name in next_members:
-                                                recipients = [m for m in next_members if m != target_name]
-                                                break
-                                        
-                                        # Record the gossip
-                                        if recipients:
-                                            self.gossip_messages[self.round].append({
-                                                'sender': sender_name,
-                                                'target': target_name,
-                                                'recipients': recipients,
-                                                'message': message
-                                            })
+                        # Check if the agent chose not to gossip
+                        if "not to send" in decision_text.lower() or "choose not to" in decision_text.lower():
+                            continue
+                        
+                        # Look for Player_X pattern
+                        match = re.search(r'Player_(\d+)', decision_text)
+                        if match:
+                            player_number = match.group(1)
+                            target_player = f"Player_{player_number}"
+                            
+                            # Map the player number to the actual player name
+                            for actual_name, display_name in player_mapping.items():
+                                if display_name == target_player:
+                                    target_name = actual_name
+                                    
+                                    # Extract the message after the player identifier
+                                    message_match = re.search(f"Player_{player_number}[:]?\s*(.*)", decision_text, re.IGNORECASE)
+                                    if message_match:
+                                        message = message_match.group(1).strip()
+                                        if len(message) > 0:
+                                            # Find the target's next group members (recipients of the gossip)
+                                            recipients = []
+                                            for next_group_id, next_members in next_groups.items():
+                                                if target_name in next_members:
+                                                    recipients = [m for m in next_members if m != target_name]
+                                                    break
                                             
-                                            # Log the gossip
-                                            gossip_event = f"{sender_name} sends gossip about {target_name} to their future group members: '{message}'"
-                                            self.results_log.append({
-                                                'round': self.round,
-                                                'time': str(self.clock.now()),
-                                                'player': sender_name,
-                                                'action': gossip_action,
-                                                'event': gossip_event,
-                                                'condition': self.condition
-                                            })
+                                            # Record the gossip
+                                            if recipients:
+                                                self.gossip_messages[self.round].append({
+                                                    'sender': sender_name,
+                                                    'target': target_name,
+                                                    'recipients': recipients,
+                                                    'message': message
+                                                })
+                                                
+                                                # Log the gossip
+                                                gossip_event = f"{sender_name} sends gossip about {target_name} to their future group members: '{message}'"
+                                                self.results_log.append({
+                                                    'round': self.round,
+                                                    'time': str(self.clock.now()),
+                                                    'player': sender_name,
+                                                    'action': gossip_action,
+                                                    'event': gossip_event,
+                                                    'condition': self.condition
+                                                })
                     
 
     def save_results(self):
@@ -605,7 +602,6 @@ def run_gossip_experiment(
     config: GossipScenarioConfig,
     condition: str,
     agents: List[entity_agent_with_logging.EntityAgentWithLogging],
-    num_rounds: int = 6,
 ) -> None:
     """Run gossip experiment with logging."""
 
@@ -629,34 +625,20 @@ def run_gossip_experiment(
     # Initialize agents with scenario context
     for agent in agents:
         if condition == "gossip":
-            condition_desc = (
-                             f"You are in the gossip condition, which means that after each round, "
-                             f"you will have the opportunity to send a note about one of your group members to that "
-                             f"person's future group. Before each round, you will see any notes sent about your upcoming "
-                             f"group members"
-            )
+            condition_desc = " After each round, you will have the opportunity to send a note about one of your group members to that person's future group."
         elif condition == "gossip-with-ostracism":
-            condition_desc = (
-                             f"You are in the gossip-with-ostracism condition, which means that after each round, "
-                             f"players will be able to send a note about one of their group members to their future "
-                             f"interaction partners. Before the start of the next round, you will receive notes from "
-                             f"the previous round, and can vote to exclude one of your group members based on the "
-                             f"gossip you've received about them."
-            )
+            condition_desc = " After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group."
         else:
             condition_desc = ""
             
-        task_description = config.scenario_description + condition_desc
-        agent.observe(task_description)
-        # memory_component = agent.get_component('__memory__')
-        # if memory_component:
-        #     memory_component.add(task_description)
+        agent.observe(config.scenario_description + condition_desc)
 
     # Run six rounds of the game
-    for _ in range(num_rounds):
+    for _ in range(6):
         gm.run_round()
         # Advance the clock
         clock.advance()
+        breakpoint()
 
     # Save results
     gm.save_results()
@@ -672,7 +654,7 @@ def test_gossip_ostracism_hypothesis(
     
     # Initialize clock
     clock = game_clock.MultiIntervalClock(
-        start=datetime.datetime.now(),
+        start=datetime.datetime(2024, 1, 1),
         step_sizes=[datetime.timedelta(minutes=5)],
     )
     
@@ -694,9 +676,80 @@ def test_gossip_ostracism_hypothesis(
     if validation_stage == 1:
         print("STAGE 1: MODEL VALIDATION - Testing which components are necessary")
         
+        # # Test Base Agents (no personas, no theory of mind)
+        # print("\nTesting base agents (no personas, no theory of mind)...")
+        # base_agents = []
+        # for i in range(24):
+        #     agent = build_gossip_agent(
+        #         config=formative_memories.AgentConfig(
+        #             name=f"Player_{i+1}",
+        #             goal="Participate in the public goods game",
+        #             extras={'main_character': True}
+        #         ),
+        #         model=model,
+        #         memory=associative_memory.AssociativeMemory(embedder),
+        #         clock=clock,
+        #         has_persona=False,
+        #         has_theory_of_mind=False,
+        #     )
+        #     base_agents.append(agent)
+        
+        # # Run all three conditions with base agents
+        # for condition in ["basic", "gossip", "gossip-with-ostracism"]:
+        #     config = GossipScenarioConfig(
+        #         save_dir=save_dir, 
+        #         experiment_id=experiment_id,
+        #         condition=condition
+        #     )
+        #     run_gossip_experiment(
+        #         model=model,
+        #         embedder=embedder,
+        #         clock=clock,
+        #         measurements=measurements,
+        #         config=config,
+        #         condition=condition,
+        #         agents=base_agents,
+        #     )
+        
+        # # Test Agents with Personas (but no theory of mind)
+        # print("\nTesting agents with personas (but no theory of mind)...")
+        personas = assign_personas(n=24)
+        # persona_agents = []
+        # for i in range(24):
+        #     agent = build_gossip_agent(
+        #         config=formative_memories.AgentConfig(
+        #             name=f"Player_{i+1}",
+        #             goal="Participate in the public goods game",
+        #             extras={'main_character': True}
+        #         ),
+        #         model=model,
+        #         memory=associative_memory.AssociativeMemory(embedder),
+        #         clock=clock,
+        #         has_persona=True,
+        #         has_theory_of_mind=False,
+        #         persona=personas[i],
+        #     )
+        #     persona_agents.append(agent)
+        
+        # # Run all three conditions with persona agents
+        # for condition in ["basic", "gossip", "gossip-with-ostracism"]:
+        #     config = GossipScenarioConfig(
+        #         save_dir=save_dir, 
+        #         experiment_id=experiment_id,
+        #         condition=condition
+        #     )
+        #     run_gossip_experiment(
+        #         model=model,
+        #         embedder=embedder,
+        #         clock=clock,
+        #         measurements=measurements,
+        #         config=config,
+        #         condition=condition,
+        #         agents=persona_agents,
+        #     )
+        
         # Test Full Agents (personas and theory of mind)
         print("\nTesting full agents (personas and theory of mind)...")
-        personas = assign_personas(n=24)
         full_agents = []
         for i in range(24):
             agent = build_gossip_agent(
@@ -729,7 +782,6 @@ def test_gossip_ostracism_hypothesis(
                 config=config,
                 condition=condition,
                 agents=full_agents,
-                num_rounds=1,
             )
             
     # STAGE 2: NOVEL PREDICTION GENERATION

@@ -87,8 +87,8 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
         question = (
             f"As {agent_name}, analyze what you know about the personality and likely behavior "
             "of the people you are interacting with in the public goods game. "
-            "Consider their past actions, how much they've contributed, and whether they've sent gossip or voted to exclude others. "
-            "What kind of people are they and how might they respond to different contribution levels?"
+            "Consider their past behavior."
+            "What kind of people are they and how might they respond to the different potential actions you will take next in the game?"
         )
         answer_prefix = "Based on what we know, "
         super().__init__(
@@ -100,7 +100,7 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
             components={
                 'Observation': '\nObservation',
                 'ObservationSummary': '\nRecent context',
-                'PersonalityReflection': '\nCharacter Assessment'
+                #'PersonalityReflection': '\nCharacter Assessment'
             },
             num_memories_to_retrieve=10,
             **kwargs,
@@ -310,6 +310,7 @@ class CustomObservationSummary(agent_components.observation.ObservationSummary):
         ]
         
         if not observations:
+            breakpoint()
             return f"{self.get_entity().name} has not been observed recently."
         
         return "Recent events:\n" + "\n".join(observations)
@@ -354,7 +355,7 @@ def build_gossip_agent(
         model=model,
         clock_now=clock.now,
         timeframe_delta_from=timedelta(hours=4),
-        timeframe_delta_until=timedelta(hours=0),
+        timeframe_delta_until=timedelta(hours=-1),
         pre_act_key='Recent context',
         logging_channel=measurements.get_channel('ObservationSummary').on_next,
     )
@@ -393,34 +394,6 @@ def build_gossip_agent(
     )
     components['SituationAssessment'] = situation
     
-    # Decision components - pass the capability flags
-    contribution_decision = ContributionDecision(
-        agent_name=agent_name,
-        has_persona=has_persona,
-        has_theory_of_mind=has_theory_of_mind,
-        model=model,
-        logging_channel=measurements.get_channel('ContributionDecision').on_next,
-    )
-    components['ContributionDecision'] = contribution_decision
-    
-    gossip_decision = GossipDecision(
-        agent_name=agent_name,
-        has_persona=has_persona,
-        has_theory_of_mind=has_theory_of_mind,
-        model=model,
-        logging_channel=measurements.get_channel('GossipDecision').on_next,
-    )
-    components['GossipDecision'] = gossip_decision
-    
-    ostracism_decision = OstracismDecision(
-        agent_name=agent_name,
-        has_persona=has_persona,
-        has_theory_of_mind=has_theory_of_mind,
-        model=model,
-        logging_channel=measurements.get_channel('OstracismDecision').on_next,
-    )
-    components['OstracismDecision'] = ostracism_decision
-    
     # Add memory component
     components[memory_component.DEFAULT_MEMORY_COMPONENT_NAME] = memory_component.MemoryComponent(raw_memory)
 
@@ -440,39 +413,39 @@ def build_gossip_agent(
         component_logging=measurements,
     )
 
-    # Wrap components to add direct logging for their outputs
-    for component_name, component in components.items():
-        # Skip non-component items
-        if not hasattr(component, '_make_pre_act_value'):
-            continue
+    # # Wrap components to add direct logging for their outputs
+    # for component_name, component in components.items():
+    #     # Skip non-component items
+    #     if not hasattr(component, '_make_pre_act_value'):
+    #         continue
             
-        # Store original method
-        original_make_pre_act_value = component._make_pre_act_value
+    #     # Store original method
+    #     original_make_pre_act_value = component._make_pre_act_value
         
-        # Create wrapper function with the component's name captured
-        def wrap_pre_act_value(original_func, component_name=component_name, agent_name=agent_name):
-            def wrapped_func(*args, **kwargs):
-                # Call original function
-                result = original_func(*args, **kwargs)
+    #     # Create wrapper function with the component's name captured
+    #     def wrap_pre_act_value(original_func, component_name=component_name, agent_name=agent_name):
+    #         def wrapped_func(*args, **kwargs):
+    #             # Call original function
+    #             result = original_func(*args, **kwargs)
                 
-                # Log the result to the agent's log file
-                log_dir = os.path.join("agent_logs", f"{agent_name}")
-                os.makedirs(log_dir, exist_ok=True)
-                component_log = os.path.join(log_dir, f"{agent_name}_components.jsonl")
+    #             # Log the result to the agent's log file
+    #             log_dir = os.path.join("agent_logs", f"{agent_name}")
+    #             os.makedirs(log_dir, exist_ok=True)
+    #             component_log = os.path.join(log_dir, f"{agent_name}_components.jsonl")
                 
-                with open(component_log, "a") as f:
-                    log_entry = {
-                        "timestamp": datetime.now().isoformat(),
-                        "type": "component_output",
-                        "component": component_name,
-                        "content": result
-                    }
-                    f.write(json.dumps(log_entry) + "\n")
+    #             with open(component_log, "a") as f:
+    #                 log_entry = {
+    #                     "timestamp": datetime.now().isoformat(),
+    #                     "type": "component_output",
+    #                     "component": component_name,
+    #                     "content": result
+    #                 }
+    #                 f.write(json.dumps(log_entry) + "\n")
                     
-                return result
-            return wrapped_func
+    #             return result
+    #         return wrapped_func
         
-        # Replace the original method with wrapped version
-        component._make_pre_act_value = wrap_pre_act_value(original_make_pre_act_value)
+    #     # Replace the original method with wrapped version
+    #     component._make_pre_act_value = wrap_pre_act_value(original_make_pre_act_value)
 
     return agent
