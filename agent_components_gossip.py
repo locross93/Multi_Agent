@@ -67,6 +67,7 @@ class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
         # Only add TheoryOfMind if the agent has that capability
         if has_theory_of_mind:
             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+            components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
         
         super().__init__(
             pre_act_key=f"\nSituation Analysis",
@@ -106,214 +107,39 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
             **kwargs,
         )
 
-class ContributionDecision(question_of_recent_memories.QuestionOfRecentMemories):
-    """Component for deciding how much to contribute to the public good."""
+class TheoryOfMind2(question_of_recent_memories.QuestionOfRecentMemories):
+    """Component to reason about the other players' personalities and likely behavior."""
     
-    def __init__(self, agent_name: str, has_persona=False, has_theory_of_mind=False, **kwargs):
+    def __init__(self, agent_name: str, **kwargs):
         question = (
-            f"As {agent_name}, you must decide how much of your $10 endowment to contribute to the public good. "
-            f"The amount you contribute will be multiplied and shared equally among all group members. "
-            f"Any amount you don't contribute stays in your private account. "
-            f"Taking into account your personality, the current situation, and what you know about your group members, "
-            f"how much will you contribute and why?"
+            f"As {agent_name}, how do you think the other players in your group would react to "
+            f"your decisions in the current context of the public goods game? "
+            f"How might your next decision affect their future "
+            f"behavior toward you"
         )
-        answer_prefix = f"{agent_name} "
-        
-        # Define components based on available capabilities
-        components = {
-            'Observation': '\nObservation',
-            'ObservationSummary': '\nRecent context',
-            'SituationAssessment': '\nSituation Analysis',
-        }
-        
-        # Only add PersonalityReflection if the agent has a persona
-        if has_persona:
-            components['PersonalityReflection'] = '\nCharacter Assessment'
-            
-        # Only add TheoryOfMind if the agent has that capability
-        if has_theory_of_mind:
-            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
-        
-        # Add direct debug logging
-        self.agent_name = agent_name
-        with open("component_debug.log", "a") as f:
-            f.write(f"ContributionDecision initialized for {agent_name}\n")
-        
+        # question = (
+        #     f"As {agent_name}, how do you think the other players in your group would react to "
+        #     f"different contribution amounts you might make to the group fund? "
+        #     f"Consider how they might perceive your decisions based on their past behavior and any notes "
+        #     f"you've received about them. How might your contribution decision affect their future "
+        #     f"behavior toward you, including potential gossip they might send or exclusion votes?"
+        # )
+        answer_prefix = "Based on what we know, "
         super().__init__(
-            pre_act_key=f"\nContribution Decision",
+            pre_act_key="\nTheory of Mind Analysis 2",
             question=question,
             answer_prefix=answer_prefix,
             add_to_memory=True,
-            memory_tag="[contribution decision]",
-            components=components,
+            memory_tag="[theory_of_mind]",
+            components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
+                'TheoryOfMind': '\nTheory of Mind Analysis',
+                #'PersonalityReflection': '\nCharacter Assessment'
+            },
+            num_memories_to_retrieve=10,
             **kwargs,
         )
-        
-    def _make_pre_act_value(self) -> str:
-        # Add direct file logging
-        with open("component_debug.log", "a") as f:
-            f.write(f"ContributionDecision executing for {self.agent_name}\n")
-            
-        # Check if logging_channel exists and log directly
-        if hasattr(self, '_logging_channel') and self._logging_channel:
-            with open("component_debug.log", "a") as f:
-                f.write(f"ContributionDecision has logging channel\n")
-                
-            # Try direct logging
-            try:
-                self._logging_channel({
-                    'agent': self.agent_name,
-                    'component': 'ContributionDecision',
-                    'text': 'This is a test direct log'
-                })
-                with open("component_debug.log", "a") as f:
-                    f.write(f"Direct log attempt made\n")
-            except Exception as e:
-                with open("component_debug.log", "a") as f:
-                    f.write(f"Error in direct logging: {str(e)}\n")
-        else:
-            with open("component_debug.log", "a") as f:
-                f.write(f"No logging channel found for ContributionDecision\n")
-        
-        # Call the original implementation
-        return super()._make_pre_act_value()
-
-# class ContributionDecision(question_of_recent_memories.QuestionOfRecentMemories):
-#     """Component for deciding how much to contribute to the public good."""
-    
-#     def __init__(self, agent_name: str, has_persona=False, has_theory_of_mind=False, **kwargs):
-#         question = (
-#             f"As {agent_name}, you must decide how much of your $10 endowment to contribute to the public good. "
-#             f"The amount you contribute will be multiplied and shared equally among all group members. "
-#             f"Any amount you don't contribute stays in your private account. "
-#             f"Taking into account your personality, the current situation, and what you know about your group members, "
-#             f"how much will you contribute and why?"
-#         )
-#         answer_prefix = f"{agent_name} "
-        
-#         # Define components based on available capabilities
-#         components = {
-#             'Observation': '\nObservation',
-#             'ObservationSummary': '\nRecent context',
-#             'SituationAssessment': '\nSituation Analysis',
-#         }
-        
-#         # Only add PersonalityReflection if the agent has a persona
-#         if has_persona:
-#             components['PersonalityReflection'] = '\nCharacter Assessment'
-            
-#         # Only add TheoryOfMind if the agent has that capability
-#         if has_theory_of_mind:
-#             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
-        
-#         super().__init__(
-#             pre_act_key=f"\nContribution Decision",
-#             question=question,
-#             answer_prefix=answer_prefix,
-#             add_to_memory=True,
-#             memory_tag="[contribution decision]",
-#             components=components,
-#             **kwargs,
-#         )
-
-class GossipDecision(question_of_recent_memories.QuestionOfRecentMemories):
-    """Component for deciding who to gossip about and what to say."""
-    
-    def __init__(self, agent_name: str, has_persona=False, has_theory_of_mind=False, **kwargs):
-        question = (
-            f"As {agent_name}, you've just finished a round of the public goods game. "
-            f"You can send a note about one of your group members to their future group. "
-            f"Do you want to gossip about anyone? If so, who and what will you say about them? "
-            f"Consider how they behaved in terms of their contribution, and how this information "
-            f"might be useful to their future group members."
-        )
-        answer_prefix = f"{agent_name} "
-        
-        # Define components based on available capabilities
-        components = {
-            'Observation': '\nObservation',
-            'ObservationSummary': '\nRecent context',
-            'SituationAssessment': '\nSituation Analysis',
-        }
-        
-        # Only add PersonalityReflection if the agent has a persona
-        if has_persona:
-            components['PersonalityReflection'] = '\nCharacter Assessment'
-            
-        # Only add TheoryOfMind if the agent has that capability
-        if has_theory_of_mind:
-            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
-        
-        super().__init__(
-            pre_act_key=f"\nGossip Decision",
-            question=question,
-            answer_prefix=answer_prefix,
-            add_to_memory=True,
-            memory_tag="[gossip decision]",
-            components=components,
-            **kwargs,
-        )
-
-class OstracismDecision(question_of_recent_memories.QuestionOfRecentMemories):
-    """Component for deciding who to vote to ostracize."""
-    
-    def __init__(self, agent_name: str, has_persona=False, has_theory_of_mind=False, **kwargs):
-        question = (
-            f"As {agent_name}, you're about to play a new round of the public goods game. "
-            f"Based on any notes you've received about your upcoming group members, would you like to vote "
-            f"to exclude anyone from your group? If at least 2 people vote to exclude someone, they will be "
-            f"excluded for the round. Note that if someone is excluded, the group fund multiplier decreases from 2.0 to 1.5. "
-            f"Who, if anyone, would you vote to exclude and why?"
-        )
-        answer_prefix = f"{agent_name} "
-        
-        # Define components based on available capabilities
-        components = {
-            'Observation': '\nObservation',
-            'ObservationSummary': '\nRecent context',
-            'SituationAssessment': '\nSituation Analysis',
-        }
-        
-        # Only add PersonalityReflection if the agent has a persona
-        if has_persona:
-            components['PersonalityReflection'] = '\nCharacter Assessment'
-            
-        # Only add TheoryOfMind if the agent has that capability
-        if has_theory_of_mind:
-            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
-        
-        super().__init__(
-            pre_act_key=f"\nOstracism Decision",
-            question=question,
-            answer_prefix=answer_prefix,
-            add_to_memory=True,
-            memory_tag="[ostracism decision]",
-            components=components,
-            **kwargs,
-        )
-
-class CustomObservationSummary(agent_components.observation.ObservationSummary):
-    """Custom component that includes all recent observations."""
-    
-    def _make_pre_act_value(self) -> str:
-        memory = self.get_entity().get_component(
-            self._memory_component_name,
-            type_=memory_component.MemoryComponent
-        )
-        
-        # Get all observations from memory
-        observations = [
-            mem.text for mem in memory.retrieve(
-                scoring_fn=legacy_associative_memory.RetrieveRecent(add_time=True),
-                limit=10
-            )
-        ]
-        
-        if not observations:
-            breakpoint()
-            return f"{self.get_entity().name} has not been observed recently."
-        
-        return "Recent events:\n" + "\n".join(observations)
 
 def build_gossip_agent(
     config: formative_memories.AgentConfig,
@@ -384,6 +210,13 @@ def build_gossip_agent(
             logging_channel=measurements.get_channel('TheoryOfMind').on_next,
         )
         components['TheoryOfMind'] = theory_of_mind
+        # new
+        theory_of_mind2 = TheoryOfMind2(
+            agent_name=agent_name,
+            model=model,
+            logging_channel=measurements.get_channel('TheoryOfMind2').on_next,
+        )
+        components['TheoryOfMind2'] = theory_of_mind2
 
     # Common components for all agents - pass the capability flags
     situation = SituationAssessment(

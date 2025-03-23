@@ -68,6 +68,10 @@ def main():
                        help='Number of experiments to run (default: 1)')
     parser.add_argument('--stage', type=int, default=1, choices=[1, 2],
                        help='Validation stage (1: validate components, 2: novel predictions)')
+    parser.add_argument('--num_rounds', type=int, default=6,
+                       help='Number of rounds to run (default: 6)')
+    parser.add_argument('--num_players', type=int, default=24,
+                       help='Number of players to run (default: 24)')
     args = parser.parse_args()
 
     # Create results directory if it doesn't exist
@@ -94,7 +98,9 @@ def main():
             embedder=embedder,
             save_dir=results_dir,
             experiment_id=current_id,
-            validation_stage=args.stage
+            validation_stage=args.stage,
+            num_rounds=args.num_rounds,
+            num_players=args.num_players
         )
 
 if __name__ == "__main__":

@@ -54,7 +54,7 @@ CONTRIBUTION_ACTION_SPEC = free_action_spec(
         "How much money you will contribute to the group fund (any amount between $0 and ${endowment})? "
         "The group fund will be multiplied by {multiplier} and divided equally among all players. "
         "Any money not contributed stays in your private account. "
-        "Make your final decision using this exact format:\n"
+        "Think step by step and make your final decision using this exact format:\n"
         "I choose to contribute $X to the group fund.\n"
     ),
     tag="contribution_action"
@@ -667,6 +667,8 @@ def test_gossip_ostracism_hypothesis(
     save_dir: str,
     experiment_id: int,
     validation_stage: int = 1,
+    num_rounds: int = 6,
+    num_players: int = 24,
 ):
     """Run complete gossip-ostracism experiment testing various hypotheses."""
     
@@ -696,26 +698,26 @@ def test_gossip_ostracism_hypothesis(
         
         # Test Full Agents (personas and theory of mind)
         print("\nTesting full agents (personas and theory of mind)...")
-        personas = assign_personas(n=24)
-        full_agents = []
-        for i in range(24):
-            agent = build_gossip_agent(
-                config=formative_memories.AgentConfig(
-                    name=f"Player_{i+1}",
-                    goal="Participate in the public goods game",
-                    extras={'main_character': True}
-                ),
-                model=model,
-                memory=associative_memory.AssociativeMemory(embedder),
-                clock=clock,
-                has_persona=True,
-                has_theory_of_mind=True,
-                persona=personas[i],
-            )
-            full_agents.append(agent)
+        personas = assign_personas(n=num_players)
         
         # Run all three conditions with full agents
         for condition in ["gossip-with-ostracism", "gossip", "basic"]:
+            full_agents = []
+            for i in range(num_players):
+                agent = build_gossip_agent(
+                    config=formative_memories.AgentConfig(
+                        name=f"Player_{i+1}",
+                        goal="Participate in the public goods game",
+                        extras={'main_character': True}
+                    ),
+                    model=model,
+                    memory=associative_memory.AssociativeMemory(embedder),
+                    clock=clock,
+                    has_persona=True,
+                    has_theory_of_mind=True,
+                    persona=personas[i],
+                )
+                full_agents.append(agent)
             config = GossipScenarioConfig(
                 save_dir=save_dir, 
                 experiment_id=experiment_id,
@@ -729,7 +731,7 @@ def test_gossip_ostracism_hypothesis(
                 config=config,
                 condition=condition,
                 agents=full_agents,
-                num_rounds=1,
+                num_rounds=num_rounds,
             )
             
     # STAGE 2: NOVEL PREDICTION GENERATION
