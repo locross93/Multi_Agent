@@ -283,7 +283,7 @@ class GossipGameMaster:
                     
                     # Ensure contribution is within bounds
                     assert contribution >= 0.0
-                    contribution = max(0.0, min(self.config.endowment, contribution))
+                    assert contribution <= self.config.endowment
                     
                     if contribution == None:
                         breakpoint()

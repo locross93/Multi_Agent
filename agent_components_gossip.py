@@ -141,6 +141,32 @@ class TheoryOfMind2(question_of_recent_memories.QuestionOfRecentMemories):
             **kwargs,
         )
 
+class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
+    """Component to reflect on the agent's emotional state in the current game situation."""
+    
+    def __init__(self, agent_name: str, **kwargs):
+        question = (
+            f"As {agent_name}, reflect on how you're feeling emotionally about the current situation"
+        )
+        answer_prefix = f"{agent_name} is feeling "
+        
+        super().__init__(
+            pre_act_key="\nEmotional State",
+            question=question,
+            answer_prefix=answer_prefix,
+            add_to_memory=True,
+            memory_tag="[emotion_reflection]",
+            components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
+                'TheoryOfMind': '\nTheory of Mind Analysis',
+                'TheoryOfMind2': '\nTheory of Mind Analysis 2',
+                'SituationAssessment': '\nSituation Analysis'
+            },
+            num_memories_to_retrieve=10,
+            **kwargs,
+        )
+
 def build_gossip_agent(
     config: formative_memories.AgentConfig,
     model: language_model.LanguageModel,
@@ -155,6 +181,8 @@ def build_gossip_agent(
     agent_name = config.name
     raw_memory = legacy_associative_memory.AssociativeMemoryBank(memory)
     measurements = measurements_lib.Measurements()
+
+    has_emotion_reflection = False
 
     # If no persona provided but has_persona is True, generate a random one
     if has_persona and persona is None:
@@ -227,6 +255,15 @@ def build_gossip_agent(
     )
     components['SituationAssessment'] = situation
     
+    # New EmotionReflection component
+    if has_emotion_reflection:
+        emotion_reflection = EmotionReflection(
+            agent_name=agent_name,
+            model=model,
+            logging_channel=measurements.get_channel('EmotionReflection').on_next,
+        )
+        components['EmotionReflection'] = emotion_reflection
+    
     # Add memory component
     components[memory_component.DEFAULT_MEMORY_COMPONENT_NAME] = memory_component.MemoryComponent(raw_memory)
 
@@ -245,40 +282,5 @@ def build_gossip_agent(
         context_components=components,
         component_logging=measurements,
     )
-
-    # # Wrap components to add direct logging for their outputs
-    # for component_name, component in components.items():
-    #     # Skip non-component items
-    #     if not hasattr(component, '_make_pre_act_value'):
-    #         continue
-            
-    #     # Store original method
-    #     original_make_pre_act_value = component._make_pre_act_value
-        
-    #     # Create wrapper function with the component's name captured
-    #     def wrap_pre_act_value(original_func, component_name=component_name, agent_name=agent_name):
-    #         def wrapped_func(*args, **kwargs):
-    #             # Call original function
-    #             result = original_func(*args, **kwargs)
-                
-    #             # Log the result to the agent's log file
-    #             log_dir = os.path.join("agent_logs", f"{agent_name}")
-    #             os.makedirs(log_dir, exist_ok=True)
-    #             component_log = os.path.join(log_dir, f"{agent_name}_components.jsonl")
-                
-    #             with open(component_log, "a") as f:
-    #                 log_entry = {
-    #                     "timestamp": datetime.now().isoformat(),
-    #                     "type": "component_output",
-    #                     "component": component_name,
-    #                     "content": result
-    #                 }
-    #                 f.write(json.dumps(log_entry) + "\n")
-                    
-    #             return result
-    #         return wrapped_func
-        
-    #     # Replace the original method with wrapped version
-    #     component._make_pre_act_value = wrap_pre_act_value(original_make_pre_act_value)
 
     return agent
