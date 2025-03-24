@@ -24,7 +24,7 @@ class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories
         self.persona = persona
         question = (
             f"You are {persona.name}, a {persona.age}-year-old {persona.gender} working as a {persona.occupation}. "
-            f"{persona.background}. Your personality is characterized as {persona.traits} with a cooperation tendency of {persona.cooperation_tendency}. "
+            f"{persona.background}. Your personality is characterized as {persona.traits}. "
             f"Based on this background and your past actions, how would you describe your approach "
             f"to economic games like the public goods game? Are you more focused on maximizing group welfare or your own payoff?"
         )
@@ -226,7 +226,6 @@ def build_gossip_agent(
         print(f"Occupation: {persona.occupation}")
         print(f"Background: {persona.background}")
         print(f"Traits: {persona.traits}")
-        print(f"Cooperation tendency: {persona.cooperation_tendency}\n")
 
     # Core components
     observation = agent_components.observation.Observation(

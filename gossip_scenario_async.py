@@ -100,6 +100,11 @@ class GossipScenarioConfig:
         For example, if everyone contributes $10, the group fund becomes $40, which is multiplied to $80, and each person 
         receives $20 (a $10 profit). However, if you contribute nothing while everyone else contributes $10, the group fund
         becomes $30, which is multiplied to $60, and each person receives $15. So you would have $25 total ($10 kept + $15 from group).
+        
+        There are 3 conditions:
+        - Basic: No gossip, no ostracism
+        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members
+        - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.
         """
     ):
         self.endowment = endowment
@@ -203,15 +208,19 @@ class AsyncGossipGameMaster:
                 agent.observe(group_info)
                 if self.condition == "gossip-with-ostracism":
                     condition_info = (
-                        f"You are in the gossip-with-ostracism condition, which means that after each round, "
+                        f"You are in the Gossip with ostracism condition, which means that after each round, "
                         f"players will be able to send a note about one of their group members to their future "
                         f"interaction partners. Before the start of the next round, you will receive notes from "
                         f"the previous round, and can vote to exclude one of your group members based on the "
                         f"gossip you've received about them."
+                        f"If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round."
                     )
                     agent.observe(condition_info)
                 elif self.condition == "gossip":
-                    condition_info = f"You are in the gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                    condition_info = f"You are in the Gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                    agent.observe(condition_info)
+                else:
+                    condition_info = f"You are in the Basic condition, which means that there is no gossip or ostracism."
                     agent.observe(condition_info)
 
         # 2. Receive gossip (if applicable)
@@ -637,21 +646,22 @@ async def run_gossip_experiment_async(
     for agent in agents:
         if condition == "gossip":
             condition_desc = (
-                             f"You are in the gossip condition, which means that after each round, "
+                             f"You are in the Gossip condition, which means that after each round, "
                              f"you will have the opportunity to send a note about one of your group members to that "
                              f"person's future group. Before each round, you will see any notes sent about your upcoming "
                              f"group members"
             )
         elif condition == "gossip-with-ostracism":
             condition_desc = (
-                             f"You are in the gossip-with-ostracism condition, which means that after each round, "
+                             f"You are in the Gossip with ostracism condition, which means that after each round, "
                              f"players will be able to send a note about one of their group members to their future "
                              f"interaction partners. Before the start of the next round, you will receive notes from "
                              f"the previous round, and can vote to exclude one of your group members based on the "
                              f"gossip you've received about them."
+                             f"If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round."
             )
         else:
-            condition_desc = ""
+            condition_desc = "You are in the Basic condition, which means that there is no gossip or ostracism."
             
         task_description = config.scenario_description + condition_desc
         agent.observe(task_description)
