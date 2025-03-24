@@ -12,6 +12,7 @@ from concordia.utils import measurements as measurements_lib
 from concordia.document import interactive_document
 
 from personas import Persona, PERSONAS
+from custom_classes import QuestionOfRecentMemoriesWithActionSpec
 import os
 import json
 import random
@@ -167,6 +168,36 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
             **kwargs,
         )
 
+
+class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
+    def __init__(self, agent_name: str, has_theory_of_mind=True, has_emotion_reflection=False, **kwargs):
+        # Define components based on available capabilities
+        components = {
+            'Observation': '\nObservation',
+            'ObservationSummary': '\nRecent context',
+        }
+        
+        # Only add TheoryOfMind if the agent has that capability
+        if has_theory_of_mind:
+            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+            components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
+
+        if has_emotion_reflection:
+            components['EmotionReflection'] = '\nEmotional State'
+
+        super().__init__(
+            pre_act_key="\nDecision Reflection",
+            #question="Think step by step and reflect what you should do next in the current game situation: {question}.",
+            question="Based on the above context about the situation and {agent_name}, think step by step about what they will decide in the current situation: {question}.",
+            answer_prefix=f"{agent_name} is thinking about ",
+            add_to_memory=True,
+            memory_tag="[decision_reflection]",
+            components=components,
+            num_memories_to_retrieve=10,
+            terminators=None,
+            **kwargs,
+        )
+
 def build_gossip_agent(
     config: formative_memories.AgentConfig,
     model: language_model.LanguageModel,
@@ -263,7 +294,14 @@ def build_gossip_agent(
             logging_channel=measurements.get_channel('EmotionReflection').on_next,
         )
         components['EmotionReflection'] = emotion_reflection
-    
+
+    # New DecisionReflection component
+    decision_reflection = DecisionReflection(
+        agent_name=agent_name,
+        model=model,
+        logging_channel=measurements.get_channel('DecisionReflection').on_next,
+    )
+    components['DecisionReflection'] = decision_reflection
     # Add memory component
     components[memory_component.DEFAULT_MEMORY_COMPONENT_NAME] = memory_component.MemoryComponent(raw_memory)
 
