@@ -319,16 +319,16 @@ class AsyncGossipGameMaster:
             for voter_name in members:
                 agent = self.get_player_by_name(voter_name)
                 
-                # Format the options for this specific group
-                options = ["No, I don't want to exclude anyone"]
-                for member_name in members:
-                    if member_name != voter_name:
-                        options.append(f"Yes, I vote to exclude {letter_mapping[member_name]}")
+                # # Format the options for this specific group
+                # options = ["No, I don't want to exclude anyone"]
+                # for member_name in members:
+                #     if member_name != voter_name:
+                #         options.append(f"Yes, I vote to exclude {letter_mapping[member_name]}")
                 
                 # Create a custom action spec for this group
                 ostracism_spec = free_action_spec(
                     call_to_action=OSTRACISM_ACTION_SPEC.call_to_action.format(
-                        players=", ".join([letter_mapping[m] for m in members if m != voter_name])
+                        players=", ".join([m for m in members if m != voter_name])
                     ),
                     tag="ostracism_action"
                 )
@@ -562,7 +562,7 @@ class AsyncGossipGameMaster:
                     # Create a custom action spec for this group
                     gossip_spec = free_action_spec(
                         call_to_action=GOSSIP_ACTION_SPEC.call_to_action.format(
-                            players=", ".join([letter_mapping[m] for m in members if m != sender_name])
+                            players=", ".join([m for m in members if m != sender_name])
                         ),
                         tag="gossip_action"
                     )

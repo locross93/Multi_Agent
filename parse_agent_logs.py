@@ -120,8 +120,9 @@ def parse_agent_logs(log_content):
                             "Character Assessment", 
                             "Theory of Mind Analysis", 
                             "Theory of Mind Analysis 2",
-                            "Emotional State",
                             "Situation Analysis", 
+                            "Emotional State",
+                            "Strategy Reflection",
                             "Decision Reflection"
                         ]
                         
@@ -136,6 +137,9 @@ def parse_agent_logs(log_content):
                             if comp_name not in component_order and comp_content:
                                 output.append(f"\n--- {comp_name} ---")
                                 output.append(wrap_text(comp_content))
+                    
+                    # Add a line break after the component breakdown
+                    output.append("\n")
             
             # Skip to after this sequence
             i = j + 1 if concordia_entry else i + 1

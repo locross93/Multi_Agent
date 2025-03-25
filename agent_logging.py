@@ -106,33 +106,6 @@ class LoggingObservationWrapper:
         self.logger.log_observation(observation)
         return self.original_observe(observation)
 
-# class LoggingActionWrapper:
-#     """Wrapper to log agent actions."""
-    
-#     def __init__(self, agent, logger: AgentLogger):
-#         self.agent = agent
-#         self.logger = logger
-        
-#         # Store original act method
-#         self.original_act = agent.act
-        
-#         # Replace act method with logging version
-#         agent.act = self.act_with_logging
-    
-#     def act_with_logging(self, action_spec):
-#         """Log action prompt and response."""
-#         # Log the prompt/action_spec
-#         prompt = action_spec.call_to_action
-#         self.logger.log_prompt(prompt)
-        
-#         # Get the response
-#         response = self.original_act(action_spec)
-        
-#         # Log the response
-#         self.logger.log_response(response)
-        
-#         return response
-
 class LoggingActionWrapper:
     """Wrapper to log agent actions."""
     
