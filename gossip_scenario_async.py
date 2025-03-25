@@ -88,7 +88,9 @@ class GossipScenarioConfig:
         save_dir: str = None,
         experiment_id: int = None,
         condition: str = "basic",
+        components: dict = None,
         scenario_description: str = """You are participating in an economic game with 24 participants.
+        Your goal is to maximize your earnings in the game.
         
         Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and 
         in each round you will be in a different group with people you haven't played with before.
@@ -114,6 +116,7 @@ class GossipScenarioConfig:
         self.experiment_id = experiment_id
         self.condition = condition
         self.scenario_description = scenario_description
+        self.components = components
 
 class AsyncGossipGameMaster:
     """Async version of Game master for Gossip experiment."""
@@ -141,6 +144,7 @@ class AsyncGossipGameMaster:
         self.clock = clock
         self.measurements = measurements
         self.round = 0
+        self.num_rounds = 6
         self.results_log = []
         
         # Track groupings, contributions, and earnings
@@ -157,7 +161,7 @@ class AsyncGossipGameMaster:
     def generate_round_robin_groups(self, agents: List[AsyncEntityAgent]):
         """Generate round-robin groupings to ensure no two players are paired more than once."""
         n_players = len(agents)
-        n_rounds = 6
+        n_rounds = self.num_rounds
         
         player_names = [agent.name for agent in agents]
         
@@ -188,7 +192,7 @@ class AsyncGossipGameMaster:
     async def run_round(self) -> Dict:
         """Run a single round of the public goods game asynchronously."""
         self.round += 1
-        print(f"Running round {self.round}...")
+        print(f"Running round {self.round}/{self.num_rounds}...")
         
         # Initialize data structures for this round
         self.contributions[self.round] = {}
@@ -204,7 +208,7 @@ class AsyncGossipGameMaster:
         for group_id, members in self.groups[self.round].items():
             for player_name in members:
                 agent = self.get_player_by_name(player_name)
-                group_info = f"Round {self.round}: You are in {group_id} with {', '.join([m for m in members if m != player_name])}."
+                group_info = f"You are in Round {self.round}/{self.num_rounds}: You are in {group_id} with {', '.join([m for m in members if m != player_name])}."
                 agent.observe(group_info)
                 if self.condition == "gossip-with-ostracism":
                     condition_info = (
@@ -288,6 +292,15 @@ class AsyncGossipGameMaster:
             return
             
         self.ostracism_votes[self.round] = {}
+
+        ostracism_msg = (
+            f"Before we start round {self.round}/{self.num_rounds}, you can now vote to exclude one of your group members."
+            f"If you are excluded from a group, you will not be able to participate in this round and will earn $0."
+        )
+        for group_id, members in self.groups[self.round].items():
+            for player_name in members:
+                agent = self.get_player_by_name(player_name)
+                agent.observe(ostracism_msg)
         
         # Create a list to store all voting tasks
         voting_tasks = []
@@ -418,17 +431,6 @@ class AsyncGossipGameMaster:
         
         # Wait for all contributions to be processed
         await asyncio.gather(*contribution_tasks)
-        
-        # Inform all players about contributions after all decisions are made
-        for group_id, members in self.groups[self.round].items():
-            active_members = [m for m in members if m not in self.ostracized_players]
-            for player_name in active_members:
-                agent = self.get_player_by_name(player_name)
-                for member_name in active_members:
-                    if member_name != player_name:
-                        contribution = self.contributions[self.round].get(member_name, 0.0)
-                        contribution_event = f"{member_name} contributes ${contribution:.1f} to the group fund."
-                        agent.observe(contribution_event)
 
     async def process_contribution(self, agent, contribution_spec, player_name, group_id):
         """Process a single contribution."""
@@ -473,23 +475,43 @@ class AsyncGossipGameMaster:
                 # Calculate group return
                 group_return = total_contribution * multiplier / len(active_members)
                 
+                # Calculate average earnings
+                total_earnings = 0.0
+                
                 # Distribute earnings
                 for member_name in active_members:
                     personal_contribution = self.contributions[self.round].get(member_name, 0.0)
                     earnings = self.config.endowment - personal_contribution + group_return
                     self.earnings[self.round][member_name] = earnings
-                    
-                    # Inform player of the results
+                    total_earnings += earnings
+                
+                # Build detailed results for each player
+                for member_name in active_members:
                     agent = self.get_player_by_name(member_name)
-                    results_msg = (
-                        f"Round {self.round} Results: "
-                        f"Total group contribution: ${total_contribution:.1f}, "
-                        f"Your contribution: ${personal_contribution:.1f}, "
-                        f"Your earnings: ${earnings:.1f} "
-                        f"(${self.config.endowment - personal_contribution:.1f} kept + ${group_return:.1f} from group fund)"
-                        f"Average contribution per group member: ${total_contribution / len(active_members):.1f}"
-                    )
-                    agent.observe(results_msg)
+                    personal_contribution = self.contributions[self.round].get(member_name, 0.0)
+                    personal_earnings = self.earnings[self.round][member_name]
+                    kept_amount = self.config.endowment - personal_contribution
+                    
+                    # Build detailed message with information about all group members
+                    results_msg = []
+                    results_msg.append(f"Round {self.round} Results: Total group contribution: ${total_contribution:.1f}; ")
+                    results_msg.append(f"Your contribution: ${personal_contribution:.1f}, Your earnings: ${personal_earnings:.1f} (${kept_amount:.1f} kept + ${group_return:.1f} from group fund); ")
+                    
+                    # Add details for each other group member
+                    for other_member in active_members:
+                        if other_member != member_name:
+                            other_contribution = self.contributions[self.round].get(other_member, 0.0)
+                            other_earnings = self.earnings[self.round][other_member]
+                            other_kept = self.config.endowment - other_contribution
+                            other_info = f"{other_member} contribution: ${other_contribution:.1f}, earnings: ${other_earnings:.1f} (${other_kept:.1f} kept + ${group_return:.1f} from group fund); "
+                            results_msg.append(other_info)
+                    
+                    # Add averages
+                    results_msg.append(f"Average contribution per group member: ${total_contribution / len(active_members):.1f}; ")
+                    results_msg.append(f"Average earnings per group member: ${total_earnings / len(active_members):.1f}")
+                    
+                    # Send the consolidated message
+                    agent.observe("".join(results_msg))
             
             # Set earnings to 0 for ostracized players
             for member_name in members:
@@ -699,6 +721,7 @@ async def test_gossip_ostracism_hypothesis_async(
     validation_stage: int = 1,
     num_rounds: int = 6,
     num_players: int = 24,
+    conditions: list = ['gossip-with-ostracism', 'gossip', 'basic'],
 ):
     """Run complete gossip-ostracism experiment testing various hypotheses asynchronously."""
     
@@ -724,10 +747,10 @@ async def test_gossip_ostracism_hypothesis_async(
         
         # Run all three conditions with full agents asynchronously
         condition_tasks = []
-        for condition in ["gossip-with-ostracism", "gossip", "basic"]:
+        for condition in conditions:
             full_agents = []
             for i in range(num_players):
-                agent = build_gossip_agent(
+                agent, components = build_gossip_agent(
                     config=formative_memories.AgentConfig(
                         name=f"Player_{i+1}",
                         goal="Participate in the public goods game",
@@ -744,7 +767,8 @@ async def test_gossip_ostracism_hypothesis_async(
             config = GossipScenarioConfig(
                 save_dir=save_dir, 
                 experiment_id=experiment_id,
-                condition=condition
+                condition=condition,
+                components=components
             )
             # Create a task for this condition
             task = run_gossip_experiment_async(

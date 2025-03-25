@@ -159,8 +159,9 @@ def extract_components(prompt_data):
         ("Theory of Mind Analysis", r'Theory of Mind Analysis:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
         ("Theory of Mind Analysis 2", r'Theory of Mind Analysis 2:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
         ("Situation Analysis", r'Situation Analysis:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
-        ("Decision Reflection", r'Decision Reflection:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
-        ("Emotional State", r'Emotional State:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)')
+        ("Emotional State", r'Emotional State:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
+        ("Strategy Reflection", r'Strategy Reflection:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)'),
+        ("Decision Reflection", r'Decision Reflection:\s*(.*?)(?=\n[A-Z][\w\s]+:|\Z)')
     ]
     
     # Extract each component

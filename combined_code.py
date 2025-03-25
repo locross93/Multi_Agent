@@ -18,7 +18,7 @@ from concordia.language_model import language_model
 import sentence_transformers
 
 from gossip_scenario_async import test_gossip_ostracism_hypothesis_async
-
+import parse_agent_logs
 # Modified main function
 async def main_async():
     # Set up argument parser
@@ -65,9 +65,14 @@ async def main_async():
             num_players=args.num_players
         )
 
+    return results_dir
+
 def main():
     # Use asyncio.run to run our async main function
-    asyncio.run(main_async())
+    results_dir = asyncio.run(main_async())
+
+    # run parse_agent_logs.py 
+    parse_agent_logs.process_agent_logs(results_dir)
 
 # Needed utility functions from the original code
 def load_api_key(api_key_path: str) -> str:
@@ -116,99 +121,6 @@ def get_next_experiment_id(save_dir: pathlib.Path) -> int:
 
 if __name__ == "__main__":
     main()
-
-# # Load API key
-# def load_api_key(api_key_path: str) -> str:
-#     """Load API key from json file."""
-#     with open(api_key_path, 'r') as f:
-#         keys = json.load(f)
-#     return keys['API_KEY']
-
-# def setup_language_model(api_key_path: Optional[str] = None, api_key: Optional[str] = None) -> language_model.LanguageModel:
-#     """Setup language model with API key."""
-#     if api_key_path:
-#         api_key = load_api_key(api_key_path)
-#     elif not api_key:
-#         raise ValueError("Must provide either api_key_path or api_key")
-        
-#     # Initialize GPT-4 model
-#     model = gpt_model.GptLanguageModel(
-#         api_key=api_key,
-#         model_name='gpt-4o',
-#     )
-#     return model
-
-# def setup_embedder():
-#     """Setup sentence embedder."""
-#     _embedder_model = sentence_transformers.SentenceTransformer(
-#         'sentence-transformers/all-mpnet-base-v2')
-#     return lambda x: _embedder_model.encode(x, show_progress_bar=False)
-
-# def get_next_experiment_id(save_dir: pathlib.Path) -> int:
-#     """Find the highest experiment ID in the directory and return next available ID."""
-#     save_dir = pathlib.Path(save_dir)
-#     existing_files = list(save_dir.glob('gossip_exp_*.json'))
-#     if not existing_files:
-#         return 0
-        
-#     # Extract experiment IDs from filenames
-#     exp_ids = []
-#     for f in existing_files:
-#         try:
-#             exp_id = int(f.stem.split('gossip_exp_')[1])
-#             exp_ids.append(exp_id)
-#         except (IndexError, ValueError):
-#             continue
-            
-#     return max(exp_ids) + 1 if exp_ids else 0
-
-# def main():
-#     # Set up argument parser
-#     parser = argparse.ArgumentParser(description='Run Gossip and Ostracism experiments')
-#     parser.add_argument('--save_dir', type=str, 
-#                        default=datetime.now().strftime('%m-%d-%Y_%H-%M'),
-#                        help='Directory name for saving results (default: current timestamp)')
-#     parser.add_argument('--n_experiments', type=int, default=1,
-#                        help='Number of experiments to run (default: 1)')
-#     parser.add_argument('--stage', type=int, default=1, choices=[1, 2],
-#                        help='Validation stage (1: validate components, 2: novel predictions)')
-#     parser.add_argument('--num_rounds', type=int, default=6,
-#                        help='Number of rounds to run (default: 6)')
-#     parser.add_argument('--num_players', type=int, default=24,
-#                        help='Number of players to run (default: 24)')
-#     args = parser.parse_args()
-
-#     # Create results directory if it doesn't exist
-#     results_dir = os.path.join('results', args.save_dir)
-#     os.makedirs(results_dir, exist_ok=True)
-
-#     # Setup paths
-#     api_key_path = 'lc_api_key.json'
-
-#     # Setup model and embedder
-#     model = setup_language_model(api_key_path=api_key_path)
-#     embedder = setup_embedder()
-
-#     # Get starting experiment ID
-#     start_id = get_next_experiment_id(results_dir)
-#     print(f"Starting with experiment ID: {start_id}")
-
-#     # Run N experiments
-#     for i in range(args.n_experiments):
-#         current_id = start_id + i
-#         print(f"\nRunning experiment {i+1}/{args.n_experiments} (ID: {current_id})")
-#         test_gossip_ostracism_hypothesis(
-#             model=model,
-#             embedder=embedder,
-#             save_dir=results_dir,
-#             experiment_id=current_id,
-#             validation_stage=args.stage,
-#             num_rounds=args.num_rounds,
-#             num_players=args.num_players
-#         )
-
-# if __name__ == "__main__":
-#     main()
 
 ################################################################################
 # FILE: gossip_scenario_async.py
@@ -304,6 +216,7 @@ class GossipScenarioConfig:
         save_dir: str = None,
         experiment_id: int = None,
         condition: str = "basic",
+        components: dict = None,
         scenario_description: str = """You are participating in an economic game with 24 participants.
         
         Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and 
@@ -330,6 +243,7 @@ class GossipScenarioConfig:
         self.experiment_id = experiment_id
         self.condition = condition
         self.scenario_description = scenario_description
+        self.components = components
 
 class AsyncGossipGameMaster:
     """Async version of Game master for Gossip experiment."""
@@ -504,6 +418,15 @@ class AsyncGossipGameMaster:
             return
             
         self.ostracism_votes[self.round] = {}
+
+        ostracism_msg = (
+            f"Before we start round {self.round}, you can now vote to exclude one of your group members."
+            f"If you are excluded from a group, you will not be able to participate in this round and will earn $0."
+        )
+        for group_id, members in self.groups[self.round].items():
+            for player_name in members:
+                agent = self.get_player_by_name(player_name)
+                agent.observe(ostracism_msg)
         
         # Create a list to store all voting tasks
         voting_tasks = []
@@ -636,15 +559,15 @@ class AsyncGossipGameMaster:
         await asyncio.gather(*contribution_tasks)
         
         # Inform all players about contributions after all decisions are made
-        for group_id, members in self.groups[self.round].items():
-            active_members = [m for m in members if m not in self.ostracized_players]
-            for player_name in active_members:
-                agent = self.get_player_by_name(player_name)
-                for member_name in active_members:
-                    if member_name != player_name:
-                        contribution = self.contributions[self.round].get(member_name, 0.0)
-                        contribution_event = f"{member_name} contributes ${contribution:.1f} to the group fund."
-                        agent.observe(contribution_event)
+        # for group_id, members in self.groups[self.round].items():
+        #     active_members = [m for m in members if m not in self.ostracized_players]
+        #     for player_name in active_members:
+        #         agent = self.get_player_by_name(player_name)
+        #         for member_name in active_members:
+        #             if member_name != player_name:
+        #                 contribution = self.contributions[self.round].get(member_name, 0.0)
+        #                 contribution_event = f"{member_name} contributes ${contribution:.1f} to the group fund."
+        #                 agent.observe(contribution_event)
 
     async def process_contribution(self, agent, contribution_spec, player_name, group_id):
         """Process a single contribution."""
@@ -689,23 +612,43 @@ class AsyncGossipGameMaster:
                 # Calculate group return
                 group_return = total_contribution * multiplier / len(active_members)
                 
+                # Calculate average earnings
+                total_earnings = 0.0
+                
                 # Distribute earnings
                 for member_name in active_members:
                     personal_contribution = self.contributions[self.round].get(member_name, 0.0)
                     earnings = self.config.endowment - personal_contribution + group_return
                     self.earnings[self.round][member_name] = earnings
-                    
-                    # Inform player of the results
+                    total_earnings += earnings
+                
+                # Build detailed results for each player
+                for member_name in active_members:
                     agent = self.get_player_by_name(member_name)
-                    results_msg = (
-                        f"Round {self.round} Results: "
-                        f"Total group contribution: ${total_contribution:.1f}, "
-                        f"Your contribution: ${personal_contribution:.1f}, "
-                        f"Your earnings: ${earnings:.1f} "
-                        f"(${self.config.endowment - personal_contribution:.1f} kept + ${group_return:.1f} from group fund)"
-                        f"Average contribution per group member: ${total_contribution / len(active_members):.1f}"
-                    )
-                    agent.observe(results_msg)
+                    personal_contribution = self.contributions[self.round].get(member_name, 0.0)
+                    personal_earnings = self.earnings[self.round][member_name]
+                    kept_amount = self.config.endowment - personal_contribution
+                    
+                    # Build detailed message with information about all group members
+                    results_msg = []
+                    results_msg.append(f"Round {self.round} Results: Total group contribution: ${total_contribution:.1f}; ")
+                    results_msg.append(f"Your contribution: ${personal_contribution:.1f}, Your earnings: ${personal_earnings:.1f} (${kept_amount:.1f} kept + ${group_return:.1f} from group fund); ")
+                    
+                    # Add details for each other group member
+                    for other_member in active_members:
+                        if other_member != member_name:
+                            other_contribution = self.contributions[self.round].get(other_member, 0.0)
+                            other_earnings = self.earnings[self.round][other_member]
+                            other_kept = self.config.endowment - other_contribution
+                            other_info = f"{other_member} contribution: ${other_contribution:.1f}, earnings: ${other_earnings:.1f} (${other_kept:.1f} kept + ${group_return:.1f} from group fund); "
+                            results_msg.append(other_info)
+                    
+                    # Add averages
+                    results_msg.append(f"Average contribution per group member: ${total_contribution / len(active_members):.1f}; ")
+                    results_msg.append(f"Average earnings per group member: ${total_earnings / len(active_members):.1f}")
+                    
+                    # Send the consolidated message
+                    agent.observe("".join(results_msg))
             
             # Set earnings to 0 for ostracized players
             for member_name in members:
@@ -943,7 +886,7 @@ async def test_gossip_ostracism_hypothesis_async(
         for condition in ["gossip-with-ostracism", "gossip", "basic"]:
             full_agents = []
             for i in range(num_players):
-                agent = build_gossip_agent(
+                agent, components = build_gossip_agent(
                     config=formative_memories.AgentConfig(
                         name=f"Player_{i+1}",
                         goal="Participate in the public goods game",
@@ -960,7 +903,8 @@ async def test_gossip_ostracism_hypothesis_async(
             config = GossipScenarioConfig(
                 save_dir=save_dir, 
                 experiment_id=experiment_id,
-                condition=condition
+                condition=condition,
+                components=components
             )
             # Create a task for this condition
             task = run_gossip_experiment_async(
@@ -1268,12 +1212,12 @@ class TheoryOfMind2(question_of_recent_memories.QuestionOfRecentMemories):
 
 class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to reflect on the agent's emotional state in the current game situation."""
-    
-    def __init__(self, agent_name: str, **kwargs):
+    def __init__(self, agent_name: str, persona: Persona, **kwargs):
+        self.persona = persona
         question = (
-            f"As {agent_name}, reflect on how you're feeling emotionally about the current situation"
+            f"As {persona.name}, reflect on how you're feeling emotionally about the current situation"
         )
-        answer_prefix = f"{agent_name} is feeling "
+        answer_prefix = f"{persona.name} is feeling "
         
         super().__init__(
             pre_act_key="\nEmotional State",
@@ -1284,6 +1228,7 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
             components={
                 'Observation': '\nObservation',
                 'ObservationSummary': '\nRecent context',
+                'PersonalityReflection': '\nCharacter Assessment',
                 'TheoryOfMind': '\nTheory of Mind Analysis',
                 'TheoryOfMind2': '\nTheory of Mind Analysis 2',
                 'SituationAssessment': '\nSituation Analysis'
@@ -1340,7 +1285,7 @@ def build_gossip_agent(
     raw_memory = legacy_associative_memory.AssociativeMemoryBank(memory)
     measurements = measurements_lib.Measurements()
 
-    has_emotion_reflection = False
+    has_emotion_reflection = True
 
     # If no persona provided but has_persona is True, generate a random one
     if has_persona and persona is None:
@@ -1416,6 +1361,7 @@ def build_gossip_agent(
     if has_emotion_reflection:
         emotion_reflection = EmotionReflection(
             agent_name=agent_name,
+            persona=persona,
             model=model,
             logging_channel=measurements.get_channel('EmotionReflection').on_next,
         )
@@ -1448,7 +1394,8 @@ def build_gossip_agent(
         component_logging=measurements,
     )
 
-    return agent
+    components_keys = list(components.keys())
+    return agent, components_keys
 
 ################################################################################
 # FILE: custom_classes.py
