@@ -56,9 +56,9 @@ GOSSIP_ACTION_SPEC = free_action_spec(
         "You've just played a round with {players}. "
         "Would you like to send a note about one of them to their future interaction partners? "
         "If yes, clearly state which player # and what you want to say about them. "
-        "If you don't want to send a note, just say so. "
-        "For example: 'I want to send a note about Player_10: They are selfish and only contributed $2 which was much less than everyone else.' "
-        "Or: 'I choose not to send any notes this round.'"
+        "The player you gossip about will not be able to see the note you send or know that you sent it, only the other players in their next group will see it. "
+        "Because of this, most players choose to write a gossip note."
+        "For example: 'I want to send a note about Player_10: They are selfish and only contributed $4 which was less than everyone else.' "
     ),
     tag="gossip_action"
 )
@@ -239,6 +239,17 @@ class AsyncGossipGameMaster:
         
         # 6. Allow gossip (if applicable)
         if self.condition in ["gossip", "gossip-with-ostracism"]:
+            gossip_msg = (
+                f"Round {self.round} is over, you can now send a gossip note about one of your group members to their future group members."
+                f"The player you gossip about will not be able to see the note you send or know that you sent it, only the other players in their next group will see it. "
+                f"Because of this, most players choose to write a gossip note."
+                f"However, you don't have to send a note if you don't want to. "
+            )
+            # make an observation that the round is over and they can gossip now
+            for group_id, members in self.groups[self.round].items():
+                for player_name in members:
+                    agent = self.get_player_by_name(player_name)
+                    agent.observe(gossip_msg)
             await self.collect_gossip()
         
         # Return round data
@@ -261,6 +272,7 @@ class AsyncGossipGameMaster:
 
     async def deliver_gossip(self):
         """Deliver gossip messages from previous round to recipients."""
+
         if self.round - 1 not in self.gossip_messages:
             return
             
@@ -475,6 +487,7 @@ class AsyncGossipGameMaster:
                         f"Your contribution: ${personal_contribution:.1f}, "
                         f"Your earnings: ${earnings:.1f} "
                         f"(${self.config.endowment - personal_contribution:.1f} kept + ${group_return:.1f} from group fund)"
+                        f"Average contribution per group member: ${total_contribution / len(active_members):.1f}"
                     )
                     agent.observe(results_msg)
             
@@ -544,44 +557,47 @@ class AsyncGossipGameMaster:
         import re
         
         gossip_action = await agent.act_async(gossip_spec)
-        decision_text = gossip_action
         
         # Check if the agent chose not to gossip
-        if "not to send" in decision_text.lower() or "choose not to" in decision_text.lower():
+        if "not to send" in gossip_action.lower() or "choose not to" in gossip_action.lower():
             return
-        
-        # Look for Player_X pattern
-        match = re.search(r'Player_(\d+)', decision_text)
-        if match:
-            player_number = match.group(1)
-            target_player = f"Player_{player_number}"
-            
-            # Map the player number to the actual player name
-            for actual_name in player_mapping.values():
-                if actual_name == target_player:
-                    target_name = actual_name
-                    
-                    # Extract the message after the player identifier
-                    message_match = re.search(f"Player_{player_number}[:]?\s*(.*)", decision_text, re.IGNORECASE)
-                    if message_match:
-                        message = message_match.group(1).strip()
-                        if len(message) > 0:
-                            # Find the target's next group members (recipients of the gossip)
-                            recipients = []
-                            for next_group_id, next_members in next_groups.items():
-                                if target_name in next_members:
-                                    recipients = [m for m in next_members if m != target_name]
-                                    break
-                            
-                            # Record the gossip
-                            if recipients:
-                                self.gossip_messages[self.round].append({
-                                    'sender': sender_name,
-                                    'target': target_name,
-                                    'recipients': recipients,
-                                    'message': message
-                                })
-                                
+
+        # Extract all Player_X mentions
+        player_mentions = re.findall(r'Player_(\d+)', gossip_action)
+        if player_mentions:
+            # Filter out the sender's number
+            sender_number = sender_name.split('_')[1]
+            target_numbers = [num for num in player_mentions if num != sender_number]
+            if target_numbers:
+                player_number = target_numbers[0]  # Take the first non-sender player mentioned
+                target_player = f"Player_{player_number}"
+
+                # Map the player number to the actual player name
+                for actual_name in player_mapping.values():
+                    if actual_name == target_player:
+                        target_name = actual_name
+                        
+                        # Extract the message after the player identifier
+                        message_match = re.search(f"Player_{player_number}[:]?\s*(.*)", gossip_action, re.IGNORECASE)
+                        if message_match:
+                            message = message_match.group(1).strip()
+                            if len(message) > 0:
+                                # Find the target's next group members (recipients of the gossip)
+                                recipients = []
+                                for next_group_id, next_members in next_groups.items():
+                                    if target_name in next_members:
+                                        recipients = [m for m in next_members if m != target_name]
+                                        break
+
+                                # Record the gossip
+                                if recipients:
+                                    self.gossip_messages[self.round].append({
+                                        'sender': sender_name,
+                                        'target': target_name,
+                                        'recipients': recipients,
+                                        'message': message
+                                    })
+
                                 # Log the gossip
                                 gossip_event = f"{sender_name} sends gossip about {target_name} to their future group members: '{message}'"
                                 self.results_log.append({
@@ -706,7 +722,8 @@ async def test_gossip_ostracism_hypothesis_async(
         print("\nTesting full agents (personas and theory of mind)...")
         personas = assign_personas(n=num_players)
         
-        # Run all three conditions with full agents
+        # Run all three conditions with full agents asynchronously
+        condition_tasks = []
         for condition in ["gossip-with-ostracism", "gossip", "basic"]:
             full_agents = []
             for i in range(num_players):
@@ -729,7 +746,8 @@ async def test_gossip_ostracism_hypothesis_async(
                 experiment_id=experiment_id,
                 condition=condition
             )
-            await run_gossip_experiment_async(
+            # Create a task for this condition
+            task = run_gossip_experiment_async(
                 model=model,
                 embedder=embedder,
                 clock=clock,
@@ -739,6 +757,10 @@ async def test_gossip_ostracism_hypothesis_async(
                 agents=full_agents,
                 num_rounds=num_rounds,
             )
+            condition_tasks.append(task)
+        
+        # Run all conditions concurrently
+        await asyncio.gather(*condition_tasks)
             
     # STAGE 2: NOVEL PREDICTION GENERATION
     else:

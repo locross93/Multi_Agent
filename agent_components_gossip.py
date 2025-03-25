@@ -34,7 +34,7 @@ class PersonalityReflection(question_of_recent_memories.QuestionOfRecentMemories
             pre_act_key=f"\nCharacter Assessment",
             question=question,
             answer_prefix=answer_prefix,
-            add_to_memory=True,
+            add_to_memory=False,
             memory_tag="[character reflection]",
             components={}, 
             **kwargs,
@@ -74,7 +74,7 @@ class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
             pre_act_key=f"\nSituation Analysis",
             question=question, 
             answer_prefix=answer_prefix,
-            add_to_memory=True,
+            add_to_memory=False,
             memory_tag="[situation assessment]",
             memory_component_name=memory_component.DEFAULT_MEMORY_COMPONENT_NAME,
             components=components,
@@ -97,7 +97,7 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
             pre_act_key="\nTheory of Mind Analysis",
             question=question,
             answer_prefix=answer_prefix,
-            add_to_memory=True,
+            add_to_memory=False,
             memory_tag="[theory_of_mind]",
             components={
                 'Observation': '\nObservation',
@@ -130,7 +130,7 @@ class TheoryOfMind2(question_of_recent_memories.QuestionOfRecentMemories):
             pre_act_key="\nTheory of Mind Analysis 2",
             question=question,
             answer_prefix=answer_prefix,
-            add_to_memory=True,
+            add_to_memory=False,
             memory_tag="[theory_of_mind]",
             components={
                 'Observation': '\nObservation',
@@ -155,7 +155,7 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
             pre_act_key="\nEmotional State",
             question=question,
             answer_prefix=answer_prefix,
-            add_to_memory=True,
+            add_to_memory=False,
             memory_tag="[emotion_reflection]",
             components={
                 'Observation': '\nObservation',
@@ -170,11 +170,13 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
 
 
 class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
-    def __init__(self, agent_name: str, has_theory_of_mind=True, has_emotion_reflection=False, **kwargs):
+    def __init__(self, agent_name: str, persona: Persona, has_theory_of_mind=True, has_emotion_reflection=False, **kwargs):
+        self.persona = persona
         # Define components based on available capabilities
         components = {
             'Observation': '\nObservation',
             'ObservationSummary': '\nRecent context',
+            'PersonalityReflection': '\nCharacter Assessment',
         }
         
         # Only add TheoryOfMind if the agent has that capability
@@ -188,9 +190,10 @@ class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
         super().__init__(
             pre_act_key="\nDecision Reflection",
             #question="Think step by step and reflect what you should do next in the current game situation: {question}.",
-            question="Based on the above context about the situation and {agent_name}, think step by step about what they will decide in the current situation: {question}.",
-            answer_prefix=f"{agent_name} is thinking about ",
-            add_to_memory=True,
+            #question = "Based on the above context about the situation and {agent_name}, think step by step about what they will decide in the current situation: {question}.",
+            question="Based on the above context about the situation and "+persona.name+", think step by step about what "+persona.name+" will decide in the current situation: {question}.",
+            answer_prefix=f"{persona.name} will ",
+            add_to_memory=False,
             memory_tag="[decision_reflection]",
             components=components,
             num_memories_to_retrieve=10,
@@ -297,6 +300,7 @@ def build_gossip_agent(
     # New DecisionReflection component
     decision_reflection = DecisionReflection(
         agent_name=agent_name,
+        persona=persona,
         model=model,
         logging_channel=measurements.get_channel('DecisionReflection').on_next,
     )
