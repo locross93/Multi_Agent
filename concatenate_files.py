@@ -51,7 +51,7 @@ def concatenate_files(files, output_file, separator_length=80):
 def main():
     parser = argparse.ArgumentParser(description='Concatenate Python files with clear labeling.')
     #parser.add_argument('--files', nargs='+', default=['main.py', 'tpp_scenario.py', 'agent_components.py'],
-    parser.add_argument('--files', nargs='+', default=['main_gossip.py', 'gossip_scenario.py', 'agent_components_gossip.py'],
+    parser.add_argument('--files', nargs='+', default=['main_gossip.py', 'gossip_scenario_async.py', 'agent_components_gossip.py', 'custom_classes.py'],
                         help='List of files to concatenate (default: main.py, tpp_scenario.py, agent_components.py)')
     parser.add_argument('--output', type=str, default='combined_code.py',
                         help='Output file path (default: combined_code.py)')
