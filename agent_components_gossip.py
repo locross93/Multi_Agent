@@ -86,11 +86,17 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to reason about the other players' personalities and likely behavior."""
     
     def __init__(self, agent_name: str, **kwargs):
+        # question = (
+        #     f"As {agent_name}, analyze what you know about the personality and likely behavior "
+        #     "of the people you are interacting with in the public goods game. "
+        #     "Consider their past behavior."
+        #     "What kind of people are they and how might they respond to the different potential actions you will take next in the game?"
+        # )
         question = (
             f"As {agent_name}, analyze what you know about the personality and likely behavior "
             "of the people you are interacting with in the public goods game. "
-            "Consider their past behavior."
-            "What kind of people are they and how might they respond to the different potential actions you will take next in the game?"
+            "Consider their past behavior and predict their future behavior."
+            "How might their strategy change as the rounds progress given the condition you are in?"
         )
         answer_prefix = "Based on what we know, "
         super().__init__(
@@ -150,10 +156,20 @@ class StrategyReflection(question_of_recent_memories.QuestionOfRecentMemories):
             f"Think step by step about the best strategy for you to maximize your long term earnings in the public goods game."
             f"Focus on selfishly maximizing your own earnings."
             f"If it's past round 1, think about how you should adjust your strategy based on your observations so far."
+            f"Should you be more or less cooperative as the rounds progress given the condition you are in?"
             f"Think about what the most successful players in the game have done so far and what you can learn from them."
             f"Could you have made a better decision to maximize your personal earnings in the past based on the information available to you?"
             f"If so, what will you do differently in the future?"
         )
+        # question = (
+        #     f"Think step by step about the best strategy for you to maximize your long term earnings in the public goods game."
+        #     f"Focus on maximizing your own earnings."
+        #     f"Each condition has different incentives, so think about what strategy is best for you in the current condition."
+        #     f"If it's past round 1, think about how you should adjust your strategy based on your observations so far."
+        #     f"Think about what the most successful players in the game have done so far and what you can learn from them."
+        #     f"Could you have made a better decision to maximize your personal earnings in the past based on the information available to you?"
+        #     f"If so, what will you do differently in the future?"
+        # )
         answer_prefix = "Based on what we know, "
         super().__init__(
             pre_act_key="\nStrategy Reflection",

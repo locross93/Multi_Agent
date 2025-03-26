@@ -105,7 +105,7 @@ class GossipScenarioConfig:
         
         There are 3 conditions:
         - Basic: No gossip, no ostracism
-        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members
+        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Remember you will be with a different group of people in the next round. Before each round, you will see any notes sent about your upcoming group members.
         - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.
         """
     ):
@@ -217,11 +217,14 @@ class AsyncGossipGameMaster:
                         f"interaction partners. Before the start of the next round, you will receive notes from "
                         f"the previous round, and can vote to exclude one of your group members based on the "
                         f"gossip you've received about them."
-                        f"If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round."
+                        f"If you are excluded / ostracized from a group, you will not be able to participate in the next round and will earn $0 for that round, the worst possible outcome."
                     )
                     agent.observe(condition_info)
                 elif self.condition == "gossip":
-                    condition_info = f"You are in the Gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                    condition_info = (
+                        f"You are in the Gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                        f"However, there is no ostracism in this condition and you will play every round no matter what."
+                    )
                     agent.observe(condition_info)
                 else:
                     condition_info = f"You are in the Basic condition, which means that there is no gossip or ostracism."
@@ -319,12 +322,6 @@ class AsyncGossipGameMaster:
             for voter_name in members:
                 agent = self.get_player_by_name(voter_name)
                 
-                # # Format the options for this specific group
-                # options = ["No, I don't want to exclude anyone"]
-                # for member_name in members:
-                #     if member_name != voter_name:
-                #         options.append(f"Yes, I vote to exclude {letter_mapping[member_name]}")
-                
                 # Create a custom action spec for this group
                 ostracism_spec = free_action_spec(
                     call_to_action=OSTRACISM_ACTION_SPEC.call_to_action.format(
@@ -357,6 +354,13 @@ class AsyncGossipGameMaster:
                         member = self.get_player_by_name(member_name)
                         member.observe(f"Round {self.round}: {target_name} has been excluded from your group for this round.")
 
+                # # inform the other groups that the player has been ostracized
+                # for group_id, members in self.groups[self.round].items():
+                #     if target_name not in members:
+                #         for member_name in members:
+                #             member = self.get_player_by_name(member_name)
+                #             member.observe(f"Round {self.round}: {target_name} has been excluded from another group for this round.")
+
     async def process_ostracism_vote(self, agent, ostracism_spec, voter_name, player_mapping):
         """Process a single ostracism vote."""
         import re
@@ -368,33 +372,32 @@ class AsyncGossipGameMaster:
             # No exclusion vote
             return
         else:
-            # Look for Player_X pattern
-            match = re.search(r'Player_(\d+)', decision_text)
-            if match:
-                player_number = match.group(1)
-                target_player = f"Player_{player_number}"
-                
-                # Map the player number to the actual player name
-                for actual_name in player_mapping.values():
-                    if actual_name == target_player:
-                        target_name = actual_name
-                        
-                        # Record the vote
-                        if target_name not in self.ostracism_votes[self.round]:
-                            self.ostracism_votes[self.round][target_name] = []
-                        self.ostracism_votes[self.round][target_name].append(voter_name)
-                        
-                        # Log the vote
-                        vote_event = f"{voter_name} votes to exclude {target_name}."
-                        self.results_log.append({
-                            'round': self.round,
-                            'time': str(self.clock.now()),
-                            'player': voter_name,
-                            'action': decision_text,
-                            'event': vote_event,
-                            'condition': self.condition
-                        })
-                        return
+            # Extract all Player_X mentions
+            player_mentions = re.findall(r'Player_(\d+)', decision_text)
+            if player_mentions:
+                # filter out the voter's number
+                voter_number = voter_name.split('_')[1]
+                target_numbers = [num for num in player_mentions if num != voter_number]
+
+                if target_numbers:
+                    target_player = f"Player_{target_numbers[0]}"
+
+                    # Record the vote
+                    if target_player not in self.ostracism_votes[self.round]:
+                        self.ostracism_votes[self.round][target_player] = []
+                    self.ostracism_votes[self.round][target_player].append(voter_name)
+                    
+                    # Log the vote
+                    vote_event = f"{voter_name} votes to exclude {target_player}."
+                    self.results_log.append({
+                        'round': self.round,
+                        'time': str(self.clock.now()),
+                        'player': voter_name,
+                        'action': decision_text,
+                        'event': vote_event,
+                        'condition': self.condition
+                    })
+                    return
 
     async def collect_contributions(self):
         """Collect contributions from all agents in parallel."""
