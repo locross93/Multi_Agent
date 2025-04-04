@@ -1,0 +1,137 @@
+{
+  "config": {
+    "endowment": 10.0,
+    "multiplier": 2.0,
+    "ostracism_multiplier": 1.5,
+    "save_dir": "results/03-27-2025_16-09",
+    "experiment_id": 0,
+    "condition": "gossip-with-ostracism",
+    "scenario_description": "You are participating in an economic game with 24 participants.\n        Your goal is to maximize your earnings in the game.\n        \n        Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and \n        in each round you will be in a different group with people you haven't played with before.\n        \n        In each round, all players receive $10. Each player can contribute any amount between $0 and $10 to a group fund.\n        Any amount contributed to the group fund will be multiplied by 2 and divided equally among all 4 group members.\n        Any amount not contributed stays in your private account.\n        \n        For example, if everyone contributes $10, the group fund becomes $40, which is multiplied to $80, and each person \n        receives $20 (a $10 profit). However, if you contribute nothing while everyone else contributes $10, the group fund\n        becomes $30, which is multiplied to $60, and each person receives $15. So you would have $25 total ($10 kept + $15 from group).\n        \n        There are 3 conditions:\n        - Basic: No gossip, no ostracism\n        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Remember you will be with a different group of people in the next round. Before each round, you will see any notes sent about your upcoming group members.\n        - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.\n        \n\nIMPORTANT: Before each round begins, your group will have a discussion period where each player takes a turn suggesting how everyone should play. This gives you an opportunity to coordinate and establish norms as a group. Use this discussion to try to maximize the benefit for everyone in your group.",
+    "components": [
+      "Observation",
+      "ObservationSummary",
+      "PersonalityReflection",
+      "TheoryOfMind",
+      "TheoryOfMind2",
+      "SituationAssessment",
+      "EmotionReflection",
+      "DecisionReflection",
+      "__memory__"
+    ],
+    "has_discussion": true
+  },
+  "condition": "gossip-with-ostracism",
+  "has_discussion": true,
+  "groups": {
+    "1": {
+      "Group_1": [
+        "Player_3",
+        "Player_1",
+        "Player_4",
+        "Player_2"
+      ]
+    }
+  },
+  "contributions": {
+    "1": {
+      "Player_2": 10.0,
+      "Player_3": 10.0,
+      "Player_1": 10.0,
+      "Player_4": 10.0
+    }
+  },
+  "earnings": {
+    "1": {
+      "Player_3": 20.0,
+      "Player_1": 20.0,
+      "Player_4": 20.0,
+      "Player_2": 20.0
+    }
+  },
+  "gossip": {
+    "1": []
+  },
+  "ostracism": {},
+  "events": [
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_4",
+      "action": "Player_4 would begin by suggesting that everyone consider contributing the full $10 to the group fund. This strategy maximizes the pooled amount, ensuring that when it is doubled and redistributed, everyone's earnings will be higher than if contributions are minimized. \"By contributing generously, we set a precedent of trust and cooperation,",
+      "event": "Player_4 discusses strategy with the group.",
+      "condition": "gossip-with-ostracism",
+      "discussion": true
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_2",
+      "action": "Player_2 would like to emphasize the importance of cooperation and trust in achieving the best possible outcomes for the group. \"I believe that contributing the full $10 to the group fund will be to everyone's advantage,",
+      "event": "Player_2 discusses strategy with the group.",
+      "condition": "gossip-with-ostracism",
+      "discussion": true
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 would address the group by expressing support for the idea of contributing the full $10 to the group fund. She would highlight how aligning on a strategy of full cooperation can maximize the group's earnings and ensure trust among all members. Priya would emphasize the importance of setting a positive precedent in this initial round, fostering collaboration and minimizing the risk of gossip or exclusion. She might also encourage open communication, suggesting that if anyone has concerns or alternative strategies, now is the time to discuss them to maintain a united front.",
+      "event": "Player_1 discusses strategy with the group.",
+      "condition": "gossip-with-ostracism",
+      "discussion": true
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_3",
+      "action": "Player_3 (Hannah Berg) would likely say: \"I think contributing the full $10 to the group fund is our best strategy. It sets a strong foundation for trust and maximizes our earnings. By starting with full cooperation, we can create a positive dynamic that benefits everyone. If anyone has any concerns or different ideas, let's openly discuss them to make sure we're all aligned. Remember, our actions now will influence future rounds, so maintaining this trust is crucial.\"",
+      "event": "Player_3 discusses strategy with the group.",
+      "condition": "gossip-with-ostracism",
+      "discussion": true
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $10.0 to the group fund.",
+      "event": "Player_2 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "gossip-with-ostracism"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $10 to the group fund.",
+      "event": "Player_3 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "gossip-with-ostracism"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $10 to the group fund.",
+      "event": "Player_1 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "gossip-with-ostracism"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-27 16:09:33.225851",
+      "group": "Group_1",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $10 to the group fund.",
+      "event": "Player_4 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "gossip-with-ostracism"
+    }
+  ]
+}

@@ -89,6 +89,7 @@ class GossipScenarioConfig:
         experiment_id: int = None,
         condition: str = "basic",
         components: dict = None,
+        has_discussion: bool = False,
         scenario_description: str = """You are participating in an economic game with 24 participants.
         Your goal is to maximize your earnings in the game.
         
@@ -117,6 +118,26 @@ class GossipScenarioConfig:
         self.condition = condition
         self.scenario_description = scenario_description
         self.components = components
+        self.has_discussion = has_discussion
+
+        # make scenario description more specific if discussion is true
+        if self.has_discussion:
+            self.scenario_description += "\n\nIMPORTANT: Before each round begins, your group will have a discussion period where each player takes a turn suggesting how everyone should play. This gives you an opportunity to coordinate and establish norms as a group. Use this discussion to try to maximize the benefit for everyone in your group."
+
+            self.GOSSIP_ACTION_SPEC = free_action_spec(
+                call_to_action=(
+                    "You've just played a round with {players}. "
+                    "Would you like to send a note about one of them to their future interaction partners? "
+                    "If yes, clearly state which player # and what you want to say about them. "
+                    "If a member did not act as they stated they would, you can say this in your note. "
+                    "The player you gossip about will not be able to see the note you send or know that you sent it, only the other players in their next group will see it. "
+                    "Because of this, most players choose to write a gossip note."
+                    "For example: 'I want to send a note about Player_10: They are selfish and only contributed $4 which was less than everyone else when they said they would contribute $10.' "
+                ),
+                tag="gossip_action"
+            )
+        else:
+            self.GOSSIP_ACTION_SPEC = GOSSIP_ACTION_SPEC
 
 class AsyncGossipGameMaster:
     """Async version of Game master for Gossip experiment."""
@@ -237,6 +258,10 @@ class AsyncGossipGameMaster:
         # 3. Vote for ostracism (if applicable)
         if self.condition == "gossip-with-ostracism" and self.round > 1:
             await self.conduct_ostracism_vote()
+
+        # 3.5 Conduct pre-round discussion (if enabled)
+        if self.config.has_discussion:
+            await self.conduct_pre_round_discussion()
         
         # 4. Collect contributions in parallel
         await self.collect_contributions()
@@ -634,11 +659,87 @@ class AsyncGossipGameMaster:
                                     'condition': self.condition
                                 })
 
+    async def conduct_pre_round_discussion(self):
+        """Conduct a discussion phase before the round where players can discuss strategy."""
+        print(f"Starting pre-round discussion for Round {self.round}...")
+        
+        for group_id, members in self.groups[self.round].items():
+            # Skip empty groups or groups with ostracized players only
+            active_members = [m for m in members if m not in self.ostracized_players]
+            if not active_members:
+                continue
+                
+            # Shuffle the order of speakers
+            speakers_order = list(active_members)
+            random.shuffle(speakers_order)
+            
+            # Announce the discussion phase to all members
+            discussion_intro = (
+                f"Before starting Round {self.round}, your group will have a brief discussion "
+                f"about strategy. Each player will have a turn to share their thoughts on what "
+                f"the group should do. This is your chance to coordinate and establish norms."
+            )
+            
+            for member_name in active_members:
+                agent = self.get_player_by_name(member_name)
+                agent.observe(discussion_intro)
+            
+            # Let each player speak in random order
+            for speaker_name in speakers_order:
+                speaker = self.get_player_by_name(speaker_name)
+                
+                # Create discussion action spec
+                discussion_spec = free_action_spec(
+                    call_to_action=(
+                        f"It's your turn to speak to your group before Round {self.round}. "
+                        f"What would you like to tell the other players about how everyone should "
+                        f"play in this round? You can suggest contribution amounts, discuss fairness, say when you will send a "
+                        f"note about someone, or propose any other strategy. Keep in mind that establishing group norms "
+                        f"could benefit everyone."
+                    ),
+                    tag="discussion_action"
+                )
+                
+                # Get the player's message
+                message = await speaker.act_async(discussion_spec)
+
+                # add to the speakers observations
+                speaker.observe(f"I said: {message}")
+
+                # Share the message with all group members
+                for listener_name in active_members:
+                    if listener_name != speaker_name:
+                        listener = self.get_player_by_name(listener_name)
+                        listener.observe(f"{speaker_name} says: {message}")
+                
+                # Log the discussion
+                discussion_event = f"{speaker_name} discusses strategy with the group."
+                self.results_log.append({
+                    'round': self.round,
+                    'time': str(self.clock.now()),
+                    'group': group_id,
+                    'player': speaker_name,
+                    'action': message,
+                    'event': discussion_event,
+                    'condition': self.condition,
+                    'discussion': True
+                })
+            
+            # Signal the end of the discussion
+            end_msg = f"The pre-round discussion for Round {self.round} is now complete. You will now proceed to make your contribution decisions."
+            for member_name in active_members:
+                agent = self.get_player_by_name(member_name)
+                agent.observe(end_msg)
+
     def save_results(self):
         """Save results to JSON file."""
+        # remove gossip action spec from config, delete the variable
+        del self.config.GOSSIP_ACTION_SPEC
+
         results = {
             'config': self.config.__dict__,
             'condition': self.condition,
+            'has_discussion': self.config.has_discussion,
             'groups': {str(k): v for k, v in self.groups.items()},
             'contributions': {str(k): v for k, v in self.contributions.items()},
             'earnings': {str(k): v for k, v in self.earnings.items()},
@@ -647,8 +748,11 @@ class AsyncGossipGameMaster:
             'events': self.results_log
         }
         
-        # Create results directory if it doesn't exist
-        results_file = os.path.join(self.config.save_dir, f'gossip_exp_{self.config.experiment_id}_{self.condition}.json')
+        condition_name = self.condition
+        if self.config.has_discussion:
+            condition_name = f"discussion-{condition_name}"
+        
+        results_file = os.path.join(self.config.save_dir, f'gossip_exp_{self.config.experiment_id}_{condition_name}.json')
         
         # Save results to file
         with open(results_file, 'w') as f:
@@ -792,34 +896,37 @@ async def test_gossip_ostracism_hypothesis_async(
     # STAGE 2: NOVEL PREDICTION GENERATION
     else:
         print("STAGE 2: NOVEL PREDICTION GENERATION - Testing novel hypotheses")
-        
-        # Create full agents with personas and theory of mind for novel predictions
-        personas = assign_personas(n=24)
-        full_agents = []
-        for i in range(24):
-            agent = build_gossip_agent(
-                config=formative_memories.AgentConfig(
-                    name=f"Player_{i+1}",
-                    goal="Participate in the public goods game",
-                    extras={'main_character': True}
-                ),
-                model=model,
-                memory=associative_memory.AssociativeMemory(embedder),
-                clock=clock,
-                has_persona=True,
-                has_theory_of_mind=True,
-                persona=personas[i],
-            )
-            full_agents.append(agent)
-        
-        # For now, we'll just run the baseline conditions
-        for condition in ["basic", "gossip", "gossip-with-ostracism"]:
+
+        personas = assign_personas(n=num_players)
+
+        # Run all three conditions with full agents asynchronously
+        condition_tasks = []
+        for condition in conditions:
+            full_agents = []
+            for i in range(num_players):
+                agent, components = build_gossip_agent(
+                    config=formative_memories.AgentConfig(
+                        name=f"Player_{i+1}",
+                        goal="Participate in the public goods game",
+                        extras={'main_character': True}
+                    ),
+                    model=model,
+                    memory=associative_memory.AssociativeMemory(embedder),
+                    clock=clock,
+                    has_persona=True,
+                    has_theory_of_mind=True,
+                    persona=personas[i],
+                )
+                full_agents.append(agent)
             config = GossipScenarioConfig(
                 save_dir=save_dir, 
                 experiment_id=experiment_id,
-                condition=condition
+                condition=condition,
+                components=components,
+                has_discussion=True
             )
-            await run_gossip_experiment_async(
+            # Create a task for this condition
+            task = run_gossip_experiment_async(
                 model=model,
                 embedder=embedder,
                 clock=clock,
@@ -827,7 +934,12 @@ async def test_gossip_ostracism_hypothesis_async(
                 config=config,
                 condition=condition,
                 agents=full_agents,
+                num_rounds=num_rounds,
             )
+            condition_tasks.append(task)
+        
+        # Run all conditions concurrently
+        await asyncio.gather(*condition_tasks)
 
 def analyze_results(save_dir: str):
     """Analyze and compare results between conditions."""

@@ -73,10 +73,14 @@ def main():
                        help='Directory name for saving results (default: current timestamp)')
     parser.add_argument('--n_experiments', type=int, default=5,
                        help='Number of experiments to run (default: 5)')
+    parser.add_argument('--conditions', type=str, nargs='+', 
+                       choices=['public', 'anonymous', 'all'],
+                       default=['all'],
+                       help='Conditions to run (choices: public, anonymous, all)')
     args = parser.parse_args()
 
     # Create results directory if it doesn't exist
-    results_dir = os.path.join('results', args.save_dir)
+    results_dir = os.path.join('results/tpp', args.save_dir)
     os.makedirs(results_dir, exist_ok=True)
 
     # Setup paths
@@ -90,6 +94,12 @@ def main():
     start_id = get_next_experiment_id(results_dir)
     print(f"Starting with experiment ID: {start_id}")
 
+    # Process the conditions argument
+    if args.conditions == 'all':
+        args.conditions = ['public', 'anonymous']
+    # assert args.conditions is a list
+    assert isinstance(args.conditions, list)
+
     # Run N experiments
     for i in range(args.n_experiments):
         current_id = start_id + i
@@ -98,7 +108,8 @@ def main():
             model=model,
             embedder=embedder,
             save_dir=results_dir,
-            experiment_id=current_id
+            experiment_id=current_id,
+            conditions=args.conditions,
         )
 
 if __name__ == "__main__":

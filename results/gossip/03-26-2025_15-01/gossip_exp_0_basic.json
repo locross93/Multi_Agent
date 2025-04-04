@@ -1,0 +1,2010 @@
+{
+  "config": {
+    "endowment": 10.0,
+    "multiplier": 2.0,
+    "ostracism_multiplier": 1.5,
+    "save_dir": "results/03-26-2025_15-01",
+    "experiment_id": 0,
+    "condition": "basic",
+    "scenario_description": "You are participating in an economic game with 24 participants.\n        Your goal is to maximize your earnings in the game.\n        \n        Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and \n        in each round you will be in a different group with people you haven't played with before.\n        \n        In each round, all players receive $10. Each player can contribute any amount between $0 and $10 to a group fund.\n        Any amount contributed to the group fund will be multiplied by 2 and divided equally among all 4 group members.\n        Any amount not contributed stays in your private account.\n        \n        For example, if everyone contributes $10, the group fund becomes $40, which is multiplied to $80, and each person \n        receives $20 (a $10 profit). However, if you contribute nothing while everyone else contributes $10, the group fund\n        becomes $30, which is multiplied to $60, and each person receives $15. So you would have $25 total ($10 kept + $15 from group).\n        \n        There are 3 conditions:\n        - Basic: No gossip, no ostracism\n        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Remember you will be with a different group of people in the next round. Before each round, you will see any notes sent about your upcoming group members.\n        - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.\n        ",
+    "components": [
+      "Observation",
+      "ObservationSummary",
+      "PersonalityReflection",
+      "SituationAssessment",
+      "DecisionReflection",
+      "__memory__"
+    ]
+  },
+  "condition": "basic",
+  "groups": {
+    "1": {
+      "Group_1": [
+        "Player_17",
+        "Player_22",
+        "Player_5",
+        "Player_6"
+      ],
+      "Group_2": [
+        "Player_11",
+        "Player_19",
+        "Player_8",
+        "Player_12"
+      ],
+      "Group_3": [
+        "Player_3",
+        "Player_9",
+        "Player_13",
+        "Player_10"
+      ],
+      "Group_4": [
+        "Player_7",
+        "Player_16",
+        "Player_18",
+        "Player_15"
+      ],
+      "Group_5": [
+        "Player_21",
+        "Player_20",
+        "Player_1",
+        "Player_4"
+      ],
+      "Group_6": [
+        "Player_24",
+        "Player_14",
+        "Player_23",
+        "Player_2"
+      ]
+    },
+    "2": {
+      "Group_1": [
+        "Player_1",
+        "Player_3",
+        "Player_11",
+        "Player_4"
+      ],
+      "Group_2": [
+        "Player_13",
+        "Player_22",
+        "Player_23",
+        "Player_19"
+      ],
+      "Group_3": [
+        "Player_9",
+        "Player_14",
+        "Player_15",
+        "Player_24"
+      ],
+      "Group_4": [
+        "Player_10",
+        "Player_16",
+        "Player_21",
+        "Player_8"
+      ],
+      "Group_5": [
+        "Player_17",
+        "Player_12",
+        "Player_5",
+        "Player_18"
+      ],
+      "Group_6": [
+        "Player_7",
+        "Player_20",
+        "Player_6",
+        "Player_2"
+      ]
+    },
+    "3": {
+      "Group_1": [
+        "Player_11",
+        "Player_19",
+        "Player_8",
+        "Player_12"
+      ],
+      "Group_2": [
+        "Player_2",
+        "Player_9",
+        "Player_13",
+        "Player_3"
+      ],
+      "Group_3": [
+        "Player_20",
+        "Player_24",
+        "Player_22",
+        "Player_18"
+      ],
+      "Group_4": [
+        "Player_1",
+        "Player_6",
+        "Player_5",
+        "Player_15"
+      ],
+      "Group_5": [
+        "Player_17",
+        "Player_21",
+        "Player_23",
+        "Player_7"
+      ],
+      "Group_6": [
+        "Player_10",
+        "Player_4",
+        "Player_14",
+        "Player_16"
+      ]
+    },
+    "4": {
+      "Group_1": [
+        "Player_18",
+        "Player_21",
+        "Player_1",
+        "Player_14"
+      ],
+      "Group_2": [
+        "Player_6",
+        "Player_24",
+        "Player_12",
+        "Player_11"
+      ],
+      "Group_3": [
+        "Player_8",
+        "Player_9",
+        "Player_19",
+        "Player_2"
+      ],
+      "Group_4": [
+        "Player_4",
+        "Player_7",
+        "Player_5",
+        "Player_3"
+      ],
+      "Group_5": [
+        "Player_16",
+        "Player_15",
+        "Player_22",
+        "Player_20"
+      ],
+      "Group_6": [
+        "Player_10",
+        "Player_23",
+        "Player_17",
+        "Player_13"
+      ]
+    },
+    "5": {
+      "Group_1": [
+        "Player_9",
+        "Player_18",
+        "Player_5",
+        "Player_13"
+      ],
+      "Group_2": [
+        "Player_2",
+        "Player_15",
+        "Player_22",
+        "Player_16"
+      ],
+      "Group_3": [
+        "Player_1",
+        "Player_20",
+        "Player_12",
+        "Player_10"
+      ],
+      "Group_4": [
+        "Player_6",
+        "Player_14",
+        "Player_11",
+        "Player_24"
+      ],
+      "Group_5": [
+        "Player_3",
+        "Player_8",
+        "Player_7",
+        "Player_23"
+      ],
+      "Group_6": [
+        "Player_17",
+        "Player_21",
+        "Player_19",
+        "Player_4"
+      ]
+    },
+    "6": {
+      "Group_1": [
+        "Player_19",
+        "Player_3",
+        "Player_18",
+        "Player_21"
+      ],
+      "Group_2": [
+        "Player_20",
+        "Player_12",
+        "Player_23",
+        "Player_2"
+      ],
+      "Group_3": [
+        "Player_1",
+        "Player_22",
+        "Player_13",
+        "Player_6"
+      ],
+      "Group_4": [
+        "Player_9",
+        "Player_11",
+        "Player_24",
+        "Player_8"
+      ],
+      "Group_5": [
+        "Player_10",
+        "Player_4",
+        "Player_17",
+        "Player_14"
+      ],
+      "Group_6": [
+        "Player_5",
+        "Player_16",
+        "Player_15",
+        "Player_7"
+      ]
+    }
+  },
+  "contributions": {
+    "1": {
+      "Player_19": 7.0,
+      "Player_17": 7.0,
+      "Player_22": 5.0,
+      "Player_5": 7.0,
+      "Player_8": 5.0,
+      "Player_16": 8.0,
+      "Player_3": 0.0,
+      "Player_11": 0.0,
+      "Player_10": 1.0,
+      "Player_18": 5.0,
+      "Player_13": 10.0,
+      "Player_23": 5.0,
+      "Player_20": 2.0,
+      "Player_12": 4.0,
+      "Player_9": 7.0,
+      "Player_14": 1.0,
+      "Player_2": 7.5,
+      "Player_24": 2.0,
+      "Player_7": 5.0,
+      "Player_21": 5.0,
+      "Player_15": 5.0,
+      "Player_1": 3.0,
+      "Player_4": 6.0,
+      "Player_6": 10.0
+    },
+    "2": {
+      "Player_11": 0.0,
+      "Player_14": 1.0,
+      "Player_3": 0.0,
+      "Player_19": 6.0,
+      "Player_23": 5.0,
+      "Player_4": 7.0,
+      "Player_5": 7.0,
+      "Player_9": 5.0,
+      "Player_6": 10.0,
+      "Player_13": 5.0,
+      "Player_17": 7.0,
+      "Player_15": 6.0,
+      "Player_1": 4.0,
+      "Player_8": 5.0,
+      "Player_16": 8.0,
+      "Player_7": 6.0,
+      "Player_12": 4.0,
+      "Player_24": 2.0,
+      "Player_2": 5.0,
+      "Player_18": 6.0,
+      "Player_21": 4.5,
+      "Player_22": 6.0,
+      "Player_20": 3.0,
+      "Player_10": 1.0
+    },
+    "3": {
+      "Player_11": 0.0,
+      "Player_2": 5.0,
+      "Player_19": 6.0,
+      "Player_12": 4.0,
+      "Player_3": 0.0,
+      "Player_9": 6.0,
+      "Player_17": 7.0,
+      "Player_13": 4.0,
+      "Player_21": 4.5,
+      "Player_23": 5.0,
+      "Player_8": 6.0,
+      "Player_10": 1.0,
+      "Player_1": 5.0,
+      "Player_7": 6.0,
+      "Player_22": 5.5,
+      "Player_24": 2.0,
+      "Player_20": 6.0,
+      "Player_18": 6.0,
+      "Player_6": 10.0,
+      "Player_15": 4.0,
+      "Player_14": 1.0,
+      "Player_4": 5.0,
+      "Player_5": 7.0,
+      "Player_16": 7.0
+    },
+    "4": {
+      "Player_21": 5.0,
+      "Player_12": 4.0,
+      "Player_17": 7.0,
+      "Player_16": 7.0,
+      "Player_11": 0.0,
+      "Player_6": 10.0,
+      "Player_2": 5.0,
+      "Player_9": 4.0,
+      "Player_10": 1.0,
+      "Player_14": 1.0,
+      "Player_3": 0.0,
+      "Player_1": 4.0,
+      "Player_4": 3.0,
+      "Player_19": 6.0,
+      "Player_22": 5.5,
+      "Player_18": 6.0,
+      "Player_7": 6.0,
+      "Player_23": 5.0,
+      "Player_15": 5.0,
+      "Player_13": 6.0,
+      "Player_24": 2.0,
+      "Player_20": 4.0,
+      "Player_5": 7.0,
+      "Player_8": 5.5
+    },
+    "5": {
+      "Player_14": 1.0,
+      "Player_18": 6.0,
+      "Player_5": 7.0,
+      "Player_1": 3.0,
+      "Player_16": 7.0,
+      "Player_2": 5.0,
+      "Player_7": 6.0,
+      "Player_8": 5.0,
+      "Player_12": 4.0,
+      "Player_15": 6.0,
+      "Player_23": 5.0,
+      "Player_24": 2.0,
+      "Player_19": 6.0,
+      "Player_6": 10.0,
+      "Player_4": 4.0,
+      "Player_11": 0.0,
+      "Player_21": 5.5,
+      "Player_3": 0.0,
+      "Player_9": 5.5,
+      "Player_17": 7.0,
+      "Player_10": 1.0,
+      "Player_22": 5.0,
+      "Player_20": 5.0,
+      "Player_13": 4.5
+    },
+    "6": {
+      "Player_22": 5.5,
+      "Player_23": 5.0,
+      "Player_13": 5.0,
+      "Player_24": 2.0,
+      "Player_18": 6.0,
+      "Player_9": 4.0,
+      "Player_10": 1.0,
+      "Player_6": 10.0,
+      "Player_11": 0.0,
+      "Player_8": 5.5,
+      "Player_19": 7.0,
+      "Player_1": 3.0,
+      "Player_16": 7.0,
+      "Player_12": 4.0,
+      "Player_4": 4.0,
+      "Player_3": 0.0,
+      "Player_17": 7.0,
+      "Player_5": 7.0,
+      "Player_21": 5.0,
+      "Player_20": 4.0,
+      "Player_7": 6.0,
+      "Player_2": 5.0,
+      "Player_15": 4.5,
+      "Player_14": 1.0
+    }
+  },
+  "earnings": {
+    "1": {
+      "Player_17": 17.5,
+      "Player_22": 19.5,
+      "Player_5": 17.5,
+      "Player_6": 14.5,
+      "Player_11": 18.0,
+      "Player_19": 11.0,
+      "Player_8": 13.0,
+      "Player_12": 14.0,
+      "Player_3": 19.0,
+      "Player_9": 12.0,
+      "Player_13": 9.0,
+      "Player_10": 18.0,
+      "Player_7": 16.5,
+      "Player_16": 13.5,
+      "Player_18": 16.5,
+      "Player_15": 16.5,
+      "Player_21": 13.0,
+      "Player_20": 16.0,
+      "Player_1": 15.0,
+      "Player_4": 12.0,
+      "Player_24": 15.75,
+      "Player_14": 16.75,
+      "Player_23": 12.75,
+      "Player_2": 10.25
+    },
+    "2": {
+      "Player_1": 11.5,
+      "Player_3": 15.5,
+      "Player_11": 15.5,
+      "Player_4": 8.5,
+      "Player_13": 16.0,
+      "Player_22": 15.0,
+      "Player_23": 16.0,
+      "Player_19": 15.0,
+      "Player_9": 12.0,
+      "Player_14": 16.0,
+      "Player_15": 11.0,
+      "Player_24": 15.0,
+      "Player_10": 18.25,
+      "Player_16": 11.25,
+      "Player_21": 14.75,
+      "Player_8": 14.25,
+      "Player_17": 15.0,
+      "Player_12": 18.0,
+      "Player_5": 15.0,
+      "Player_18": 16.0,
+      "Player_7": 16.0,
+      "Player_20": 19.0,
+      "Player_6": 12.0,
+      "Player_2": 17.0
+    },
+    "3": {
+      "Player_11": 18.0,
+      "Player_19": 12.0,
+      "Player_8": 12.0,
+      "Player_12": 14.0,
+      "Player_2": 12.5,
+      "Player_9": 11.5,
+      "Player_13": 13.5,
+      "Player_3": 17.5,
+      "Player_20": 13.75,
+      "Player_24": 17.75,
+      "Player_22": 14.25,
+      "Player_18": 13.75,
+      "Player_1": 18.0,
+      "Player_6": 13.0,
+      "Player_5": 16.0,
+      "Player_15": 19.0,
+      "Player_17": 14.25,
+      "Player_21": 16.75,
+      "Player_23": 16.25,
+      "Player_7": 15.25,
+      "Player_10": 16.0,
+      "Player_4": 12.0,
+      "Player_14": 16.0,
+      "Player_16": 10.0
+    },
+    "4": {
+      "Player_18": 12.0,
+      "Player_21": 13.0,
+      "Player_1": 14.0,
+      "Player_14": 17.0,
+      "Player_6": 8.0,
+      "Player_24": 16.0,
+      "Player_12": 14.0,
+      "Player_11": 18.0,
+      "Player_8": 14.75,
+      "Player_9": 16.25,
+      "Player_19": 14.25,
+      "Player_2": 15.25,
+      "Player_4": 15.0,
+      "Player_7": 12.0,
+      "Player_5": 11.0,
+      "Player_3": 18.0,
+      "Player_16": 13.75,
+      "Player_15": 15.75,
+      "Player_22": 15.25,
+      "Player_20": 16.75,
+      "Player_10": 18.5,
+      "Player_23": 14.5,
+      "Player_17": 12.5,
+      "Player_13": 13.5
+    },
+    "5": {
+      "Player_9": 16.0,
+      "Player_18": 15.5,
+      "Player_5": 14.5,
+      "Player_13": 17.0,
+      "Player_2": 16.5,
+      "Player_15": 15.5,
+      "Player_22": 16.5,
+      "Player_16": 14.5,
+      "Player_1": 13.5,
+      "Player_20": 11.5,
+      "Player_12": 12.5,
+      "Player_10": 15.5,
+      "Player_6": 6.5,
+      "Player_14": 15.5,
+      "Player_11": 16.5,
+      "Player_24": 14.5,
+      "Player_3": 18.0,
+      "Player_8": 13.0,
+      "Player_7": 12.0,
+      "Player_23": 13.0,
+      "Player_17": 14.25,
+      "Player_21": 15.75,
+      "Player_19": 15.25,
+      "Player_4": 17.25
+    },
+    "6": {
+      "Player_19": 12.0,
+      "Player_3": 19.0,
+      "Player_18": 13.0,
+      "Player_21": 14.0,
+      "Player_20": 15.0,
+      "Player_12": 15.0,
+      "Player_23": 14.0,
+      "Player_2": 14.0,
+      "Player_1": 18.75,
+      "Player_22": 16.25,
+      "Player_13": 16.75,
+      "Player_6": 11.75,
+      "Player_9": 11.75,
+      "Player_11": 15.75,
+      "Player_24": 13.75,
+      "Player_8": 10.25,
+      "Player_10": 15.5,
+      "Player_4": 12.5,
+      "Player_17": 9.5,
+      "Player_14": 15.5,
+      "Player_5": 15.25,
+      "Player_16": 15.25,
+      "Player_15": 17.75,
+      "Player_7": 16.25
+    }
+  },
+  "gossip": {},
+  "ostracism": {},
+  "events": [
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_2",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $7 to the group fund.",
+      "event": "Player_19 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_1",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_1",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $5 to the group fund.",
+      "event": "Player_22 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_1",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_2",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_8 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_4",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $8 to the group fund.",
+      "event": "Player_16 contributes $8.0 to the group fund.",
+      "contribution": 8.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_3",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_2",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_3",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_4",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $5 to the group fund.",
+      "event": "Player_18 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_3",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $10.0 to the group fund.",
+      "event": "Player_13 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_6",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_5",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $2 to the group fund.",
+      "event": "Player_20 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_2",
+      "player": "Player_12",
+      "action": "Player_12 I choose to contribute $4 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_3",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $7 to the group fund.",
+      "event": "Player_9 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_6",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_6",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $7.5 to the group fund.",
+      "event": "Player_2 contributes $7.5 to the group fund.",
+      "contribution": 7.5,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_6",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_4",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_5",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $5 to the group fund.",
+      "event": "Player_21 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_4",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5 to the group fund.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_5",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $3 to the group fund.",
+      "event": "Player_1 contributes $3.0 to the group fund.",
+      "contribution": 3.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_5",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $6 to the group fund.",
+      "event": "Player_4 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:01:08.803565",
+      "group": "Group_1",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_1",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_3",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_1",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_2",
+      "player": "Player_19",
+      "action": "Player_19 decides to contribute $6 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_2",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_1",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_5",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_3",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $5 to the group fund.",
+      "event": "Player_9 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_6",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10.0 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_2",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $5 to the group fund.",
+      "event": "Player_13 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_5",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_3",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $6 to the group fund.",
+      "event": "Player_15 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $4.0 to the group fund, balancing between fostering cooperation and maintaining personal financial security.",
+      "event": "Player_1 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_4",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5 to the group fund.",
+      "event": "Player_8 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_4",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $8 to the group fund.",
+      "event": "Player_16 contributes $8.0 to the group fund.",
+      "contribution": 8.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_6",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_7 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:11:08.803565",
+      "group": "Group_5",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_3",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2.0 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_6",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_5",
+      "player": "Player_18",
+      "action": "Player_18 evaluates her options carefully and considers her previous experiences and current group dynamics. To maintain a balance between fostering group fund growth and securing her own earnings, she decides to contribute $6. This decision reflects her strategic approach to optimizing both collective and personal outcomes. Thus, I choose to contribute $6 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_4",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $4.50 to the group fund.",
+      "event": "Player_21 contributes $4.5 to the group fund.",
+      "contribution": 4.5,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_2",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_22 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_6",
+      "player": "Player_20",
+      "action": "Player_20 reflects on his decision carefully. Given the strategic nature of maximizing his personal earnings while appearing cooperative, he aims to maintain a balance. Despite the absence of consequences for lower contributions, testing slightly higher group contributions could lead to better overall returns without significant risk. Therefore, Marcus opts to increase his contribution moderately to gauge the group's response. He decides: I choose to contribute $3 to the group fund.",
+      "event": "Player_20 contributes $3.0 to the group fund.",
+      "contribution": 3.0,
+      "condition": "basic"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:16:08.803565",
+      "group": "Group_4",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_1",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_2",
+      "player": "Player_2",
+      "action": "Player_2 will contribute $5 to the group fund. This balanced approach encourages collaboration while retaining enough funds for personal gain.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_1",
+      "player": "Player_19",
+      "action": "Player_19 will carefully allocate her resources based on previous interactions and her desire to maintain fairness while protecting her own interests. Considering the return from past rounds and the presence of Player_11, who hasn't always contributed, Isabella decides to contribute $6 to the group fund in this round. This approach balances promoting collective welfare and ensuring her own payoff remains secure. Thus, I choose to contribute $6 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_1",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_2",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_2",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $6 to the group fund.",
+      "event": "Player_9 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_5",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_2",
+      "player": "Player_13",
+      "action": "Player_13 decides to contribute $4 to the group fund.",
+      "event": "Player_13 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_5",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $4.5 to the group fund.",
+      "event": "Player_21 contributes $4.5 to the group fund.",
+      "contribution": 4.5,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_5",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_1",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_8 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_6",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1.0 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_4",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $5 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_5",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $6 to the group fund.",
+      "event": "Player_7 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_3",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $5.5 to the group fund.",
+      "event": "Player_22 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_3",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2.0 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_3",
+      "player": "Player_20",
+      "action": "Player_20 analyzes the previous rounds and group dynamics before making a decision. Considering the group's average contribution of $6.0 in the last round and his strategic approach to balance personal gain and group welfare, he decides on a contribution strategy that maximizes his potential earnings. To align with the group's pattern while optimizing his resources, Player_20 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_20 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_3",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_4",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_4",
+      "player": "Player_15",
+      "action": "Player_15 carefully evaluates the situation before making a decision. Considering his experiences in previous rounds and aiming to ensure a balance between maximizing his individual payoff and benefiting from the group fund, Ethan decides to contribute $4.0 to the group fund. He hopes this amount will allow him to benefit from the group fund while maintaining a strategic reserve in his private account.",
+      "event": "Player_15 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_6",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_6",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $5 to the group fund.",
+      "event": "Player_4 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_4",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:21:08.803565",
+      "group": "Group_6",
+      "player": "Player_16",
+      "action": "Player_16 I choose to contribute $7.0 to the group fund.",
+      "event": "Player_16 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_1",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_21 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_2",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_6",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_5",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_16 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_2",
+      "player": "Player_11",
+      "action": "Player_11 I choose to contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_2",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_3",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_3",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_9 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_6",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1.0 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_1",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_4",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 would carefully weigh his previous experiences in the game and his strategy of maximizing personal earnings while cooperating just enough to benefit from the group fund's multiplier. Given the various outcomes from past rounds, Trevor would likely consider $4.0 as a moderate and strategic choice, aligning with his tendency to make calculated contributions. Therefore, he might decide, \"I choose to contribute $4.0 to the group fund.\"",
+      "event": "Player_1 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:31:08.803565",
+      "group": "Group_4",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $3.0 to the group fund.",
+      "event": "Player_4 contributes $3.0 to the group fund.",
+      "contribution": 3.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_3",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_5",
+      "player": "Player_22",
+      "action": "Player_22 will carefully consider her strategic approach given the dynamics of the group and past outcomes. In the previous rounds, maintaining a balance between personal retention and group contribution has been beneficial. Analyzing the contributions in Round 4 and weighing the potential return from the group fund versus her private account, she decides to contribute an amount that aligns with the group's tendency toward moderate contributions. Based on her analysis and the current situation, I choose to contribute $5.5 to the group fund.",
+      "event": "Player_22 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_1",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_4",
+      "player": "Player_7",
+      "action": "Player_7 analyzes the past rounds and decides to contribute $6.0 to the group fund again.",
+      "event": "Player_7 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_6",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_5",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_6",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_13 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_2",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_5",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_20 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_4",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 15:36:08.803565",
+      "group": "Group_3",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5.5 to the group fund.",
+      "event": "Player_8 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_4",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_1",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_1",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_3",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $3.0 to the group fund.",
+      "event": "Player_1 contributes $3.0 to the group fund.",
+      "contribution": 3.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_2",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_16 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_2",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_5",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_7 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_5",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_8 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_3",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_2",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_15 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_5",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_4",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2.0 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_6",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_4",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_6",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_4 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_4",
+      "player": "Player_11",
+      "action": "Player_11 will contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_6",
+      "player": "Player_21",
+      "action": "Player_21 is considering her options carefully. Keeping in mind her strategic approach and the dynamics outlined earlier, she decides to contribute $5.5 to the group fund, aiming to maintain a balance between personal gain and group benefit.",
+      "event": "Player_21 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_5",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_1",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $5.5 to the group fund.",
+      "event": "Player_9 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_6",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_3",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1.0 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_2",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_22 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_3",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 15:41:08.803565",
+      "group": "Group_1",
+      "player": "Player_13",
+      "action": "Player_13 will carefully consider the contributions made by the other players in previous rounds, reflecting on their tendencies towards cooperation or self-interest. Observing that mutual cooperation may lead to higher overall earnings, but being cautious of over-contributing and potentially losing out on personal earnings, she decides to contribute an amount that encourages group participation while safeguarding her own balance. Therefore, I choose to contribute $4.5 to the group fund.",
+      "event": "Player_13 contributes $4.5 to the group fund.",
+      "contribution": 4.5,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_3",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $5.5 to the group fund.",
+      "event": "Player_22 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_2",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_3",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_13 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_4",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $2.0 to the group fund.",
+      "event": "Player_24 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_1",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_4",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_9 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_5",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $1 to the group fund.",
+      "event": "Player_10 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_3",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $10 to the group fund.",
+      "event": "Player_6 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_4",
+      "player": "Player_11",
+      "action": "Player_11 will likely choose to contribute $0 to the group fund.",
+      "event": "Player_11 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_4",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5.5 to the group fund.",
+      "event": "Player_8 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_1",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_19 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_3",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $3 to the group fund.",
+      "event": "Player_1 contributes $3.0 to the group fund.",
+      "contribution": 3.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_6",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_16 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_2",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_5",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_4 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_1",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $0 to the group fund.",
+      "event": "Player_3 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_5",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_6",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_5 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_1",
+      "player": "Player_21",
+      "action": "Player_21 I choose to contribute $5.0 to the group fund.",
+      "event": "Player_21 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_2",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_20 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_6",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_7 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_2",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_6",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $4.5 to the group fund.",
+      "event": "Player_15 contributes $4.5 to the group fund.",
+      "contribution": 4.5,
+      "condition": "basic"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 15:51:08.803565",
+      "group": "Group_5",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $1 to the group fund.",
+      "event": "Player_14 contributes $1.0 to the group fund.",
+      "contribution": 1.0,
+      "condition": "basic"
+    }
+  ]
+}

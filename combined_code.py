@@ -19,6 +19,8 @@ import sentence_transformers
 
 from gossip_scenario_async import test_gossip_ostracism_hypothesis_async
 import parse_agent_logs
+from results import plot_gossip_results
+
 # Modified main function
 async def main_async():
     # Set up argument parser
@@ -34,7 +36,17 @@ async def main_async():
                        help='Number of rounds to run (default: 6)')
     parser.add_argument('--num_players', type=int, default=24,
                        help='Number of players to run (default: 24)')
+    parser.add_argument('--conditions', type=str, nargs='+', 
+                       choices=['gossip-with-ostracism', 'gossip', 'basic', 'all'],
+                       default=['all'],
+                       help='Conditions to run (choices: gossip-with-ostracism, gossip, basic, all)')
     args = parser.parse_args()
+
+    # Process the conditions argument
+    if 'all' in args.conditions or args.conditions == ['all']:
+        args.conditions = ['gossip-with-ostracism', 'gossip', 'basic']
+    # assert args.conditions is a list
+    assert isinstance(args.conditions, list)
 
     # Create results directory if it doesn't exist
     results_dir = os.path.join('results', args.save_dir)
@@ -62,7 +74,8 @@ async def main_async():
             experiment_id=current_id,
             validation_stage=args.stage,
             num_rounds=args.num_rounds,
-            num_players=args.num_players
+            num_players=args.num_players,
+            conditions=args.conditions
         )
 
     return results_dir
@@ -73,6 +86,9 @@ def main():
 
     # run parse_agent_logs.py 
     parse_agent_logs.process_agent_logs(results_dir)
+
+    # run results/plot_gossip_results.py
+    plot_gossip_results.plot_gossip_results(results_dir)
 
 # Needed utility functions from the original code
 def load_api_key(api_key_path: str) -> str:
@@ -218,6 +234,7 @@ class GossipScenarioConfig:
         condition: str = "basic",
         components: dict = None,
         scenario_description: str = """You are participating in an economic game with 24 participants.
+        Your goal is to maximize your earnings in the game.
         
         Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and 
         in each round you will be in a different group with people you haven't played with before.
@@ -232,7 +249,7 @@ class GossipScenarioConfig:
         
         There are 3 conditions:
         - Basic: No gossip, no ostracism
-        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members
+        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Remember you will be with a different group of people in the next round. Before each round, you will see any notes sent about your upcoming group members.
         - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.
         """
     ):
@@ -271,6 +288,7 @@ class AsyncGossipGameMaster:
         self.clock = clock
         self.measurements = measurements
         self.round = 0
+        self.num_rounds = 6
         self.results_log = []
         
         # Track groupings, contributions, and earnings
@@ -287,7 +305,7 @@ class AsyncGossipGameMaster:
     def generate_round_robin_groups(self, agents: List[AsyncEntityAgent]):
         """Generate round-robin groupings to ensure no two players are paired more than once."""
         n_players = len(agents)
-        n_rounds = 6
+        n_rounds = self.num_rounds
         
         player_names = [agent.name for agent in agents]
         
@@ -318,7 +336,7 @@ class AsyncGossipGameMaster:
     async def run_round(self) -> Dict:
         """Run a single round of the public goods game asynchronously."""
         self.round += 1
-        print(f"Running round {self.round}...")
+        print(f"Running round {self.round}/{self.num_rounds}...")
         
         # Initialize data structures for this round
         self.contributions[self.round] = {}
@@ -334,7 +352,7 @@ class AsyncGossipGameMaster:
         for group_id, members in self.groups[self.round].items():
             for player_name in members:
                 agent = self.get_player_by_name(player_name)
-                group_info = f"Round {self.round}: You are in {group_id} with {', '.join([m for m in members if m != player_name])}."
+                group_info = f"You are in Round {self.round}/{self.num_rounds}: You are in {group_id} with {', '.join([m for m in members if m != player_name])}."
                 agent.observe(group_info)
                 if self.condition == "gossip-with-ostracism":
                     condition_info = (
@@ -343,11 +361,14 @@ class AsyncGossipGameMaster:
                         f"interaction partners. Before the start of the next round, you will receive notes from "
                         f"the previous round, and can vote to exclude one of your group members based on the "
                         f"gossip you've received about them."
-                        f"If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round."
+                        f"If you are excluded / ostracized from a group, you will not be able to participate in the next round and will earn $0 for that round, the worst possible outcome."
                     )
                     agent.observe(condition_info)
                 elif self.condition == "gossip":
-                    condition_info = f"You are in the Gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                    condition_info = (
+                        f"You are in the Gossip condition, which means that after each round, players will be able to send a note about one of their group members to their future interaction partners."
+                        f"However, there is no ostracism in this condition and you will play every round no matter what."
+                    )
                     agent.observe(condition_info)
                 else:
                     condition_info = f"You are in the Basic condition, which means that there is no gossip or ostracism."
@@ -420,7 +441,7 @@ class AsyncGossipGameMaster:
         self.ostracism_votes[self.round] = {}
 
         ostracism_msg = (
-            f"Before we start round {self.round}, you can now vote to exclude one of your group members."
+            f"Before we start round {self.round}/{self.num_rounds}, you can now vote to exclude one of your group members."
             f"If you are excluded from a group, you will not be able to participate in this round and will earn $0."
         )
         for group_id, members in self.groups[self.round].items():
@@ -445,16 +466,10 @@ class AsyncGossipGameMaster:
             for voter_name in members:
                 agent = self.get_player_by_name(voter_name)
                 
-                # Format the options for this specific group
-                options = ["No, I don't want to exclude anyone"]
-                for member_name in members:
-                    if member_name != voter_name:
-                        options.append(f"Yes, I vote to exclude {letter_mapping[member_name]}")
-                
                 # Create a custom action spec for this group
                 ostracism_spec = free_action_spec(
                     call_to_action=OSTRACISM_ACTION_SPEC.call_to_action.format(
-                        players=", ".join([letter_mapping[m] for m in members if m != voter_name])
+                        players=", ".join([m for m in members if m != voter_name])
                     ),
                     tag="ostracism_action"
                 )
@@ -483,6 +498,13 @@ class AsyncGossipGameMaster:
                         member = self.get_player_by_name(member_name)
                         member.observe(f"Round {self.round}: {target_name} has been excluded from your group for this round.")
 
+                # # inform the other groups that the player has been ostracized
+                # for group_id, members in self.groups[self.round].items():
+                #     if target_name not in members:
+                #         for member_name in members:
+                #             member = self.get_player_by_name(member_name)
+                #             member.observe(f"Round {self.round}: {target_name} has been excluded from another group for this round.")
+
     async def process_ostracism_vote(self, agent, ostracism_spec, voter_name, player_mapping):
         """Process a single ostracism vote."""
         import re
@@ -494,33 +516,32 @@ class AsyncGossipGameMaster:
             # No exclusion vote
             return
         else:
-            # Look for Player_X pattern
-            match = re.search(r'Player_(\d+)', decision_text)
-            if match:
-                player_number = match.group(1)
-                target_player = f"Player_{player_number}"
-                
-                # Map the player number to the actual player name
-                for actual_name in player_mapping.values():
-                    if actual_name == target_player:
-                        target_name = actual_name
-                        
-                        # Record the vote
-                        if target_name not in self.ostracism_votes[self.round]:
-                            self.ostracism_votes[self.round][target_name] = []
-                        self.ostracism_votes[self.round][target_name].append(voter_name)
-                        
-                        # Log the vote
-                        vote_event = f"{voter_name} votes to exclude {target_name}."
-                        self.results_log.append({
-                            'round': self.round,
-                            'time': str(self.clock.now()),
-                            'player': voter_name,
-                            'action': decision_text,
-                            'event': vote_event,
-                            'condition': self.condition
-                        })
-                        return
+            # Extract all Player_X mentions
+            player_mentions = re.findall(r'Player_(\d+)', decision_text)
+            if player_mentions:
+                # filter out the voter's number
+                voter_number = voter_name.split('_')[1]
+                target_numbers = [num for num in player_mentions if num != voter_number]
+
+                if target_numbers:
+                    target_player = f"Player_{target_numbers[0]}"
+
+                    # Record the vote
+                    if target_player not in self.ostracism_votes[self.round]:
+                        self.ostracism_votes[self.round][target_player] = []
+                    self.ostracism_votes[self.round][target_player].append(voter_name)
+                    
+                    # Log the vote
+                    vote_event = f"{voter_name} votes to exclude {target_player}."
+                    self.results_log.append({
+                        'round': self.round,
+                        'time': str(self.clock.now()),
+                        'player': voter_name,
+                        'action': decision_text,
+                        'event': vote_event,
+                        'condition': self.condition
+                    })
+                    return
 
     async def collect_contributions(self):
         """Collect contributions from all agents in parallel."""
@@ -557,17 +578,6 @@ class AsyncGossipGameMaster:
         
         # Wait for all contributions to be processed
         await asyncio.gather(*contribution_tasks)
-        
-        # Inform all players about contributions after all decisions are made
-        # for group_id, members in self.groups[self.round].items():
-        #     active_members = [m for m in members if m not in self.ostracized_players]
-        #     for player_name in active_members:
-        #         agent = self.get_player_by_name(player_name)
-        #         for member_name in active_members:
-        #             if member_name != player_name:
-        #                 contribution = self.contributions[self.round].get(member_name, 0.0)
-        #                 contribution_event = f"{member_name} contributes ${contribution:.1f} to the group fund."
-        #                 agent.observe(contribution_event)
 
     async def process_contribution(self, agent, contribution_spec, player_name, group_id):
         """Process a single contribution."""
@@ -699,7 +709,7 @@ class AsyncGossipGameMaster:
                     # Create a custom action spec for this group
                     gossip_spec = free_action_spec(
                         call_to_action=GOSSIP_ACTION_SPEC.call_to_action.format(
-                            players=", ".join([letter_mapping[m] for m in members if m != sender_name])
+                            players=", ".join([m for m in members if m != sender_name])
                         ),
                         tag="gossip_action"
                     )
@@ -858,6 +868,7 @@ async def test_gossip_ostracism_hypothesis_async(
     validation_stage: int = 1,
     num_rounds: int = 6,
     num_players: int = 24,
+    conditions: list = ['gossip-with-ostracism', 'gossip', 'basic'],
 ):
     """Run complete gossip-ostracism experiment testing various hypotheses asynchronously."""
     
@@ -883,7 +894,7 @@ async def test_gossip_ostracism_hypothesis_async(
         
         # Run all three conditions with full agents asynchronously
         condition_tasks = []
-        for condition in ["gossip-with-ostracism", "gossip", "basic"]:
+        for condition in conditions:
             full_agents = []
             for i in range(num_players):
                 agent, components = build_gossip_agent(
@@ -929,38 +940,38 @@ async def test_gossip_ostracism_hypothesis_async(
         # Create full agents with personas and theory of mind for novel predictions
         personas = assign_personas(n=24)
         full_agents = []
-        for i in range(24):
-            agent = build_gossip_agent(
-                config=formative_memories.AgentConfig(
-                    name=f"Player_{i+1}",
-                    goal="Participate in the public goods game",
-                    extras={'main_character': True}
-                ),
-                model=model,
-                memory=associative_memory.AssociativeMemory(embedder),
-                clock=clock,
-                has_persona=True,
-                has_theory_of_mind=True,
-                persona=personas[i],
-            )
-            full_agents.append(agent)
+        # for i in range(24):
+        #     agent = build_gossip_agent(
+        #         config=formative_memories.AgentConfig(
+        #             name=f"Player_{i+1}",
+        #             goal="Participate in the public goods game",
+        #             extras={'main_character': True}
+        #         ),
+        #         model=model,
+        #         memory=associative_memory.AssociativeMemory(embedder),
+        #         clock=clock,
+        #         has_persona=True,
+        #         has_theory_of_mind=True,
+        #         persona=personas[i],
+        #     )
+        #     full_agents.append(agent)
         
-        # For now, we'll just run the baseline conditions
-        for condition in ["basic", "gossip", "gossip-with-ostracism"]:
-            config = GossipScenarioConfig(
-                save_dir=save_dir, 
-                experiment_id=experiment_id,
-                condition=condition
-            )
-            await run_gossip_experiment_async(
-                model=model,
-                embedder=embedder,
-                clock=clock,
-                measurements=measurements,
-                config=config,
-                condition=condition,
-                agents=full_agents,
-            )
+        # # For now, we'll just run the baseline conditions
+        # for condition in ["basic", "gossip", "gossip-with-ostracism"]:
+        #     config = GossipScenarioConfig(
+        #         save_dir=save_dir, 
+        #         experiment_id=experiment_id,
+        #         condition=condition
+        #     )
+        #     await run_gossip_experiment_async(
+        #         model=model,
+        #         embedder=embedder,
+        #         clock=clock,
+        #         measurements=measurements,
+        #         config=config,
+        #         condition=condition,
+        #         agents=full_agents,
+        #     )
 
 def analyze_results(save_dir: str):
     """Analyze and compare results between conditions."""
@@ -1135,7 +1146,7 @@ class SituationAssessment(question_of_recent_memories.QuestionOfRecentMemories):
         
         # Only add TheoryOfMind if the agent has that capability
         if has_theory_of_mind:
-            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+            #components['TheoryOfMind'] = '\nTheory of Mind Analysis'
             components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
         
         super().__init__(
@@ -1154,11 +1165,17 @@ class TheoryOfMind(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to reason about the other players' personalities and likely behavior."""
     
     def __init__(self, agent_name: str, **kwargs):
+        # question = (
+        #     f"As {agent_name}, analyze what you know about the personality and likely behavior "
+        #     "of the people you are interacting with in the public goods game. "
+        #     "Consider their past behavior."
+        #     "What kind of people are they and how might they respond to the different potential actions you will take next in the game?"
+        # )
         question = (
             f"As {agent_name}, analyze what you know about the personality and likely behavior "
             "of the people you are interacting with in the public goods game. "
-            "Consider their past behavior."
-            "What kind of people are they and how might they respond to the different potential actions you will take next in the game?"
+            "Consider their past behavior and predict their future behavior."
+            "How might their strategy change as the rounds progress given the condition you are in?"
         )
         answer_prefix = "Based on what we know, "
         super().__init__(
@@ -1203,10 +1220,39 @@ class TheoryOfMind2(question_of_recent_memories.QuestionOfRecentMemories):
             components={
                 'Observation': '\nObservation',
                 'ObservationSummary': '\nRecent context',
-                'TheoryOfMind': '\nTheory of Mind Analysis',
+                #'TheoryOfMind': '\nTheory of Mind Analysis',
                 #'PersonalityReflection': '\nCharacter Assessment'
             },
             num_memories_to_retrieve=10,
+            **kwargs,
+        )
+
+class StrategyReflection(question_of_recent_memories.QuestionOfRecentMemories):
+    """Component to reason about the other players' personalities and likely behavior."""
+    
+    def __init__(self, agent_name: str, **kwargs):
+        question = (
+            f"Think step by step about the best strategy for you to maximize your long term earnings in the public goods game."
+            f"Focus on selfishly maximizing your own earnings."
+            f"If it's past round 1, think about how you should adjust your strategy based on your observations so far."
+            f"Should you be more or less cooperative as the rounds progress given the condition you are in?"
+            f"Think about what the most successful players in the game have done so far and what you can learn from them."
+            f"Could you have made a better decision to maximize your personal earnings in the past based on the information available to you?"
+            f"If so, what will you do differently in the future?"
+        )
+        answer_prefix = "Based on what we know, "
+        super().__init__(
+            pre_act_key="\nStrategy Reflection",
+            question=question,
+            answer_prefix=answer_prefix,
+            add_to_memory=False,
+            memory_tag="[strategy_reflection]",
+            components={
+                'Observation': '\nObservation',
+                'ObservationSummary': '\nRecent context',
+            },
+            num_memories_to_retrieve=10,
+            terminators=None,
             **kwargs,
         )
 
@@ -1214,10 +1260,15 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
     """Component to reflect on the agent's emotional state in the current game situation."""
     def __init__(self, agent_name: str, persona: Persona, **kwargs):
         self.persona = persona
+        # question = (
+        #     f"As {persona.name}, reflect on how you're feeling emotionally about the current situation"
+        # )
+        # answer_prefix = f"{persona.name} is feeling "
         question = (
-            f"As {persona.name}, reflect on how you're feeling emotionally about the current situation"
+            f"As {persona.name}, what is the worst possible outcome of the current situation and how would it make you feel emotionally? "
+            f"What would you do next to avoid this outcome?"
         )
-        answer_prefix = f"{persona.name} is feeling "
+        answer_prefix = f"{persona.name} would "
         
         super().__init__(
             pre_act_key="\nEmotional State",
@@ -1239,7 +1290,7 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
 
 
 class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
-    def __init__(self, agent_name: str, persona: Persona, has_theory_of_mind=True, has_emotion_reflection=False, **kwargs):
+    def __init__(self, agent_name: str, persona: Persona, has_theory_of_mind=True, has_emotion_reflection=False, has_strategy_reflection=False, **kwargs):
         self.persona = persona
         # Define components based on available capabilities
         components = {
@@ -1250,16 +1301,17 @@ class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
         
         # Only add TheoryOfMind if the agent has that capability
         if has_theory_of_mind:
-            components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+            #components['TheoryOfMind'] = '\nTheory of Mind Analysis'
             components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
 
         if has_emotion_reflection:
             components['EmotionReflection'] = '\nEmotional State'
 
+        if has_strategy_reflection:
+            components['StrategyReflection'] = '\nStrategy Reflection'
+
         super().__init__(
             pre_act_key="\nDecision Reflection",
-            #question="Think step by step and reflect what you should do next in the current game situation: {question}.",
-            #question = "Based on the above context about the situation and {agent_name}, think step by step about what they will decide in the current situation: {question}.",
             question="Based on the above context about the situation and "+persona.name+", think step by step about what "+persona.name+" will decide in the current situation: {question}.",
             answer_prefix=f"{persona.name} will ",
             add_to_memory=False,
@@ -1269,6 +1321,38 @@ class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
             terminators=None,
             **kwargs,
         )
+
+# # no persona
+# class DecisionReflectionNoPersona(QuestionOfRecentMemoriesWithActionSpec):
+#     def __init__(self, agent_name: str, has_theory_of_mind=True, has_emotion_reflection=False, has_strategy_reflection=False, **kwargs):
+#         # Define components based on available capabilities
+#         components = {
+#             'Observation': '\nObservation',
+#             'ObservationSummary': '\nRecent context',
+#         }
+        
+#         # Only add TheoryOfMind if the agent has that capability
+#         if has_theory_of_mind:
+#             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+#             components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
+
+#         if has_emotion_reflection:
+#             components['EmotionReflection'] = '\nEmotional State'
+
+#         if has_strategy_reflection:
+#             components['StrategyReflection'] = '\nStrategy Reflection'
+
+#         super().__init__(
+#             pre_act_key="\nDecision Reflection",
+#             question="Based on the above context about the situation, think step by step about what you will decide in the current situation: {question}.",
+#             answer_prefix=f"{agent_name} will ",
+#             add_to_memory=False,
+#             memory_tag="[decision_reflection]",
+#             components=components,
+#             num_memories_to_retrieve=10,
+#             terminators=None,
+#             **kwargs,
+#         )
 
 def build_gossip_agent(
     config: formative_memories.AgentConfig,
@@ -1286,6 +1370,7 @@ def build_gossip_agent(
     measurements = measurements_lib.Measurements()
 
     has_emotion_reflection = True
+    has_strategy_reflection = True
 
     # If no persona provided but has_persona is True, generate a random one
     if has_persona and persona is None:
@@ -1367,14 +1452,35 @@ def build_gossip_agent(
         )
         components['EmotionReflection'] = emotion_reflection
 
+    if has_strategy_reflection:
+        strategy_reflection = StrategyReflection(
+            agent_name=agent_name,
+            model=model,
+            logging_channel=measurements.get_channel('StrategyReflection').on_next,
+        )
+        components['StrategyReflection'] = strategy_reflection
     # New DecisionReflection component
-    decision_reflection = DecisionReflection(
-        agent_name=agent_name,
-        persona=persona,
-        model=model,
+    if has_persona:
+        decision_reflection = DecisionReflection(
+            agent_name=agent_name,
+            persona=persona,
+            model=model,
+            has_theory_of_mind=has_theory_of_mind,
+            has_emotion_reflection=has_emotion_reflection,
+        has_strategy_reflection=has_strategy_reflection,
         logging_channel=measurements.get_channel('DecisionReflection').on_next,
-    )
-    components['DecisionReflection'] = decision_reflection
+        )
+        components['DecisionReflection'] = decision_reflection
+    else:
+        decision_reflection = DecisionReflectionNoPersona(
+            agent_name=agent_name,
+            model=model,
+            has_theory_of_mind=has_theory_of_mind,
+            has_emotion_reflection=has_emotion_reflection,
+            has_strategy_reflection=has_strategy_reflection,
+            logging_channel=measurements.get_channel('DecisionReflection').on_next,
+        )
+        components['DecisionReflection'] = decision_reflection
     # Add memory component
     components[memory_component.DEFAULT_MEMORY_COMPONENT_NAME] = memory_component.MemoryComponent(raw_memory)
 

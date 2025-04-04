@@ -17,7 +17,8 @@ from concordia.memory_bank import legacy_associative_memory
 from concordia.components.agent import memory_component 
 # from concordia.typing.entity import DEFAULT_ACTION_SPEC
 
-from agent_components import build_tpp_agent
+#from agent_components import build_tpp_agent
+from agent_components_tpp import build_tpp_agent
 from personas import Persona, PERSONAS, assign_personas
 from concordia.typing.entity import free_action_spec, choice_action_spec, float_action_spec
 
@@ -500,7 +501,7 @@ def analyze_results(public_file: str, anonymous_file: str) -> Dict:
     }
 
     # Save analysis
-    with open(f'results/analysis_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}.json', 'w') as f:
+    with open(f'results/tpp/analysis_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}.json', 'w') as f:
         json.dump(analysis, f, indent=2)
 
     return analysis
@@ -530,6 +531,7 @@ def test_tpp_hypothesis(
     embedder: Callable[[Union[str, List[str]]], np.ndarray],
     save_dir: str,
     experiment_id: int,
+    conditions: List[str] = ['public', 'anonymous'],
 ):
     """Run complete TPP experiment testing public vs anonymous hypothesis."""
     
@@ -546,31 +548,20 @@ def test_tpp_hypothesis(
     # Sample three distinct personas for the roles
     signaller_persona, chooser_persona = assign_personas(n=2)
     personas = [signaller_persona, chooser_persona]
-    
-    print("Running public condition...")
-    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id, public_condition=True)
-    run_tpp_experiment(
-        model=model,
-        embedder=embedder,
-        clock=clock,
-        measurements=measurements,
-        config=config,
-        public_condition=True,
-        personas=personas,
-    )
-    
-    print("Running anonymous condition...")
-    config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id, public_condition=False)
-    run_tpp_experiment(
-        model=model,
-        embedder=embedder,
-        clock=clock,
-        measurements=measurements,
-        config=config,
-        public_condition=False,
-        personas=personas,
-    )
-    
+
+    for condition in conditions:
+        print(f"Running {condition} condition...")
+        config = TPPScenarioConfig(save_dir=save_dir, experiment_id=experiment_id, public_condition=condition == 'public')
+        run_tpp_experiment(
+            model=model,
+            embedder=embedder,
+            clock=clock,
+            measurements=measurements,
+            config=config,
+            public_condition=condition == 'public',
+            personas=personas,
+        )
+
     # Analyze results
     results_dir = pathlib.Path('results')
     #public_file = max(results_dir.glob('tpp_experiment_public_*.json'))

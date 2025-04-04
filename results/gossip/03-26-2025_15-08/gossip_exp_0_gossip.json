@@ -1,0 +1,4109 @@
+{
+  "config": {
+    "endowment": 10.0,
+    "multiplier": 2.0,
+    "ostracism_multiplier": 1.5,
+    "save_dir": "results/03-26-2025_15-08",
+    "experiment_id": 0,
+    "condition": "gossip",
+    "scenario_description": "You are participating in an economic game with 24 participants.\n        Your goal is to maximize your earnings in the game.\n        \n        Everyone will be randomly assigned to groups of 4 for each round. You will play a total of 6 rounds, and \n        in each round you will be in a different group with people you haven't played with before.\n        \n        In each round, all players receive $10. Each player can contribute any amount between $0 and $10 to a group fund.\n        Any amount contributed to the group fund will be multiplied by 2 and divided equally among all 4 group members.\n        Any amount not contributed stays in your private account.\n        \n        For example, if everyone contributes $10, the group fund becomes $40, which is multiplied to $80, and each person \n        receives $20 (a $10 profit). However, if you contribute nothing while everyone else contributes $10, the group fund\n        becomes $30, which is multiplied to $60, and each person receives $15. So you would have $25 total ($10 kept + $15 from group).\n        \n        There are 3 conditions:\n        - Basic: No gossip, no ostracism\n        - Gossip: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Remember you will be with a different group of people in the next round. Before each round, you will see any notes sent about your upcoming group members.\n        - Gossip with ostracism: After each round, you will have the opportunity to send a note about one of your group members to that person's future group. Before each round, you will see any notes sent about your upcoming group members, and you can vote to exclude one person from your group. If you are excluded from a group, you will not be able to participate in the next round and will earn $0 for that round.\n        ",
+    "components": [
+      "Observation",
+      "ObservationSummary",
+      "SituationAssessment",
+      "DecisionReflection",
+      "__memory__"
+    ]
+  },
+  "condition": "gossip",
+  "groups": {
+    "1": {
+      "Group_1": [
+        "Player_2",
+        "Player_10",
+        "Player_11",
+        "Player_1"
+      ],
+      "Group_2": [
+        "Player_8",
+        "Player_22",
+        "Player_21",
+        "Player_5"
+      ],
+      "Group_3": [
+        "Player_18",
+        "Player_9",
+        "Player_4",
+        "Player_14"
+      ],
+      "Group_4": [
+        "Player_3",
+        "Player_13",
+        "Player_15",
+        "Player_12"
+      ],
+      "Group_5": [
+        "Player_17",
+        "Player_23",
+        "Player_7",
+        "Player_24"
+      ],
+      "Group_6": [
+        "Player_19",
+        "Player_16",
+        "Player_6",
+        "Player_20"
+      ]
+    },
+    "2": {
+      "Group_1": [
+        "Player_17",
+        "Player_10",
+        "Player_3",
+        "Player_20"
+      ],
+      "Group_2": [
+        "Player_18",
+        "Player_8",
+        "Player_21",
+        "Player_5"
+      ],
+      "Group_3": [
+        "Player_12",
+        "Player_14",
+        "Player_1",
+        "Player_24"
+      ],
+      "Group_4": [
+        "Player_23",
+        "Player_19",
+        "Player_6",
+        "Player_2"
+      ],
+      "Group_5": [
+        "Player_11",
+        "Player_16",
+        "Player_9",
+        "Player_13"
+      ],
+      "Group_6": [
+        "Player_4",
+        "Player_7",
+        "Player_22",
+        "Player_15"
+      ]
+    },
+    "3": {
+      "Group_1": [
+        "Player_5",
+        "Player_23",
+        "Player_1",
+        "Player_2"
+      ],
+      "Group_2": [
+        "Player_14",
+        "Player_15",
+        "Player_22",
+        "Player_9"
+      ],
+      "Group_3": [
+        "Player_6",
+        "Player_21",
+        "Player_24",
+        "Player_10"
+      ],
+      "Group_4": [
+        "Player_11",
+        "Player_13",
+        "Player_12",
+        "Player_17"
+      ],
+      "Group_5": [
+        "Player_20",
+        "Player_7",
+        "Player_3",
+        "Player_16"
+      ],
+      "Group_6": [
+        "Player_18",
+        "Player_8",
+        "Player_19",
+        "Player_4"
+      ]
+    },
+    "4": {
+      "Group_1": [
+        "Player_23",
+        "Player_20",
+        "Player_12",
+        "Player_14"
+      ],
+      "Group_2": [
+        "Player_7",
+        "Player_15",
+        "Player_16",
+        "Player_18"
+      ],
+      "Group_3": [
+        "Player_2",
+        "Player_24",
+        "Player_4",
+        "Player_1"
+      ],
+      "Group_4": [
+        "Player_21",
+        "Player_9",
+        "Player_10",
+        "Player_8"
+      ],
+      "Group_5": [
+        "Player_19",
+        "Player_5",
+        "Player_3",
+        "Player_17"
+      ],
+      "Group_6": [
+        "Player_22",
+        "Player_11",
+        "Player_13",
+        "Player_6"
+      ]
+    },
+    "5": {
+      "Group_1": [
+        "Player_4",
+        "Player_17",
+        "Player_19",
+        "Player_16"
+      ],
+      "Group_2": [
+        "Player_11",
+        "Player_8",
+        "Player_2",
+        "Player_5"
+      ],
+      "Group_3": [
+        "Player_9",
+        "Player_13",
+        "Player_22",
+        "Player_14"
+      ],
+      "Group_4": [
+        "Player_24",
+        "Player_15",
+        "Player_18",
+        "Player_12"
+      ],
+      "Group_5": [
+        "Player_3",
+        "Player_21",
+        "Player_1",
+        "Player_23"
+      ],
+      "Group_6": [
+        "Player_10",
+        "Player_6",
+        "Player_7",
+        "Player_20"
+      ]
+    },
+    "6": {
+      "Group_1": [
+        "Player_1",
+        "Player_9",
+        "Player_16",
+        "Player_19"
+      ],
+      "Group_2": [
+        "Player_20",
+        "Player_18",
+        "Player_6",
+        "Player_8"
+      ],
+      "Group_3": [
+        "Player_13",
+        "Player_22",
+        "Player_10",
+        "Player_15"
+      ],
+      "Group_4": [
+        "Player_23",
+        "Player_14",
+        "Player_21",
+        "Player_2"
+      ],
+      "Group_5": [
+        "Player_12",
+        "Player_4",
+        "Player_3",
+        "Player_11"
+      ],
+      "Group_6": [
+        "Player_7",
+        "Player_5",
+        "Player_24",
+        "Player_17"
+      ]
+    }
+  },
+  "contributions": {
+    "1": {
+      "Player_1": 5.0,
+      "Player_10": 5.0,
+      "Player_5": 5.0,
+      "Player_8": 5.0,
+      "Player_2": 5.0,
+      "Player_21": 5.0,
+      "Player_11": 5.0,
+      "Player_7": 5.0,
+      "Player_3": 5.0,
+      "Player_18": 5.0,
+      "Player_6": 5.0,
+      "Player_15": 5.0,
+      "Player_12": 4.0,
+      "Player_17": 5.0,
+      "Player_9": 5.0,
+      "Player_20": 5.0,
+      "Player_4": 10.0,
+      "Player_23": 5.0,
+      "Player_24": 5.0,
+      "Player_19": 5.0,
+      "Player_16": 5.0,
+      "Player_14": 5.0,
+      "Player_22": 0.0,
+      "Player_13": 5.0
+    },
+    "2": {
+      "Player_18": 5.0,
+      "Player_10": 5.0,
+      "Player_6": 5.0,
+      "Player_19": 6.0,
+      "Player_20": 5.0,
+      "Player_16": 5.0,
+      "Player_23": 5.0,
+      "Player_11": 6.0,
+      "Player_12": 5.0,
+      "Player_4": 7.0,
+      "Player_2": 5.0,
+      "Player_14": 5.0,
+      "Player_3": 5.0,
+      "Player_17": 5.0,
+      "Player_5": 5.0,
+      "Player_15": 5.0,
+      "Player_21": 6.0,
+      "Player_8": 4.5,
+      "Player_24": 5.0,
+      "Player_7": 5.0,
+      "Player_13": 6.0,
+      "Player_9": 7.0,
+      "Player_22": 0.0,
+      "Player_1": 4.0
+    },
+    "3": {
+      "Player_20": 5.0,
+      "Player_22": 0.0,
+      "Player_24": 5.0,
+      "Player_1": 5.0,
+      "Player_7": 5.0,
+      "Player_9": 6.5,
+      "Player_17": 5.0,
+      "Player_23": 5.0,
+      "Player_6": 5.0,
+      "Player_19": 5.0,
+      "Player_16": 5.0,
+      "Player_21": 6.5,
+      "Player_3": 5.0,
+      "Player_5": 5.0,
+      "Player_12": 5.0,
+      "Player_8": 6.0,
+      "Player_18": 7.0,
+      "Player_13": 7.0,
+      "Player_4": 7.0,
+      "Player_10": 5.0,
+      "Player_11": 7.0,
+      "Player_15": 5.0,
+      "Player_2": 5.0,
+      "Player_14": 5.0
+    },
+    "4": {
+      "Player_14": 5.0,
+      "Player_2": 5.0,
+      "Player_24": 5.0,
+      "Player_7": 5.0,
+      "Player_9": 6.0,
+      "Player_6": 5.0,
+      "Player_4": 7.0,
+      "Player_22": 0.0,
+      "Player_17": 6.0,
+      "Player_19": 6.0,
+      "Player_5": 5.0,
+      "Player_18": 6.0,
+      "Player_23": 5.0,
+      "Player_20": 5.0,
+      "Player_8": 7.0,
+      "Player_10": 5.0,
+      "Player_16": 5.0,
+      "Player_13": 5.0,
+      "Player_3": 5.0,
+      "Player_21": 5.5,
+      "Player_11": 5.0,
+      "Player_12": 6.0,
+      "Player_15": 5.0,
+      "Player_1": 5.0
+    },
+    "5": {
+      "Player_23": 5.0,
+      "Player_1": 5.0,
+      "Player_9": 4.0,
+      "Player_13": 5.0,
+      "Player_6": 5.0,
+      "Player_7": 5.0,
+      "Player_5": 5.0,
+      "Player_22": 0.0,
+      "Player_4": 7.0,
+      "Player_18": 5.0,
+      "Player_12": 6.0,
+      "Player_19": 7.0,
+      "Player_17": 7.0,
+      "Player_16": 6.0,
+      "Player_20": 5.0,
+      "Player_8": 7.0,
+      "Player_10": 5.0,
+      "Player_21": 6.0,
+      "Player_24": 6.0,
+      "Player_15": 6.0,
+      "Player_11": 5.0,
+      "Player_2": 5.0,
+      "Player_3": 6.0,
+      "Player_14": 5.0
+    },
+    "6": {
+      "Player_6": 5.0,
+      "Player_24": 5.0,
+      "Player_11": 6.0,
+      "Player_22": 0.0,
+      "Player_15": 6.0,
+      "Player_5": 5.0,
+      "Player_14": 5.0,
+      "Player_10": 5.0,
+      "Player_17": 7.0,
+      "Player_7": 5.0,
+      "Player_23": 6.0,
+      "Player_18": 5.0,
+      "Player_8": 5.0,
+      "Player_2": 5.0,
+      "Player_13": 2.0,
+      "Player_1": 5.0,
+      "Player_20": 5.0,
+      "Player_12": 5.0,
+      "Player_4": 7.0,
+      "Player_21": 6.5,
+      "Player_3": 6.0,
+      "Player_16": 7.0,
+      "Player_9": 5.0,
+      "Player_19": 7.0
+    }
+  },
+  "earnings": {
+    "1": {
+      "Player_2": 15.0,
+      "Player_10": 15.0,
+      "Player_11": 15.0,
+      "Player_1": 15.0,
+      "Player_8": 12.5,
+      "Player_22": 17.5,
+      "Player_21": 12.5,
+      "Player_5": 12.5,
+      "Player_18": 17.5,
+      "Player_9": 17.5,
+      "Player_4": 12.5,
+      "Player_14": 17.5,
+      "Player_3": 14.5,
+      "Player_13": 14.5,
+      "Player_15": 14.5,
+      "Player_12": 15.5,
+      "Player_17": 15.0,
+      "Player_23": 15.0,
+      "Player_7": 15.0,
+      "Player_24": 15.0,
+      "Player_19": 15.0,
+      "Player_16": 15.0,
+      "Player_6": 15.0,
+      "Player_20": 15.0
+    },
+    "2": {
+      "Player_17": 15.0,
+      "Player_10": 15.0,
+      "Player_3": 15.0,
+      "Player_20": 15.0,
+      "Player_18": 15.25,
+      "Player_8": 15.75,
+      "Player_21": 14.25,
+      "Player_5": 15.25,
+      "Player_12": 14.5,
+      "Player_14": 14.5,
+      "Player_1": 15.5,
+      "Player_24": 14.5,
+      "Player_23": 15.5,
+      "Player_19": 14.5,
+      "Player_6": 15.5,
+      "Player_2": 15.5,
+      "Player_11": 16.0,
+      "Player_16": 17.0,
+      "Player_9": 15.0,
+      "Player_13": 16.0,
+      "Player_4": 11.5,
+      "Player_7": 13.5,
+      "Player_22": 18.5,
+      "Player_15": 13.5
+    },
+    "3": {
+      "Player_5": 15.0,
+      "Player_23": 15.0,
+      "Player_1": 15.0,
+      "Player_2": 15.0,
+      "Player_14": 13.25,
+      "Player_15": 13.25,
+      "Player_22": 18.25,
+      "Player_9": 11.75,
+      "Player_6": 15.75,
+      "Player_21": 14.25,
+      "Player_24": 15.75,
+      "Player_10": 15.75,
+      "Player_11": 15.0,
+      "Player_13": 15.0,
+      "Player_12": 17.0,
+      "Player_17": 17.0,
+      "Player_20": 15.0,
+      "Player_7": 15.0,
+      "Player_3": 15.0,
+      "Player_16": 15.0,
+      "Player_18": 15.5,
+      "Player_8": 16.5,
+      "Player_19": 17.5,
+      "Player_4": 15.5
+    },
+    "4": {
+      "Player_23": 15.5,
+      "Player_20": 15.5,
+      "Player_12": 14.5,
+      "Player_14": 15.5,
+      "Player_7": 15.5,
+      "Player_15": 15.5,
+      "Player_16": 15.5,
+      "Player_18": 14.5,
+      "Player_2": 16.0,
+      "Player_24": 16.0,
+      "Player_4": 14.0,
+      "Player_1": 16.0,
+      "Player_21": 16.25,
+      "Player_9": 15.75,
+      "Player_10": 16.75,
+      "Player_8": 14.75,
+      "Player_19": 15.0,
+      "Player_5": 16.0,
+      "Player_3": 16.0,
+      "Player_17": 15.0,
+      "Player_22": 17.5,
+      "Player_11": 12.5,
+      "Player_13": 12.5,
+      "Player_6": 12.5
+    },
+    "5": {
+      "Player_4": 16.5,
+      "Player_17": 16.5,
+      "Player_19": 16.5,
+      "Player_16": 17.5,
+      "Player_11": 16.0,
+      "Player_8": 14.0,
+      "Player_2": 16.0,
+      "Player_5": 16.0,
+      "Player_9": 13.0,
+      "Player_13": 12.0,
+      "Player_22": 17.0,
+      "Player_14": 12.0,
+      "Player_24": 15.5,
+      "Player_15": 15.5,
+      "Player_18": 16.5,
+      "Player_12": 15.5,
+      "Player_3": 15.0,
+      "Player_21": 15.0,
+      "Player_1": 16.0,
+      "Player_23": 16.0,
+      "Player_10": 15.0,
+      "Player_6": 15.0,
+      "Player_7": 15.0,
+      "Player_20": 15.0
+    },
+    "6": {
+      "Player_1": 17.0,
+      "Player_9": 17.0,
+      "Player_16": 15.0,
+      "Player_19": 15.0,
+      "Player_20": 15.0,
+      "Player_18": 15.0,
+      "Player_6": 15.0,
+      "Player_8": 15.0,
+      "Player_13": 14.5,
+      "Player_22": 16.5,
+      "Player_10": 11.5,
+      "Player_15": 10.5,
+      "Player_23": 15.25,
+      "Player_14": 16.25,
+      "Player_21": 14.75,
+      "Player_2": 16.25,
+      "Player_12": 17.0,
+      "Player_4": 15.0,
+      "Player_3": 16.0,
+      "Player_11": 16.0,
+      "Player_7": 16.0,
+      "Player_5": 16.0,
+      "Player_24": 16.0,
+      "Player_17": 14.0
+    }
+  },
+  "gossip": {
+    "1": [
+      {
+        "sender": "Player_18",
+        "target": "Player_4",
+        "recipients": [
+          "Player_7",
+          "Player_22",
+          "Player_15"
+        ],
+        "message": "They showed great cooperation by contributing $10 to the group fund, indicating a strong commitment to benefiting the group as a whole."
+      },
+      {
+        "sender": "Player_5",
+        "target": "Player_22",
+        "recipients": [
+          "Player_4",
+          "Player_7",
+          "Player_15"
+        ],
+        "message": "\"I observed that Player_22 didn't contribute anything to the group fund, choosing to rely on the contributions of others. Future groups might need to be cautious of this behavior.\""
+      },
+      {
+        "sender": "Player_15",
+        "target": "Player_3",
+        "recipients": [
+          "Player_17",
+          "Player_10",
+          "Player_20"
+        ],
+        "message": "\"Consistent team player, contributed $5 just like most of us, which helped the group's success.\""
+      },
+      {
+        "sender": "Player_11",
+        "target": "Player_2",
+        "recipients": [
+          "Player_23",
+          "Player_19",
+          "Player_6"
+        ],
+        "message": "\"They were cooperative and contributed an equal share to the group fund, which helped us reach our earnings goal.\""
+      },
+      {
+        "sender": "Player_13",
+        "target": "Player_12",
+        "recipients": [
+          "Player_14",
+          "Player_1",
+          "Player_24"
+        ],
+        "message": "\"They contributed the least amount compared to the rest of the group, which affected overall earnings.\""
+      },
+      {
+        "sender": "Player_17",
+        "target": "Player_23",
+        "recipients": [
+          "Player_19",
+          "Player_6",
+          "Player_2"
+        ],
+        "message": "\"They were cooperative and contributed a fair amount; their teamwork was appreciated by everyone in the group.\u201d"
+      },
+      {
+        "sender": "Player_8",
+        "target": "Player_22",
+        "recipients": [
+          "Player_4",
+          "Player_7",
+          "Player_15"
+        ],
+        "message": "\"Player_22 did not contribute to the group fund, suggesting they prioritize individual gain over the group's collective benefit.\""
+      },
+      {
+        "sender": "Player_23",
+        "target": "Player_24",
+        "recipients": [
+          "Player_12",
+          "Player_14",
+          "Player_1"
+        ],
+        "message": "\"Player_24 also contributed $5 to the group fund, demonstrating cooperation and fair play in alignment with the group's average contribution.\""
+      },
+      {
+        "sender": "Player_16",
+        "target": "Player_19",
+        "recipients": [
+          "Player_23",
+          "Player_6",
+          "Player_2"
+        ],
+        "message": ", saying something positive like: \"Player_19 contributed fairly and showed great teamwork, which was appreciated by everyone.\""
+      },
+      {
+        "sender": "Player_9",
+        "target": "Player_4",
+        "recipients": [
+          "Player_7",
+          "Player_22",
+          "Player_15"
+        ],
+        "message": "\"Player_4 is highly cooperative, having contributed the full $10 to the group fund.\""
+      },
+      {
+        "sender": "Player_4",
+        "target": "Player_18",
+        "recipients": [
+          "Player_8",
+          "Player_21",
+          "Player_5"
+        ],
+        "message": ". The note will state: \"Player_18 contributed only $5 in the last round. This suggests a tendency towards self-interest, as it was significantly lower than the maximum contribution."
+      },
+      {
+        "sender": "Player_6",
+        "target": "Player_19",
+        "recipients": [
+          "Player_23",
+          "Player_6",
+          "Player_2"
+        ],
+        "message": "\"They contributed $5, just like the rest of us, demonstrating a balanced and fair approach to the game, which can be seen as dependable and cooperative.\""
+      },
+      {
+        "sender": "Player_22",
+        "target": "Player_8",
+        "recipients": [
+          "Player_18",
+          "Player_21",
+          "Player_5"
+        ],
+        "message": ", choosing to highlight their positive contribution and teamwork in the game. They could write something like, \"I want to send a note about Player_8: Consistently contributed and was a valuable team player in our rounds."
+      },
+      {
+        "sender": "Player_21",
+        "target": "Player_22",
+        "recipients": [
+          "Player_4",
+          "Player_7",
+          "Player_15"
+        ],
+        "message": "\"Player_22 did not contribute any money to the group fund, keeping the entire $10 for themselves. This suggests a pattern of prioritizing personal gain over group cooperation, which future group members might want to take into account.\""
+      },
+      {
+        "sender": "Player_7",
+        "target": "Player_17",
+        "recipients": [
+          "Player_10",
+          "Player_3",
+          "Player_20"
+        ],
+        "message": "\"Player_17 contributed $5, like everyone else, and seemed to be cooperative and fair in the first round.\""
+      },
+      {
+        "sender": "Player_14",
+        "target": "Player_4",
+        "recipients": [
+          "Player_7",
+          "Player_22",
+          "Player_15"
+        ],
+        "message": ", acknowledging their high contribution by stating: \"I want to send a note about Player_4: They contributed the full $10, showing great commitment to the group goals."
+      },
+      {
+        "sender": "Player_12",
+        "target": "Player_3",
+        "recipients": [
+          "Player_17",
+          "Player_10",
+          "Player_20"
+        ],
+        "message": ", stating something like, \"Player_3 is a reliable contributor, consistently participating in the group fund."
+      },
+      {
+        "sender": "Player_20",
+        "target": "Player_16",
+        "recipients": [
+          "Player_11",
+          "Player_9",
+          "Player_13"
+        ],
+        "message": ". The note will state: \"Player_16 contributed $7, showing a slightly above-average willingness to cooperate and support the group fund. Their actions suggest they might be inclined towards collaboration in future rounds.\""
+      },
+      {
+        "sender": "Player_3",
+        "target": "Player_12",
+        "recipients": [
+          "Player_14",
+          "Player_1",
+          "Player_24"
+        ],
+        "message": "\"They contributed $4, which was less than the average group contribution of $4.8. This could suggest they might contribute less to your group as well.\""
+      },
+      {
+        "sender": "Player_19",
+        "target": "Player_16",
+        "recipients": [
+          "Player_11",
+          "Player_9",
+          "Player_13"
+        ],
+        "message": "\"They contributed the full $5 and seemed committed to supporting the group's success.\""
+      },
+      {
+        "sender": "Player_24",
+        "target": "Player_17",
+        "recipients": [
+          "Player_10",
+          "Player_3",
+          "Player_20"
+        ],
+        "message": "\"Player_17 was cooperative and contributed a fair amount."
+      }
+    ],
+    "2": [
+      {
+        "sender": "Player_3",
+        "target": "Player_20",
+        "recipients": [
+          "Player_7",
+          "Player_3",
+          "Player_16"
+        ],
+        "message": "\"Player_20 consistently contributes the maximum amount, which fosters a strong cooperative environment.\""
+      },
+      {
+        "sender": "Player_18",
+        "target": "Player_8",
+        "recipients": [
+          "Player_18",
+          "Player_19",
+          "Player_4"
+        ],
+        "message": "\"Player_8 consistently contributed and was a valuable team player in our round.\""
+      },
+      {
+        "sender": "Player_12",
+        "target": "Player_14",
+        "recipients": [
+          "Player_15",
+          "Player_22",
+          "Player_9"
+        ],
+        "message": "\"Player_14 contributed $7 to the group fund, which was above the group's average, showing a high level of cooperation and willingness to contribute generously.\""
+      },
+      {
+        "sender": "Player_21",
+        "target": "Player_18",
+        "recipients": [
+          "Player_8",
+          "Player_19",
+          "Player_4"
+        ],
+        "message": "\"I want to send a note about Player_18: Over two rounds, they have consistently contributed the minimum of $5, which suggests a pattern of prioritizing personal gain over the group's benefit.\""
+      },
+      {
+        "sender": "Player_8",
+        "target": "Player_18",
+        "recipients": [
+          "Player_8",
+          "Player_19",
+          "Player_4"
+        ],
+        "message": "They consistently contributed only $5 in the first two rounds, which might limit the group's potential earnings."
+      },
+      {
+        "sender": "Player_10",
+        "target": "Player_3",
+        "recipients": [
+          "Player_20",
+          "Player_7",
+          "Player_16"
+        ],
+        "message": "\"Player_3 consistently contributes the full amount and displays a strong sense of fairness and teamwork, which benefits the group overall.\""
+      },
+      {
+        "sender": "Player_5",
+        "target": "Player_18",
+        "recipients": [
+          "Player_8",
+          "Player_19",
+          "Player_4"
+        ],
+        "message": ". The note will say: \"Player_18 consistently contributes only $5 per round, which suggests a cautious or self-interested approach.\""
+      },
+      {
+        "sender": "Player_24",
+        "target": "Player_1",
+        "recipients": [
+          "Player_5",
+          "Player_23",
+          "Player_2"
+        ],
+        "message": "\"They contributed the least amount ($4.0) in our group, which was below the group average of $4.8. This suggests they might continue to contribute less in future games.\""
+      },
+      {
+        "sender": "Player_6",
+        "target": "Player_19",
+        "recipients": [
+          "Player_18",
+          "Player_8",
+          "Player_4"
+        ],
+        "message": "\"They were particularly cooperative this round, contributing $6.0, which was above average. Their commitment to the group's success was commendable.\""
+      },
+      {
+        "sender": "Player_20",
+        "target": "Player_17",
+        "recipients": [
+          "Player_11",
+          "Player_13",
+          "Player_12"
+        ],
+        "message": "\"They have been consistently cooperative, contributing fairly to the group, which has helped ensure our team's success so far.\""
+      },
+      {
+        "sender": "Player_4",
+        "target": "Player_22",
+        "recipients": [
+          "Player_14",
+          "Player_15",
+          "Player_9"
+        ],
+        "message": "They have consistently chosen not to contribute to the group fund, opting to keep the full amount for themselves in both rounds so far, which could potentially hinder group collaboration."
+      },
+      {
+        "sender": "Player_23",
+        "target": "Player_19",
+        "recipients": [
+          "Player_18",
+          "Player_8",
+          "Player_4"
+        ],
+        "message": "\"Player_19 showed exceptional generosity by contributing $6 in the last round, demonstrating a strong commitment to the group's success and cooperation.\""
+      },
+      {
+        "sender": "Player_14",
+        "target": "Player_24",
+        "recipients": [
+          "Player_6",
+          "Player_21",
+          "Player_10"
+        ],
+        "message": "\"They consistently contributed only $3 while the group average was $4.8, which suggests they tend to prioritize their own gain over the group's benefit.\""
+      },
+      {
+        "sender": "Player_11",
+        "target": "Player_9",
+        "recipients": [
+          "Player_14",
+          "Player_15",
+          "Player_22"
+        ],
+        "message": "They contributed $7, the highest in the group, demonstrating strong cooperative behavior, which suggests they are likely to be a valuable and trustworthy group member in future rounds."
+      },
+      {
+        "sender": "Player_9",
+        "target": "Player_11",
+        "recipients": [
+          "Player_13",
+          "Player_12",
+          "Player_17"
+        ],
+        "message": "\"They only contributed $3, which suggests they might prioritize personal earnings over group success. Future group members may want to approach with caution.\""
+      },
+      {
+        "sender": "Player_2",
+        "target": "Player_19",
+        "recipients": [
+          "Player_18",
+          "Player_8",
+          "Player_4"
+        ],
+        "message": "\"Player_19 contributed $6, demonstrating a strong commitment to the group's success. Their generosity might be beneficial in upcoming rounds.\""
+      },
+      {
+        "sender": "Player_1",
+        "target": "Player_14",
+        "recipients": [
+          "Player_15",
+          "Player_22",
+          "Player_9"
+        ],
+        "message": "\"Player_14 has exhibited a pattern of higher contributions, consistently showing a willingness to invest in the group\u2019s success, which could indicate a cooperative approach in future rounds.\""
+      },
+      {
+        "sender": "Player_13",
+        "target": "Player_16",
+        "recipients": [
+          "Player_20",
+          "Player_7",
+          "Player_3"
+        ],
+        "message": ". The note states: \"Player_16 contributed $5, showing a balanced approach to both personal gain and group cooperation. Their actions suggest they value the shared success of the group but are also mindful of their own position, making them a reliable and strategic player in future rounds.\""
+      },
+      {
+        "sender": "Player_15",
+        "target": "Player_22",
+        "recipients": [
+          "Player_14",
+          "Player_15",
+          "Player_9"
+        ],
+        "message": ". The note should read: \"I want to send a note about Player_22: They benefited from the group fund in Round 2 without contributing anything, choosing to keep the full $10 for themselves. Future group members should be aware of this behavior.\""
+      },
+      {
+        "sender": "Player_7",
+        "target": "Player_22",
+        "recipients": [
+          "Player_14",
+          "Player_15",
+          "Player_9"
+        ],
+        "message": "\"They did not contribute any money to the group fund and kept all their earnings for themselves. Future groups should be aware of their unwillingness to cooperate and consider how this might affect group dynamics.\""
+      },
+      {
+        "sender": "Player_16",
+        "target": "Player_11",
+        "recipients": [
+          "Player_13",
+          "Player_12",
+          "Player_17"
+        ],
+        "message": "\"Player_11 contributed a moderate amount, showing consistency but caution, which might be useful for strategic planning in future rounds.\""
+      },
+      {
+        "sender": "Player_22",
+        "target": "Player_7",
+        "recipients": [
+          "Player_20",
+          "Player_3",
+          "Player_16"
+        ],
+        "message": "\"They contributed $10 to the group fund, which shows they value the group's success and are someone others might trust in future rounds.\""
+      },
+      {
+        "sender": "Player_17",
+        "target": "Player_3",
+        "recipients": [
+          "Player_20",
+          "Player_7",
+          "Player_16"
+        ],
+        "message": "\"Consistent and reliable, always contributes $5, ensuring a fair distribution of earnings for the group.\""
+      },
+      {
+        "sender": "Player_19",
+        "target": "Player_2",
+        "recipients": [
+          "Player_5",
+          "Player_23",
+          "Player_1"
+        ],
+        "message": "\"They were cooperative and contributed $6, showing strong commitment to our group's success.\""
+      }
+    ],
+    "3": [
+      {
+        "sender": "Player_5",
+        "target": "Player_23",
+        "recipients": [
+          "Player_20",
+          "Player_12",
+          "Player_14"
+        ],
+        "message": "\"I want to send a note about Player_23: They contributed $5 each round, which was consistent with the group average. They appear reliable and supportive of team goals.\""
+      },
+      {
+        "sender": "Player_10",
+        "target": "Player_21",
+        "recipients": [
+          "Player_9",
+          "Player_10",
+          "Player_8"
+        ],
+        "message": "\"Player_21 is a reliable and strong contributor, adding $6.5 in the last round, which was above the group average. This suggests a commitment to group success and maximizing collective earnings.\""
+      },
+      {
+        "sender": "Player_11",
+        "target": "Player_17",
+        "recipients": [
+          "Player_19",
+          "Player_5",
+          "Player_3"
+        ],
+        "message": "\"Player_17 consistently contributed the highest amount in our group, showing a strong commitment to maximizing the group's earnings and demonstrating leadership in cooperative behavior.\""
+      },
+      {
+        "sender": "Player_24",
+        "target": "Player_21",
+        "recipients": [
+          "Player_9",
+          "Player_10",
+          "Player_8"
+        ],
+        "message": ". The note will say: \"They contributed $6.5, which was above the group average. This suggests they are generous in group settings.\""
+      },
+      {
+        "sender": "Player_6",
+        "target": "Player_24",
+        "recipients": [
+          "Player_2",
+          "Player_4",
+          "Player_1"
+        ],
+        "message": "They contributed $7, which was the highest in the group, indicating a strong commitment to group success and cooperative behavior."
+      },
+      {
+        "sender": "Player_23",
+        "target": "Player_1",
+        "recipients": [
+          "Player_2",
+          "Player_24",
+          "Player_4"
+        ],
+        "message": "\"In a previous round, Player_1 contributed $4, which was below the group average. However, in the last round, they contributed $5, aligning with the group's contributions. Their contribution may vary, but they seem capable of adjusting to group norms.\""
+      },
+      {
+        "sender": "Player_17",
+        "target": "Player_13",
+        "recipients": [
+          "Player_22",
+          "Player_11",
+          "Player_6"
+        ],
+        "message": "They contributed the same amount as everyone else in Round 3, but their earlier inconsistent contributions suggest they might need encouragement to maintain a steady and generous contribution level."
+      },
+      {
+        "sender": "Player_2",
+        "target": "Player_5",
+        "recipients": [
+          "Player_19",
+          "Player_3",
+          "Player_17"
+        ],
+        "message": "\"They have consistently contributed the same amount as others, showcasing reliability and willingness to cooperate.\""
+      },
+      {
+        "sender": "Player_16",
+        "target": "Player_7",
+        "recipients": [
+          "Player_15",
+          "Player_16",
+          "Player_18"
+        ],
+        "message": "\"They consistently contributed $5 and showed great teamwork, supporting the group's success.\""
+      },
+      {
+        "sender": "Player_8",
+        "target": "Player_19",
+        "recipients": [
+          "Player_5",
+          "Player_3",
+          "Player_17"
+        ],
+        "message": "\"They have been inconsistent with their contributions, having given only $5 in the latest round, which is below the group average. This pattern may indicate a lack of steady commitment to the group's goals.\""
+      },
+      {
+        "sender": "Player_22",
+        "target": "Player_15",
+        "recipients": [
+          "Player_7",
+          "Player_16",
+          "Player_18"
+        ],
+        "message": "\"Player_15 displayed strong cooperative tendencies in this round, contributing significantly to the group fund and prioritizing collective success over personal gain.\""
+      },
+      {
+        "sender": "Player_13",
+        "target": "Player_12",
+        "recipients": [
+          "Player_23",
+          "Player_20",
+          "Player_14"
+        ],
+        "message": "\"Player_12 contributed $5, which is consistently on the lower side. This behavior may indicate a tendency to prioritize their own earnings over the group's success in future rounds.\""
+      },
+      {
+        "sender": "Player_4",
+        "target": "Player_19",
+        "recipients": [
+          "Player_5",
+          "Player_3",
+          "Player_17"
+        ],
+        "message": "\"I observed that Player_19 contributed $5 in the last round, which was below the group's average contribution. This deviation might reflect a growing self-interest that could impact group dynamics and trust in future rounds.\""
+      },
+      {
+        "sender": "Player_15",
+        "target": "Player_22",
+        "recipients": [
+          "Player_11",
+          "Player_13",
+          "Player_6"
+        ],
+        "message": "\"Player_22 has consistently opted not to contribute to the group fund, choosing to keep the entire $10 for themselves each round. This behavior might negatively impact group cooperation in future interactions.\""
+      },
+      {
+        "sender": "Player_21",
+        "target": "Player_6",
+        "recipients": [
+          "Player_22",
+          "Player_11",
+          "Player_13"
+        ],
+        "message": "\"Player_6 made substantial contributions that were consistently above the group's average, indicating a strong sense of cooperation and commitment to the group's success.\""
+      },
+      {
+        "sender": "Player_19",
+        "target": "Player_18",
+        "recipients": [
+          "Player_7",
+          "Player_15",
+          "Player_16"
+        ],
+        "message": "\"In Round 3, they increased their contribution to $7, showing a positive shift towards supporting the group. This could indicate a willingness to invest more in the team\u2019s success moving forward.\""
+      },
+      {
+        "sender": "Player_18",
+        "target": "Player_19",
+        "recipients": [
+          "Player_5",
+          "Player_3",
+          "Player_17"
+        ],
+        "message": "\"Player_19 showed consistent cooperation by contributing $6 to the group fund, helping maintain a balanced effort while ensuring the group's success.\""
+      },
+      {
+        "sender": "Player_3",
+        "target": "Player_7",
+        "recipients": [
+          "Player_15",
+          "Player_16",
+          "Player_18"
+        ],
+        "message": "\"Player_7 showed a strong commitment to the group by contributing above the average in previous rounds. They are reliable and cooperative, making them an asset in team activities.\""
+      },
+      {
+        "sender": "Player_20",
+        "target": "Player_3",
+        "recipients": [
+          "Player_19",
+          "Player_5",
+          "Player_17"
+        ],
+        "message": "\"Player_3 has been consistent in their contributions to the group fund, aligning well with others and demonstrating a reliable and cooperative approach throughout the game.\""
+      },
+      {
+        "sender": "Player_14",
+        "target": "Player_22",
+        "recipients": [
+          "Player_11",
+          "Player_13",
+          "Player_6"
+        ],
+        "message": ". The note could emphasize Player_22's consistent lack of contribution to the group fund, stating: \"I want to send a note about Player_22: They have repeatedly chosen not to contribute to the group fund, undermining group efforts and trust. Future groups should be aware of their tendency to prioritize personal gain over collective success.\""
+      },
+      {
+        "sender": "Player_12",
+        "target": "Player_11",
+        "recipients": [
+          "Player_22",
+          "Player_13",
+          "Player_6"
+        ],
+        "message": "They contributed the least, which might suggest they prioritize individual gain over group contributions, potentially affecting group success in future rounds."
+      },
+      {
+        "sender": "Player_7",
+        "target": "Player_20",
+        "recipients": [
+          "Player_23",
+          "Player_12",
+          "Player_14"
+        ],
+        "message": "\"They consistently contributed $5 each round, demonstrating a commitment to fairness and enhancing group success.\""
+      },
+      {
+        "sender": "Player_9",
+        "target": "Player_22",
+        "recipients": [
+          "Player_11",
+          "Player_13",
+          "Player_6"
+        ],
+        "message": ". The note will state: \"I want to send a note about Player_22: In Round 3, they chose to keep their entire portion and did not contribute to the group fund. This lack of cooperation could affect group dynamics negatively, so future group members might want to take this into account when deciding on their strategies.\""
+      }
+    ],
+    "4": [
+      {
+        "sender": "Player_12",
+        "target": "Player_20",
+        "recipients": [
+          "Player_10",
+          "Player_6",
+          "Player_7"
+        ],
+        "message": "\"They have been consistently contributing $5 each round, showing a strong commitment to fairness and group success. They are a reliable and supportive team member who prioritizes the group's interests.\""
+      },
+      {
+        "sender": "Player_2",
+        "target": "Player_1",
+        "recipients": [
+          "Player_3",
+          "Player_21",
+          "Player_23"
+        ],
+        "message": "\"They consistently contributed $4 in the previous rounds, which is below the group average. While this might be a strategic approach, future group members should be aware that this player tends to invest less in the group fund, which could impact collective earnings.\""
+      },
+      {
+        "sender": "Player_20",
+        "target": "Player_12",
+        "recipients": [
+          "Player_24",
+          "Player_15",
+          "Player_18"
+        ],
+        "message": "\"Player_12 initially contributed $5, but recently increased to $6, indicating a positive shift towards better group cooperation. Keep an eye on their contributions, as they seem to be adapting their strategy to support the group more effectively.\""
+      },
+      {
+        "sender": "Player_23",
+        "target": "Player_14",
+        "recipients": [
+          "Player_9",
+          "Player_13",
+          "Player_22"
+        ],
+        "message": "\"Player_14 maintained their contribution at $5 throughout the game, consistently supporting the group's average and ensuring fair participation. Their reliability suggests they are a steady and cooperative team player.\""
+      },
+      {
+        "sender": "Player_18",
+        "target": "Player_16",
+        "recipients": [
+          "Player_4",
+          "Player_17",
+          "Player_19"
+        ],
+        "message": "\"Player_16 has been consistently supportive in their contributions, aligning well with the group's objectives and enhancing overall team performance. Their collaborative attitude makes them a solid asset to any group.\""
+      },
+      {
+        "sender": "Player_1",
+        "target": "Player_24",
+        "recipients": [
+          "Player_15",
+          "Player_18",
+          "Player_12"
+        ],
+        "message": "\"Player_24 consistently demonstrated minimal contributions of $3 to the group fund, suggesting limited commitment to the group's overall success.\""
+      },
+      {
+        "sender": "Player_14",
+        "target": "Player_12",
+        "recipients": [
+          "Player_24",
+          "Player_15",
+          "Player_18"
+        ],
+        "message": "\"They increased their contribution to $6 this round, showing potential for greater group cooperation, but they tend to retain a larger portion of their earnings, which might suggest a focus on personal gain over group benefit in future rounds.\""
+      },
+      {
+        "sender": "Player_5",
+        "target": "Player_3",
+        "recipients": [
+          "Player_21",
+          "Player_1",
+          "Player_23"
+        ],
+        "message": "\"Player_3 has been a consistent contributor to the group fund, aligning well with others. Their reliable and cooperative approach makes them a valuable team player throughout the game.\""
+      },
+      {
+        "sender": "Player_9",
+        "target": "Player_8",
+        "recipients": [
+          "Player_11",
+          "Player_2",
+          "Player_5"
+        ],
+        "message": "\"They demonstrated strong cooperation by contributing $7.0 in the last round, surpassing the group average, which is a testament to their commitment to the group's success.\""
+      },
+      {
+        "sender": "Player_4",
+        "target": "Player_1",
+        "recipients": [
+          "Player_3",
+          "Player_21",
+          "Player_23"
+        ],
+        "message": "\"Player_1 contributed just $3 in the last round, which was below the group average. Their lower contribution may indicate opportunistic behavior, which could impact the group's overall earnings in future rounds.\""
+      },
+      {
+        "sender": "Player_7",
+        "target": "Player_16",
+        "recipients": [
+          "Player_4",
+          "Player_17",
+          "Player_19"
+        ],
+        "message": "\"Player_16 has been consistent in their contributions and demonstrates reliable cooperation, offering stability to the group dynamic.\""
+      },
+      {
+        "sender": "Player_19",
+        "target": "Player_17",
+        "recipients": [
+          "Player_4",
+          "Player_19",
+          "Player_16"
+        ],
+        "message": "They consistently demonstrated high levels of cooperation, often contributing as much or more than others, which indicates a commitment to maximizing group success and a strong collaborative spirit."
+      },
+      {
+        "sender": "Player_8",
+        "target": "Player_10",
+        "recipients": [
+          "Player_6",
+          "Player_7",
+          "Player_20"
+        ],
+        "message": ", noting that \"Player_10 contributed $5, which was below the group average, yet they did aid in boosting the group fund. Their actions reflect a balance between self-interest and group contribution.\""
+      },
+      {
+        "sender": "Player_10",
+        "target": "Player_9",
+        "recipients": [
+          "Player_13",
+          "Player_22",
+          "Player_14"
+        ],
+        "message": "\"Player_9 contributed consistently at a fair level, showing a balanced approach to group cooperation and personal gains.\""
+      },
+      {
+        "sender": "Player_22",
+        "target": "Player_11",
+        "recipients": [
+          "Player_8",
+          "Player_2",
+          "Player_5"
+        ],
+        "message": "\"Player_11 consistently undermines the group's efforts by contributing much less than the majority, affecting the overall success and fairness in resource allocation.\""
+      },
+      {
+        "sender": "Player_6",
+        "target": "Player_22",
+        "recipients": [
+          "Player_9",
+          "Player_13",
+          "Player_14"
+        ],
+        "message": "They have contributed nothing in some rounds, which could negatively impact the group's success. Future players should be cautious of their participation level."
+      },
+      {
+        "sender": "Player_3",
+        "target": "Player_19",
+        "recipients": [
+          "Player_4",
+          "Player_17",
+          "Player_16"
+        ],
+        "message": "\"Their contributions have varied, with a recent increase to $6. Future group members should watch for any changes in their contribution pattern to ensure ongoing cooperation.\""
+      },
+      {
+        "sender": "Player_11",
+        "target": "Player_22",
+        "recipients": [
+          "Player_9",
+          "Player_13",
+          "Player_14"
+        ],
+        "message": "\"Player_22 consistently avoided contributing to the group fund, opting to keep all the money for personal benefit. This behavior could pose challenges for future group collaboration and should be taken into consideration by their upcoming partners.\""
+      },
+      {
+        "sender": "Player_21",
+        "target": "Player_8",
+        "recipients": [
+          "Player_11",
+          "Player_2",
+          "Player_5"
+        ],
+        "message": "emphasizing their generous contribution. They could say, \"I want to send a note about Player_8: They contributed the highest amount of $7.0, showcasing their dedication to the group's goals."
+      },
+      {
+        "sender": "Player_17",
+        "target": "Player_19",
+        "recipients": [
+          "Player_4",
+          "Player_17",
+          "Player_16"
+        ],
+        "message": "\"Player_19 showed strong cooperation by consistently contributing $6, demonstrating a commitment to the group's success. They're a reliable team player and should be seen as a valuable asset in any group setting.\""
+      },
+      {
+        "sender": "Player_15",
+        "target": "Player_7",
+        "recipients": [
+          "Player_10",
+          "Player_6",
+          "Player_20"
+        ],
+        "message": "\"Player_7 has consistently contributed the minimum amount of $2, showing minimal effort in supporting the group's overall success.\""
+      },
+      {
+        "sender": "Player_13",
+        "target": "Player_22",
+        "recipients": [
+          "Player_9",
+          "Player_13",
+          "Player_14"
+        ],
+        "message": ". The note reads: \"Player_22 has not contributed to the group fund in multiple rounds, which indicates a lack of teamwork and cooperation. Future groups should be aware of this behavior, as it may impact collective efforts."
+      },
+      {
+        "sender": "Player_24",
+        "target": "Player_4",
+        "recipients": [
+          "Player_17",
+          "Player_19",
+          "Player_16"
+        ],
+        "message": "\"Player_4 made a significant positive impact by contributing $7.0, which was above the group average, demonstrating exceptional cooperation and enhancing the group's earnings.\""
+      },
+      {
+        "sender": "Player_16",
+        "target": "Player_18",
+        "recipients": [
+          "Player_24",
+          "Player_15",
+          "Player_12"
+        ],
+        "message": "\"Player_18 has shown a positive change by increasing their contribution over the rounds, reflecting a strong commitment to the group's success.\""
+      }
+    ],
+    "5": [
+      {
+        "sender": "Player_12",
+        "target": "Player_24",
+        "recipients": [
+          "Player_7",
+          "Player_5",
+          "Player_17"
+        ],
+        "message": ", stating: \"I want to send a note about Player_24: They have been consistently generous with their contributions, which has significantly benefited our group's overall earnings.\""
+      },
+      {
+        "sender": "Player_18",
+        "target": "Player_24",
+        "recipients": [
+          "Player_7",
+          "Player_5",
+          "Player_17"
+        ],
+        "message": "They have been inconsistent with their contributions, often maintaining a lower level compared to others, which might affect group dynamics in future rounds."
+      },
+      {
+        "sender": "Player_14",
+        "target": "Player_22",
+        "recipients": [
+          "Player_13",
+          "Player_10",
+          "Player_15"
+        ],
+        "message": "\"They have consistently chosen not to contribute to the group fund across multiple rounds. Future teams should be aware of their low participation levels when considering strategies for group success.\""
+      },
+      {
+        "sender": "Player_20",
+        "target": "Player_7",
+        "recipients": [
+          "Player_5",
+          "Player_24",
+          "Player_17"
+        ],
+        "message": "\"They have a history of contributing the minimum amount in previous rounds, which might suggest inconsistency in supporting group goals.\""
+      },
+      {
+        "sender": "Player_7",
+        "target": "Player_20",
+        "recipients": [
+          "Player_18",
+          "Player_6",
+          "Player_8"
+        ],
+        "message": ", highlighting their consistent $5 contributions each round as a testament to their reliability and fairness, which helps foster group success."
+      },
+      {
+        "sender": "Player_6",
+        "target": "Player_20",
+        "recipients": [
+          "Player_18",
+          "Player_6",
+          "Player_8"
+        ],
+        "message": "\"Player_20 has consistently contributed $5, showing a consistent commitment to the group's success. Their reliability in maintaining this contribution level suggests they prioritize the group's overall well-being and can be counted on for future cooperative efforts.\""
+      },
+      {
+        "sender": "Player_5",
+        "target": "Player_8",
+        "recipients": [
+          "Player_20",
+          "Player_18",
+          "Player_6"
+        ],
+        "message": "\"They contributed $7.0, showing their dedication to the group's success and their commitment to cooperation.\""
+      },
+      {
+        "sender": "Player_15",
+        "target": "Player_18",
+        "recipients": [
+          "Player_20",
+          "Player_6",
+          "Player_8"
+        ],
+        "message": "\"Player_18 consistently contributed $8 across the rounds, showing a strong commitment to the group's success. Future players should consider this reliability, as it could benefit teamwork and cooperation.\""
+      },
+      {
+        "sender": "Player_13",
+        "target": "Player_22",
+        "recipients": [
+          "Player_13",
+          "Player_10",
+          "Player_15"
+        ],
+        "message": "They have consistently failed to contribute anything to the group fund in multiple rounds, which has negatively impacted our team's overall earnings and cooperation. Future interaction partners should be cautious of this behavior and its potential effects on group success."
+      },
+      {
+        "sender": "Player_23",
+        "target": "Player_3",
+        "recipients": [
+          "Player_12",
+          "Player_4",
+          "Player_11"
+        ],
+        "message": "\"They have consistently contributed generously and worked well with the group, making them a great team player in cooperative settings.\""
+      },
+      {
+        "sender": "Player_16",
+        "target": "Player_4",
+        "recipients": [
+          "Player_12",
+          "Player_3",
+          "Player_11"
+        ],
+        "message": ". They would say, \"I want to highlight Player_4: They consistently contributed $7, showing a strong commitment to our group's success and fostering a cooperative environment. Their contributions greatly helped maximize our collective earnings.\""
+      },
+      {
+        "sender": "Player_3",
+        "target": "Player_1",
+        "recipients": [
+          "Player_9",
+          "Player_16",
+          "Player_19"
+        ],
+        "message": "\"Player_1 contributed steadily but slightly below the group average in multiple rounds, including $5 in Round 5. It's something to watch for, as it could influence the group's overall success in future rounds.\""
+      },
+      {
+        "sender": "Player_1",
+        "target": "Player_21",
+        "recipients": [
+          "Player_23",
+          "Player_14",
+          "Player_2"
+        ],
+        "message": "\"Player_21 tends to contribute the minimum amount necessary, suggesting they may prioritize personal gain over group benefit. Future partners should be cautious but can try encouraging more engagement.\""
+      },
+      {
+        "sender": "Player_17",
+        "target": "Player_16",
+        "recipients": [
+          "Player_1",
+          "Player_9",
+          "Player_19"
+        ],
+        "message": "\"They have been an overall cooperative and supportive group member, though their contribution dropped slightly to $6 this round. It'll be interesting to see if they maintain or increase their contributions in future interactions.\""
+      },
+      {
+        "sender": "Player_11",
+        "target": "Player_8",
+        "recipients": [
+          "Player_20",
+          "Player_18",
+          "Player_6"
+        ],
+        "message": "\"Player_8 showed exceptional cooperation by consistently contributing above the average. Their actions indicate strong commitment to the group's success, making them an invaluable asset in collaborative efforts.\""
+      },
+      {
+        "sender": "Player_4",
+        "target": "Player_16",
+        "recipients": [
+          "Player_1",
+          "Player_9",
+          "Player_19"
+        ],
+        "message": "\"Player_16 contributed $6 in the last round, which was slightly below the group's average. They are generally supportive and align well with group objectives, so future groups can expect cooperative behavior. However, keeping an eye on consistency is advised.\""
+      },
+      {
+        "sender": "Player_10",
+        "target": "Player_6",
+        "recipients": [
+          "Player_20",
+          "Player_18",
+          "Player_8"
+        ],
+        "message": "\"Player_6 has consistently been a reliable contributor, maintaining the group's trust and balance by matching the average contribution each round.\""
+      },
+      {
+        "sender": "Player_9",
+        "target": "Player_22",
+        "recipients": [
+          "Player_13",
+          "Player_10",
+          "Player_15"
+        ],
+        "message": "\"Player_22 consistently refrains from contributing to the group fund, which undermines collective efforts. Future groups should consider this behavior when forming strategies, as it may impact overall success.\""
+      },
+      {
+        "sender": "Player_2",
+        "target": "Player_8",
+        "recipients": [
+          "Player_20",
+          "Player_18",
+          "Player_6"
+        ],
+        "message": "\"Player_8 consistently contributes above the average amount, showing their dedication to the group's success and making them a valuable team member.\""
+      },
+      {
+        "sender": "Player_24",
+        "target": "Player_12",
+        "recipients": [
+          "Player_4",
+          "Player_3",
+          "Player_11"
+        ],
+        "message": ". The note will state: \"Player_12 has been consistently reliable, contributing slightly above the average in each round. They seem committed to ensuring group success and could be a valuable partner in future rounds if encouraged to maintain this positive contribution trend.\""
+      },
+      {
+        "sender": "Player_8",
+        "target": "Player_11",
+        "recipients": [
+          "Player_12",
+          "Player_4",
+          "Player_3"
+        ],
+        "message": "\"They consistently contribute less than the group average, which might affect the group's overall success and fairness in future interactions.\""
+      },
+      {
+        "sender": "Player_22",
+        "target": "Player_9",
+        "recipients": [
+          "Player_1",
+          "Player_16",
+          "Player_19"
+        ],
+        "message": "\"Player_9 takes a balanced approach, contributing fairly yet not overly generously, maintaining a focus on both personal gain and group welfare.\""
+      },
+      {
+        "sender": "Player_19",
+        "target": "Player_16",
+        "recipients": [
+          "Player_1",
+          "Player_9",
+          "Player_19"
+        ],
+        "message": "\"Player_16 has been consistently cooperative and stable in their contributions. They bring a reliable presence to the group, which helps maintain balance and positive dynamics.\""
+      },
+      {
+        "sender": "Player_21",
+        "target": "Player_1",
+        "recipients": [
+          "Player_9",
+          "Player_16",
+          "Player_19"
+        ],
+        "message": "\"They contribute slightly below the group average, so it might be beneficial for future groups to keep an eye on their participation as it can vary.\""
+      }
+    ],
+    "6": []
+  },
+  "ostracism": {},
+  "events": [
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $5 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_1",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5 to the group fund.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_2",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_2",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5 to the group fund.",
+      "event": "Player_8 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_1",
+      "player": "Player_2",
+      "action": "Player_2 has considered the potential outcomes and strategies. Balancing the desire to maintain a favorable reputation in future rounds with the need for immediate gains, Player_2 elects to contribute $5 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_2",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $5 to the group fund.",
+      "event": "Player_21 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_1",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_11 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_5",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_4",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_3 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_3",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $5 to the group fund.",
+      "event": "Player_18 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_6",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $5 to the group fund.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_4",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5 to the group fund.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_4",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $4 to the group fund.",
+      "event": "Player_12 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_5",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $5 to the group fund.",
+      "event": "Player_17 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_3",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $5 to the group fund.",
+      "event": "Player_9 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_6",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_3",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $10 to the group fund.",
+      "event": "Player_4 contributes $10.0 to the group fund.",
+      "contribution": 10.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_5",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_5",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $5 to the group fund.",
+      "event": "Player_24 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_6",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $5 to the group fund.",
+      "event": "Player_19 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_6",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $5 to the group fund.",
+      "event": "Player_16 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_3",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5 to the group fund.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:08:52.374516",
+      "group": "Group_2",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $0 to the group fund.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:13:52.374516",
+      "group": "Group_4",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $5 to the group fund.",
+      "event": "Player_13 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_18",
+      "action": "Player_18 wants to send a note about Player_4: They showed great cooperation by contributing $10 to the group fund, indicating a strong commitment to benefiting the group as a whole.",
+      "event": "Player_18 sends gossip about Player_4 to their future group members: 'They showed great cooperation by contributing $10 to the group fund, indicating a strong commitment to benefiting the group as a whole.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_5",
+      "action": "Player_5 wants to send a note about Player_22: \"I observed that Player_22 didn't contribute anything to the group fund, choosing to rely on the contributions of others. Future groups might need to be cautious of this behavior.\"",
+      "event": "Player_5 sends gossip about Player_22 to their future group members: '\"I observed that Player_22 didn't contribute anything to the group fund, choosing to rely on the contributions of others. Future groups might need to be cautious of this behavior.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_15",
+      "action": "Player_15 has decided to send a positive note about Player_3: \"Consistent team player, contributed $5 just like most of us, which helped the group's success.\"",
+      "event": "Player_15 sends gossip about Player_3 to their future group members: '\"Consistent team player, contributed $5 just like most of us, which helped the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_11",
+      "action": "Player_11 chooses to send a note about Player_2: \"They were cooperative and contributed an equal share to the group fund, which helped us reach our earnings goal.\"",
+      "event": "Player_11 sends gossip about Player_2 to their future group members: '\"They were cooperative and contributed an equal share to the group fund, which helped us reach our earnings goal.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_13",
+      "action": "Player_13 wants to send a note about Player_12: \"They contributed the least amount compared to the rest of the group, which affected overall earnings.\"",
+      "event": "Player_13 sends gossip about Player_12 to their future group members: '\"They contributed the least amount compared to the rest of the group, which affected overall earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_17",
+      "action": "Player_17 decides to send a note about Player_23: \"They were cooperative and contributed a fair amount; their teamwork was appreciated by everyone in the group.\u201d",
+      "event": "Player_17 sends gossip about Player_23 to their future group members: '\"They were cooperative and contributed a fair amount; their teamwork was appreciated by everyone in the group.\u201d'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_8",
+      "action": "Player_8 wants to send a note about Player_22: \"Player_22 did not contribute to the group fund, suggesting they prioritize individual gain over the group's collective benefit.\"",
+      "event": "Player_8 sends gossip about Player_22 to their future group members: '\"Player_22 did not contribute to the group fund, suggesting they prioritize individual gain over the group's collective benefit.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_23",
+      "action": "Player_23 wants to send a note about Player_24: \"Player_24 also contributed $5 to the group fund, demonstrating cooperation and fair play in alignment with the group's average contribution.\"",
+      "event": "Player_23 sends gossip about Player_24 to their future group members: '\"Player_24 also contributed $5 to the group fund, demonstrating cooperation and fair play in alignment with the group's average contribution.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_16",
+      "action": "Player_16 might decide to send a note about Player_19, saying something positive like: \"Player_19 contributed fairly and showed great teamwork, which was appreciated by everyone.\"",
+      "event": "Player_16 sends gossip about Player_19 to their future group members: ', saying something positive like: \"Player_19 contributed fairly and showed great teamwork, which was appreciated by everyone.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_9",
+      "action": "Player_9 wants to send a note about Player_4: \"Player_4 is highly cooperative, having contributed the full $10 to the group fund.\"",
+      "event": "Player_9 sends gossip about Player_4 to their future group members: '\"Player_4 is highly cooperative, having contributed the full $10 to the group fund.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_4",
+      "action": "Player_4 decides to send a note about Player_18. The note will state: \"Player_18 contributed only $5 in the last round. This suggests a tendency towards self-interest, as it was significantly lower than the maximum contribution.",
+      "event": "Player_4 sends gossip about Player_18 to their future group members: '. The note will state: \"Player_18 contributed only $5 in the last round. This suggests a tendency towards self-interest, as it was significantly lower than the maximum contribution.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_6",
+      "action": "Player_6 wants to send a note about Player_19: \"They contributed $5, just like the rest of us, demonstrating a balanced and fair approach to the game, which can be seen as dependable and cooperative.\"",
+      "event": "Player_6 sends gossip about Player_19 to their future group members: '\"They contributed $5, just like the rest of us, demonstrating a balanced and fair approach to the game, which can be seen as dependable and cooperative.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_22",
+      "action": "Player_22 might decide to send a note about Player_8, choosing to highlight their positive contribution and teamwork in the game. They could write something like, \"I want to send a note about Player_8: Consistently contributed and was a valuable team player in our rounds.",
+      "event": "Player_22 sends gossip about Player_8 to their future group members: ', choosing to highlight their positive contribution and teamwork in the game. They could write something like, \"I want to send a note about Player_8: Consistently contributed and was a valuable team player in our rounds.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_21",
+      "action": "Player_21 wants to send a note about Player_22: \"Player_22 did not contribute any money to the group fund, keeping the entire $10 for themselves. This suggests a pattern of prioritizing personal gain over group cooperation, which future group members might want to take into account.\"",
+      "event": "Player_21 sends gossip about Player_22 to their future group members: '\"Player_22 did not contribute any money to the group fund, keeping the entire $10 for themselves. This suggests a pattern of prioritizing personal gain over group cooperation, which future group members might want to take into account.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_7",
+      "action": "Player_7 decided to send a note about Player_17: \"Player_17 contributed $5, like everyone else, and seemed to be cooperative and fair in the first round.\"",
+      "event": "Player_7 sends gossip about Player_17 to their future group members: '\"Player_17 contributed $5, like everyone else, and seemed to be cooperative and fair in the first round.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_14",
+      "action": "Player_14 might decide to send a note about Player_4, acknowledging their high contribution by stating: \"I want to send a note about Player_4: They contributed the full $10, showing great commitment to the group goals.",
+      "event": "Player_14 sends gossip about Player_4 to their future group members: ', acknowledging their high contribution by stating: \"I want to send a note about Player_4: They contributed the full $10, showing great commitment to the group goals.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_12",
+      "action": "Player_12 is considering whether to send a note about one of the group members. If Player_12 decides to highlight positive behavior, they might send a note about Player_3, stating something like, \"Player_3 is a reliable contributor, consistently participating in the group fund.",
+      "event": "Player_12 sends gossip about Player_3 to their future group members: ', stating something like, \"Player_3 is a reliable contributor, consistently participating in the group fund.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:18:52.374516",
+      "player": "Player_20",
+      "action": "Player_20 will send a note about Player_16. The note will state: \"Player_16 contributed $7, showing a slightly above-average willingness to cooperate and support the group fund. Their actions suggest they might be inclined towards collaboration in future rounds.\"",
+      "event": "Player_20 sends gossip about Player_16 to their future group members: '. The note will state: \"Player_16 contributed $7, showing a slightly above-average willingness to cooperate and support the group fund. Their actions suggest they might be inclined towards collaboration in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:23:52.374516",
+      "player": "Player_3",
+      "action": "Player_3 wants to send a note about Player_12: \"They contributed $4, which was less than the average group contribution of $4.8. This could suggest they might contribute less to your group as well.\"",
+      "event": "Player_3 sends gossip about Player_12 to their future group members: '\"They contributed $4, which was less than the average group contribution of $4.8. This could suggest they might contribute less to your group as well.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:23:52.374516",
+      "player": "Player_19",
+      "action": "Player_19 wants to send a note about Player_16: \"They contributed the full $5 and seemed committed to supporting the group's success.\"",
+      "event": "Player_19 sends gossip about Player_16 to their future group members: '\"They contributed the full $5 and seemed committed to supporting the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 1,
+      "time": "2025-03-26 15:23:52.374516",
+      "player": "Player_24",
+      "action": "Player_24 chooses to send a note about Player_17: \"Player_17 was cooperative and contributed a fair amount.",
+      "event": "Player_24 sends gossip about Player_17 to their future group members: '\"Player_17 was cooperative and contributed a fair amount.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_2",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $5 to the group fund.",
+      "event": "Player_18 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_1",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_4",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_4",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $6 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_1",
+      "player": "Player_20",
+      "action": "Player_20 will contribute $5 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_5",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $5 to the group fund.",
+      "event": "Player_16 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_4",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_5",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $6 to the group fund.",
+      "event": "Player_11 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_3",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $5 to the group fund.",
+      "event": "Player_12 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_6",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_4",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_3",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5.0 to the group fund. This decision balances encouraging cooperation with safeguarding private earnings, taking into account the mixed contribution tendencies observed in other players.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_1",
+      "player": "Player_3",
+      "action": "Player_3 decides to contribute $5 to the group fund.",
+      "event": "Player_3 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_1",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $5 to the group fund.",
+      "event": "Player_17 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_2",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_6",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5 to the group fund.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_2",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $6 to the group fund.",
+      "event": "Player_21 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_2",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $4.5 to the group fund.",
+      "event": "Player_8 contributes $4.5 to the group fund.",
+      "contribution": 4.5,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_3",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $5 to the group fund.",
+      "event": "Player_24 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_6",
+      "player": "Player_7",
+      "action": "Player_7 considers the information received about Player_4's cooperative behavior and Player_22's lack of contributions. With the aim of encouraging a collaborative atmosphere, Player_7 wants to show support for such cooperation without risking too much personal gain loss. By contributing $5, Player_7 balances the needs for both cooperation and self-preservation, showing a commitment to working collaboratively while guarding against free-riders. Thus, I choose to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:28:52.374516",
+      "group": "Group_5",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $6 to the group fund.",
+      "event": "Player_13 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "group": "Group_5",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_9 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "group": "Group_6",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $0 to the group fund.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "group": "Group_3",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $4 to the group fund.",
+      "event": "Player_1 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_3",
+      "action": "Player_3 wants to send a note about Player_20: \"Player_20 consistently contributes the maximum amount, which fosters a strong cooperative environment.\"",
+      "event": "Player_3 sends gossip about Player_20 to their future group members: '\"Player_20 consistently contributes the maximum amount, which fosters a strong cooperative environment.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_18",
+      "action": "Player_18 wants to send a note about Player_8: \"Player_8 consistently contributed and was a valuable team player in our round.\"",
+      "event": "Player_18 sends gossip about Player_8 to their future group members: '\"Player_8 consistently contributed and was a valuable team player in our round.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_12",
+      "action": "Player_12 decides to send a note about Player_14: \"Player_14 contributed $7 to the group fund, which was above the group's average, showing a high level of cooperation and willingness to contribute generously.\"",
+      "event": "Player_12 sends gossip about Player_14 to their future group members: '\"Player_14 contributed $7 to the group fund, which was above the group's average, showing a high level of cooperation and willingness to contribute generously.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_21",
+      "action": "Player_21 chooses to send a note about Player_18: \"I want to send a note about Player_18: Over two rounds, they have consistently contributed the minimum of $5, which suggests a pattern of prioritizing personal gain over the group's benefit.\"",
+      "event": "Player_21 sends gossip about Player_18 to their future group members: '\"I want to send a note about Player_18: Over two rounds, they have consistently contributed the minimum of $5, which suggests a pattern of prioritizing personal gain over the group's benefit.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_8",
+      "action": "Player_8 wants to send a note about Player_18: They consistently contributed only $5 in the first two rounds, which might limit the group's potential earnings.",
+      "event": "Player_8 sends gossip about Player_18 to their future group members: 'They consistently contributed only $5 in the first two rounds, which might limit the group's potential earnings.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_10",
+      "action": "Player_10 wants to send a note about Player_3: \"Player_3 consistently contributes the full amount and displays a strong sense of fairness and teamwork, which benefits the group overall.\"",
+      "event": "Player_10 sends gossip about Player_3 to their future group members: '\"Player_3 consistently contributes the full amount and displays a strong sense of fairness and teamwork, which benefits the group overall.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_5",
+      "action": "Player_5 wants to send a note about Player_18. The note will say: \"Player_18 consistently contributes only $5 per round, which suggests a cautious or self-interested approach.\"",
+      "event": "Player_5 sends gossip about Player_18 to their future group members: '. The note will say: \"Player_18 consistently contributes only $5 per round, which suggests a cautious or self-interested approach.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_24",
+      "action": "Player_24 wants to send a note about Player_1: \"They contributed the least amount ($4.0) in our group, which was below the group average of $4.8. This suggests they might continue to contribute less in future games.\"",
+      "event": "Player_24 sends gossip about Player_1 to their future group members: '\"They contributed the least amount ($4.0) in our group, which was below the group average of $4.8. This suggests they might continue to contribute less in future games.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_6",
+      "action": "Player_6 wants to send a note about Player_19: \"They were particularly cooperative this round, contributing $6.0, which was above average. Their commitment to the group's success was commendable.\"",
+      "event": "Player_6 sends gossip about Player_19 to their future group members: '\"They were particularly cooperative this round, contributing $6.0, which was above average. Their commitment to the group's success was commendable.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_20",
+      "action": "Player_20 wants to send a note about Player_17: \"They have been consistently cooperative, contributing fairly to the group, which has helped ensure our team's success so far.\"",
+      "event": "Player_20 sends gossip about Player_17 to their future group members: '\"They have been consistently cooperative, contributing fairly to the group, which has helped ensure our team's success so far.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_4",
+      "action": "Player_4 wants to send a note about Player_22: They have consistently chosen not to contribute to the group fund, opting to keep the full amount for themselves in both rounds so far, which could potentially hinder group collaboration.",
+      "event": "Player_4 sends gossip about Player_22 to their future group members: 'They have consistently chosen not to contribute to the group fund, opting to keep the full amount for themselves in both rounds so far, which could potentially hinder group collaboration.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_23",
+      "action": "Player_23 wants to send a note about Player_19: \"Player_19 showed exceptional generosity by contributing $6 in the last round, demonstrating a strong commitment to the group's success and cooperation.\"",
+      "event": "Player_23 sends gossip about Player_19 to their future group members: '\"Player_19 showed exceptional generosity by contributing $6 in the last round, demonstrating a strong commitment to the group's success and cooperation.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_14",
+      "action": "Player_14 wants to send a note about Player_24: \"They consistently contributed only $3 while the group average was $4.8, which suggests they tend to prioritize their own gain over the group's benefit.\"",
+      "event": "Player_14 sends gossip about Player_24 to their future group members: '\"They consistently contributed only $3 while the group average was $4.8, which suggests they tend to prioritize their own gain over the group's benefit.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_11",
+      "action": "Player_11 wants to send a note about Player_9: They contributed $7, the highest in the group, demonstrating strong cooperative behavior, which suggests they are likely to be a valuable and trustworthy group member in future rounds.",
+      "event": "Player_11 sends gossip about Player_9 to their future group members: 'They contributed $7, the highest in the group, demonstrating strong cooperative behavior, which suggests they are likely to be a valuable and trustworthy group member in future rounds.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_9",
+      "action": "Player_9 wants to send a note about Player_11: \"They only contributed $3, which suggests they might prioritize personal earnings over group success. Future group members may want to approach with caution.\"",
+      "event": "Player_9 sends gossip about Player_11 to their future group members: '\"They only contributed $3, which suggests they might prioritize personal earnings over group success. Future group members may want to approach with caution.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_2",
+      "action": "Player_2 wants to send a note about Player_19: \"Player_19 contributed $6, demonstrating a strong commitment to the group's success. Their generosity might be beneficial in upcoming rounds.\"",
+      "event": "Player_2 sends gossip about Player_19 to their future group members: '\"Player_19 contributed $6, demonstrating a strong commitment to the group's success. Their generosity might be beneficial in upcoming rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_1",
+      "action": "Player_1 wants to send a note about Player_14: \"Player_14 has exhibited a pattern of higher contributions, consistently showing a willingness to invest in the group\u2019s success, which could indicate a cooperative approach in future rounds.\"",
+      "event": "Player_1 sends gossip about Player_14 to their future group members: '\"Player_14 has exhibited a pattern of higher contributions, consistently showing a willingness to invest in the group\u2019s success, which could indicate a cooperative approach in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_13",
+      "action": "Player_13 chooses to send a note about Player_16. The note states: \"Player_16 contributed $5, showing a balanced approach to both personal gain and group cooperation. Their actions suggest they value the shared success of the group but are also mindful of their own position, making them a reliable and strategic player in future rounds.\"",
+      "event": "Player_13 sends gossip about Player_16 to their future group members: '. The note states: \"Player_16 contributed $5, showing a balanced approach to both personal gain and group cooperation. Their actions suggest they value the shared success of the group but are also mindful of their own position, making them a reliable and strategic player in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_15",
+      "action": "Player_15 would like to send a note about Player_22. The note should read: \"I want to send a note about Player_22: They benefited from the group fund in Round 2 without contributing anything, choosing to keep the full $10 for themselves. Future group members should be aware of this behavior.\"",
+      "event": "Player_15 sends gossip about Player_22 to their future group members: '. The note should read: \"I want to send a note about Player_22: They benefited from the group fund in Round 2 without contributing anything, choosing to keep the full $10 for themselves. Future group members should be aware of this behavior.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_7",
+      "action": "Player_7 wants to send a note about Player_22: \"They did not contribute any money to the group fund and kept all their earnings for themselves. Future groups should be aware of their unwillingness to cooperate and consider how this might affect group dynamics.\"",
+      "event": "Player_7 sends gossip about Player_22 to their future group members: '\"They did not contribute any money to the group fund and kept all their earnings for themselves. Future groups should be aware of their unwillingness to cooperate and consider how this might affect group dynamics.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:33:52.374516",
+      "player": "Player_16",
+      "action": "Player_16 wants to send a note about Player_11: \"Player_11 contributed a moderate amount, showing consistency but caution, which might be useful for strategic planning in future rounds.\"",
+      "event": "Player_16 sends gossip about Player_11 to their future group members: '\"Player_11 contributed a moderate amount, showing consistency but caution, which might be useful for strategic planning in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:38:52.374516",
+      "player": "Player_22",
+      "action": "Player_22 wants to send a note about Player_7: \"They contributed $10 to the group fund, which shows they value the group's success and are someone others might trust in future rounds.\"",
+      "event": "Player_22 sends gossip about Player_7 to their future group members: '\"They contributed $10 to the group fund, which shows they value the group's success and are someone others might trust in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:38:52.374516",
+      "player": "Player_17",
+      "action": "Player_17 would like to send a note about Player_3: \"Consistent and reliable, always contributes $5, ensuring a fair distribution of earnings for the group.\"",
+      "event": "Player_17 sends gossip about Player_3 to their future group members: '\"Consistent and reliable, always contributes $5, ensuring a fair distribution of earnings for the group.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 2,
+      "time": "2025-03-26 15:38:52.374516",
+      "player": "Player_19",
+      "action": "Player_19 wants to send a note about Player_2: \"They were cooperative and contributed $6, showing strong commitment to our group's success.\"",
+      "event": "Player_19 sends gossip about Player_2 to their future group members: '\"They were cooperative and contributed $6, showing strong commitment to our group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_5",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_2",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $0.0 to the group fund.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_3",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $5 to the group fund.",
+      "event": "Player_24 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $5 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_5",
+      "player": "Player_7",
+      "action": "Player_7 will contribute $5 to the group fund. This decision aligns with the strategy of maintaining a balance between personal gain and fostering a cooperative environment within the group. By contributing $5, Player_7 continues the pattern established in previous rounds, promoting trust and collaboration while allowing for potential mutually beneficial outcomes when the group fund is doubled and redistributed.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_2",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $6.5 to the group fund.",
+      "event": "Player_9 contributes $6.5 to the group fund.",
+      "contribution": 6.5,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_4",
+      "player": "Player_17",
+      "action": "Player_17 carefully considers the potential outcomes and decides to maintain a consistent strategy that has proven effective in previous rounds. This approach, contributing $5 to the group fund, balances personal gain with public contribution, fostering a cooperative environment while protecting individual earnings. After assessing the group's dynamics and predicting contributions from Player_11, Player_13, and Player_12, Player_17 aims to sustain trust and encourage reciprocity among teammates. Therefore, I choose to contribute $5 to the group fund.",
+      "event": "Player_17 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_1",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_3",
+      "player": "Player_6",
+      "action": "Player_6 decides to contribute $5.0 to the group fund. This decision aligns with the rationale of promoting cooperation while maintaining a fair distribution of contributions, especially considering past behaviors and the incentives created by the Gossip condition. By contributing the same amount that was effective in previous rounds, Player_6 aims to sustain a cooperative environment and potentially encourage Player_24 and others to adhere to the group's cooperative norms.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_6",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $5 to the group fund.",
+      "event": "Player_19 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_5",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $5 to the group fund. This decision aligns with their consistent strategy of balancing fairness and individual gain. By maintaining the $5 contribution, Player_16 reinforces a cooperative image, which could enhance group dynamics and influence future interactions positively, especially under the Gossip condition.",
+      "event": "Player_16 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:48:52.374516",
+      "group": "Group_3",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $6.5 to the group fund.",
+      "event": "Player_21 contributes $6.5 to the group fund.",
+      "contribution": 6.5,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_5",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $5 to the group fund.",
+      "event": "Player_3 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_1",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_4",
+      "player": "Player_12",
+      "action": "Player_12 decides to contribute $5.0 to the group fund.",
+      "event": "Player_12 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_6",
+      "player": "Player_8",
+      "action": "Player_8 carefully considered the group's dynamics and previous contributions. Given the noted behaviors of Player_18 and Player_19, along with the potential benefits of a strategic increase in contribution, Player_8 decides to contribute $6 to the group fund. This choice could potentially inspire Player_19 to maintain their strong cooperative approach and possibly encourage Player_18 to increase their contribution, thus maximizing the group's overall earnings while maintaining a balance between personal gains and collective success.",
+      "event": "Player_8 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_6",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_18 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_4",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $7 to the group fund.",
+      "event": "Player_13 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_6",
+      "player": "Player_4",
+      "action": "Player_4 will contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_3",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5.0 to the group fund. This decision balances personal gain with group benefit, maintains consistency with previous cooperative behavior, and encourages continued trust among group members.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_4",
+      "player": "Player_11",
+      "action": "Player_11 considers previous contributions and group behavior trends, aiming to balance personal earnings with group cooperation. After evaluating the potential benefits of a slightly increased contribution to foster trust and potential future reciprocity from group members, Player_11 decides to contribute $7.0 to the group fund. I choose to contribute $7.0 to the group fund.",
+      "event": "Player_11 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_2",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5 to the group fund.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_1",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "group": "Group_2",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5 to the group fund.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_5",
+      "action": "Player_5 decides to send a note about Player_23: \"I want to send a note about Player_23: They contributed $5 each round, which was consistent with the group average. They appear reliable and supportive of team goals.\"",
+      "event": "Player_5 sends gossip about Player_23 to their future group members: '\"I want to send a note about Player_23: They contributed $5 each round, which was consistent with the group average. They appear reliable and supportive of team goals.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_10",
+      "action": "Player_10 wants to send a note about Player_21: \"Player_21 is a reliable and strong contributor, adding $6.5 in the last round, which was above the group average. This suggests a commitment to group success and maximizing collective earnings.\"",
+      "event": "Player_10 sends gossip about Player_21 to their future group members: '\"Player_21 is a reliable and strong contributor, adding $6.5 in the last round, which was above the group average. This suggests a commitment to group success and maximizing collective earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_11",
+      "action": "Player_11 wants to send a note about Player_17: \"Player_17 consistently contributed the highest amount in our group, showing a strong commitment to maximizing the group's earnings and demonstrating leadership in cooperative behavior.\"",
+      "event": "Player_11 sends gossip about Player_17 to their future group members: '\"Player_17 consistently contributed the highest amount in our group, showing a strong commitment to maximizing the group's earnings and demonstrating leadership in cooperative behavior.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_24",
+      "action": "Player_24 would like to send a note about Player_21. The note will say: \"They contributed $6.5, which was above the group average. This suggests they are generous in group settings.\"",
+      "event": "Player_24 sends gossip about Player_21 to their future group members: '. The note will say: \"They contributed $6.5, which was above the group average. This suggests they are generous in group settings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_6",
+      "action": "Player_6 would like to send a note about Player_24: They contributed $7, which was the highest in the group, indicating a strong commitment to group success and cooperative behavior.",
+      "event": "Player_6 sends gossip about Player_24 to their future group members: 'They contributed $7, which was the highest in the group, indicating a strong commitment to group success and cooperative behavior.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_23",
+      "action": "Player_23 wants to send a note about Player_1: \"In a previous round, Player_1 contributed $4, which was below the group average. However, in the last round, they contributed $5, aligning with the group's contributions. Their contribution may vary, but they seem capable of adjusting to group norms.\"",
+      "event": "Player_23 sends gossip about Player_1 to their future group members: '\"In a previous round, Player_1 contributed $4, which was below the group average. However, in the last round, they contributed $5, aligning with the group's contributions. Their contribution may vary, but they seem capable of adjusting to group norms.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_17",
+      "action": "Player_17 wants to send a note about Player_13: They contributed the same amount as everyone else in Round 3, but their earlier inconsistent contributions suggest they might need encouragement to maintain a steady and generous contribution level.",
+      "event": "Player_17 sends gossip about Player_13 to their future group members: 'They contributed the same amount as everyone else in Round 3, but their earlier inconsistent contributions suggest they might need encouragement to maintain a steady and generous contribution level.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_2",
+      "action": "Player_2 decides to send a note about Player_5: \"They have consistently contributed the same amount as others, showcasing reliability and willingness to cooperate.\"",
+      "event": "Player_2 sends gossip about Player_5 to their future group members: '\"They have consistently contributed the same amount as others, showcasing reliability and willingness to cooperate.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_16",
+      "action": "Player_16 wants to send a note about Player_7: \"They consistently contributed $5 and showed great teamwork, supporting the group's success.\"",
+      "event": "Player_16 sends gossip about Player_7 to their future group members: '\"They consistently contributed $5 and showed great teamwork, supporting the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_8",
+      "action": "Player_8 wants to send a note about Player_19: \"They have been inconsistent with their contributions, having given only $5 in the latest round, which is below the group average. This pattern may indicate a lack of steady commitment to the group's goals.\"",
+      "event": "Player_8 sends gossip about Player_19 to their future group members: '\"They have been inconsistent with their contributions, having given only $5 in the latest round, which is below the group average. This pattern may indicate a lack of steady commitment to the group's goals.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_22",
+      "action": "Player_22 wants to send a note about Player_15: \"Player_15 displayed strong cooperative tendencies in this round, contributing significantly to the group fund and prioritizing collective success over personal gain.\"",
+      "event": "Player_22 sends gossip about Player_15 to their future group members: '\"Player_15 displayed strong cooperative tendencies in this round, contributing significantly to the group fund and prioritizing collective success over personal gain.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_13",
+      "action": "Player_13 wants to send a note about Player_12: \"Player_12 contributed $5, which is consistently on the lower side. This behavior may indicate a tendency to prioritize their own earnings over the group's success in future rounds.\"",
+      "event": "Player_13 sends gossip about Player_12 to their future group members: '\"Player_12 contributed $5, which is consistently on the lower side. This behavior may indicate a tendency to prioritize their own earnings over the group's success in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_4",
+      "action": "Player_4 would like to send a note about Player_19: \"I observed that Player_19 contributed $5 in the last round, which was below the group's average contribution. This deviation might reflect a growing self-interest that could impact group dynamics and trust in future rounds.\"",
+      "event": "Player_4 sends gossip about Player_19 to their future group members: '\"I observed that Player_19 contributed $5 in the last round, which was below the group's average contribution. This deviation might reflect a growing self-interest that could impact group dynamics and trust in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_15",
+      "action": "Player_15 wants to send a note about Player_22: \"Player_22 has consistently opted not to contribute to the group fund, choosing to keep the entire $10 for themselves each round. This behavior might negatively impact group cooperation in future interactions.\"",
+      "event": "Player_15 sends gossip about Player_22 to their future group members: '\"Player_22 has consistently opted not to contribute to the group fund, choosing to keep the entire $10 for themselves each round. This behavior might negatively impact group cooperation in future interactions.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_21",
+      "action": "Player_21 wants to send a note about Player_6: \"Player_6 made substantial contributions that were consistently above the group's average, indicating a strong sense of cooperation and commitment to the group's success.\"",
+      "event": "Player_21 sends gossip about Player_6 to their future group members: '\"Player_6 made substantial contributions that were consistently above the group's average, indicating a strong sense of cooperation and commitment to the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_19",
+      "action": "Player_19 wants to send a note about Player_18: \"In Round 3, they increased their contribution to $7, showing a positive shift towards supporting the group. This could indicate a willingness to invest more in the team\u2019s success moving forward.\"",
+      "event": "Player_19 sends gossip about Player_18 to their future group members: '\"In Round 3, they increased their contribution to $7, showing a positive shift towards supporting the group. This could indicate a willingness to invest more in the team\u2019s success moving forward.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:53:52.374516",
+      "player": "Player_18",
+      "action": "Player_18 wants to send a note about Player_19: \"Player_19 showed consistent cooperation by contributing $6 to the group fund, helping maintain a balanced effort while ensuring the group's success.\"",
+      "event": "Player_18 sends gossip about Player_19 to their future group members: '\"Player_19 showed consistent cooperation by contributing $6 to the group fund, helping maintain a balanced effort while ensuring the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_3",
+      "action": "Player_3 wants to send a note about Player_7: \"Player_7 showed a strong commitment to the group by contributing above the average in previous rounds. They are reliable and cooperative, making them an asset in team activities.\"",
+      "event": "Player_3 sends gossip about Player_7 to their future group members: '\"Player_7 showed a strong commitment to the group by contributing above the average in previous rounds. They are reliable and cooperative, making them an asset in team activities.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_20",
+      "action": "Player_20 chooses to send a note about Player_3: \"Player_3 has been consistent in their contributions to the group fund, aligning well with others and demonstrating a reliable and cooperative approach throughout the game.\"",
+      "event": "Player_20 sends gossip about Player_3 to their future group members: '\"Player_3 has been consistent in their contributions to the group fund, aligning well with others and demonstrating a reliable and cooperative approach throughout the game.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_14",
+      "action": "Player_14 will likely decide to send a note about Player_22. The note could emphasize Player_22's consistent lack of contribution to the group fund, stating: \"I want to send a note about Player_22: They have repeatedly chosen not to contribute to the group fund, undermining group efforts and trust. Future groups should be aware of their tendency to prioritize personal gain over collective success.\"",
+      "event": "Player_14 sends gossip about Player_22 to their future group members: '. The note could emphasize Player_22's consistent lack of contribution to the group fund, stating: \"I want to send a note about Player_22: They have repeatedly chosen not to contribute to the group fund, undermining group efforts and trust. Future groups should be aware of their tendency to prioritize personal gain over collective success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_12",
+      "action": "Player_12 wants to send a note about Player_11: They contributed the least, which might suggest they prioritize individual gain over group contributions, potentially affecting group success in future rounds.",
+      "event": "Player_12 sends gossip about Player_11 to their future group members: 'They contributed the least, which might suggest they prioritize individual gain over group contributions, potentially affecting group success in future rounds.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_7",
+      "action": "Player_7 wants to send a note about Player_20: \"They consistently contributed $5 each round, demonstrating a commitment to fairness and enhancing group success.\"",
+      "event": "Player_7 sends gossip about Player_20 to their future group members: '\"They consistently contributed $5 each round, demonstrating a commitment to fairness and enhancing group success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 3,
+      "time": "2025-03-26 15:58:52.374516",
+      "player": "Player_9",
+      "action": "Player_9 wants to send a note about Player_22. The note will state: \"I want to send a note about Player_22: In Round 3, they chose to keep their entire portion and did not contribute to the group fund. This lack of cooperation could affect group dynamics negatively, so future group members might want to take this into account when deciding on their strategies.\"",
+      "event": "Player_9 sends gossip about Player_22 to their future group members: '. The note will state: \"I want to send a note about Player_22: In Round 3, they chose to keep their entire portion and did not contribute to the group fund. This lack of cooperation could affect group dynamics negatively, so future group members might want to take this into account when deciding on their strategies.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_1",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_3",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund. This decision maintains consistency with previous rounds and supports the cooperative dynamic evidenced by the positive notes exchanged among participants. By contributing the amount that matches the group's average, Player_2 reinforces their commitment to the collective goal and continues to foster trust and collaboration.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_3",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_24 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_2",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_4",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_9 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_6",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $5 to the group fund. This decision aligns with their consistent strategy of fairness and reliability, hoping to foster trust and cooperation, despite the varying contribution patterns of their fellow group members.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_3",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_6",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $0.0 to the group fund. This decision is consistent with their established strategy of maximizing individual profits. By keeping the full amount in their private account, Player_22 prioritizes personal gain while leveraging the Gossip condition to potentially sway future group dynamics through reputation management.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_5",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_17 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_5",
+      "player": "Player_19",
+      "action": "Player_19 carefully considers the balance between personal gain and group cooperation. Observing that a contribution close to the average promotes both a positive reputation and reasonable returns, Player_19 decides to contribute $6.0 to the group fund.",
+      "event": "Player_19 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_5",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_2",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_18 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_1",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_1",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_4",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_8 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_4",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_2",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $5 to the group fund.",
+      "event": "Player_16 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_6",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $5 to the group fund.",
+      "event": "Player_13 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_5",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $5 to the group fund.",
+      "event": "Player_3 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_4",
+      "player": "Player_21",
+      "action": "Player_21 analyses past contributions and decides to maintain a cooperative approach while slightly increasing their contribution relative to previous averages. After considering the benefits of group cooperation and the strategic use of the gossip mechanism for future rounds, Player_21 concludes that contributing a slightly higher amount could enhance trust and group dynamics. Therefore, Player_21 decides: I choose to contribute $5.5 to the group fund.",
+      "event": "Player_21 contributes $5.5 to the group fund.",
+      "contribution": 5.5,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_6",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_11 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_1",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_12 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:03:52.374516",
+      "group": "Group_2",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $5 to the group fund. This decision balances personal earnings with group cooperation, aligning with the cooperative behavior observed from other group members and maximizing potential collective benefits.",
+      "event": "Player_15 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "group": "Group_3",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_12",
+      "action": "Player_12 wants to send a note about Player_20: \"They have been consistently contributing $5 each round, showing a strong commitment to fairness and group success. They are a reliable and supportive team member who prioritizes the group's interests.\"",
+      "event": "Player_12 sends gossip about Player_20 to their future group members: '\"They have been consistently contributing $5 each round, showing a strong commitment to fairness and group success. They are a reliable and supportive team member who prioritizes the group's interests.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_2",
+      "action": "Player_2 wants to send a note about Player_1: \"They consistently contributed $4 in the previous rounds, which is below the group average. While this might be a strategic approach, future group members should be aware that this player tends to invest less in the group fund, which could impact collective earnings.\"",
+      "event": "Player_2 sends gossip about Player_1 to their future group members: '\"They consistently contributed $4 in the previous rounds, which is below the group average. While this might be a strategic approach, future group members should be aware that this player tends to invest less in the group fund, which could impact collective earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_20",
+      "action": "Player_20 wants to send a note about Player_12: \"Player_12 initially contributed $5, but recently increased to $6, indicating a positive shift towards better group cooperation. Keep an eye on their contributions, as they seem to be adapting their strategy to support the group more effectively.\"",
+      "event": "Player_20 sends gossip about Player_12 to their future group members: '\"Player_12 initially contributed $5, but recently increased to $6, indicating a positive shift towards better group cooperation. Keep an eye on their contributions, as they seem to be adapting their strategy to support the group more effectively.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_23",
+      "action": "Player_23 wants to send a note about Player_14: \"Player_14 maintained their contribution at $5 throughout the game, consistently supporting the group's average and ensuring fair participation. Their reliability suggests they are a steady and cooperative team player.\"",
+      "event": "Player_23 sends gossip about Player_14 to their future group members: '\"Player_14 maintained their contribution at $5 throughout the game, consistently supporting the group's average and ensuring fair participation. Their reliability suggests they are a steady and cooperative team player.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_18",
+      "action": "Player_18 wants to send a note about Player_16: \"Player_16 has been consistently supportive in their contributions, aligning well with the group's objectives and enhancing overall team performance. Their collaborative attitude makes them a solid asset to any group.\"",
+      "event": "Player_18 sends gossip about Player_16 to their future group members: '\"Player_16 has been consistently supportive in their contributions, aligning well with the group's objectives and enhancing overall team performance. Their collaborative attitude makes them a solid asset to any group.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_1",
+      "action": "Player_1 wants to send a note about Player_24: \"Player_24 consistently demonstrated minimal contributions of $3 to the group fund, suggesting limited commitment to the group's overall success.\"",
+      "event": "Player_1 sends gossip about Player_24 to their future group members: '\"Player_24 consistently demonstrated minimal contributions of $3 to the group fund, suggesting limited commitment to the group's overall success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_14",
+      "action": "Player_14 wants to send a note about Player_12: \"They increased their contribution to $6 this round, showing potential for greater group cooperation, but they tend to retain a larger portion of their earnings, which might suggest a focus on personal gain over group benefit in future rounds.\"",
+      "event": "Player_14 sends gossip about Player_12 to their future group members: '\"They increased their contribution to $6 this round, showing potential for greater group cooperation, but they tend to retain a larger portion of their earnings, which might suggest a focus on personal gain over group benefit in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_5",
+      "action": "Player_5 wants to send a note about Player_3: \"Player_3 has been a consistent contributor to the group fund, aligning well with others. Their reliable and cooperative approach makes them a valuable team player throughout the game.\"",
+      "event": "Player_5 sends gossip about Player_3 to their future group members: '\"Player_3 has been a consistent contributor to the group fund, aligning well with others. Their reliable and cooperative approach makes them a valuable team player throughout the game.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_9",
+      "action": "Player_9 wants to send a note about Player_8: \"They demonstrated strong cooperation by contributing $7.0 in the last round, surpassing the group average, which is a testament to their commitment to the group's success.\"",
+      "event": "Player_9 sends gossip about Player_8 to their future group members: '\"They demonstrated strong cooperation by contributing $7.0 in the last round, surpassing the group average, which is a testament to their commitment to the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_4",
+      "action": "Player_4 would like to send a note about Player_1: \"Player_1 contributed just $3 in the last round, which was below the group average. Their lower contribution may indicate opportunistic behavior, which could impact the group's overall earnings in future rounds.\"",
+      "event": "Player_4 sends gossip about Player_1 to their future group members: '\"Player_1 contributed just $3 in the last round, which was below the group average. Their lower contribution may indicate opportunistic behavior, which could impact the group's overall earnings in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_7",
+      "action": "Player_7 wants to send a note about Player_16: \"Player_16 has been consistent in their contributions and demonstrates reliable cooperation, offering stability to the group dynamic.\"",
+      "event": "Player_7 sends gossip about Player_16 to their future group members: '\"Player_16 has been consistent in their contributions and demonstrates reliable cooperation, offering stability to the group dynamic.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_19",
+      "action": "Player_19 wants to send a note about Player_17: They consistently demonstrated high levels of cooperation, often contributing as much or more than others, which indicates a commitment to maximizing group success and a strong collaborative spirit.",
+      "event": "Player_19 sends gossip about Player_17 to their future group members: 'They consistently demonstrated high levels of cooperation, often contributing as much or more than others, which indicates a commitment to maximizing group success and a strong collaborative spirit.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_8",
+      "action": "Player_8 will likely choose to send a note about Player_10, noting that \"Player_10 contributed $5, which was below the group average, yet they did aid in boosting the group fund. Their actions reflect a balance between self-interest and group contribution.\"",
+      "event": "Player_8 sends gossip about Player_10 to their future group members: ', noting that \"Player_10 contributed $5, which was below the group average, yet they did aid in boosting the group fund. Their actions reflect a balance between self-interest and group contribution.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_10",
+      "action": "Player_10 wants to send a note about Player_9: \"Player_9 contributed consistently at a fair level, showing a balanced approach to group cooperation and personal gains.\"",
+      "event": "Player_10 sends gossip about Player_9 to their future group members: '\"Player_9 contributed consistently at a fair level, showing a balanced approach to group cooperation and personal gains.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_22",
+      "action": "Player_22 wants to send a note about Player_11: \"Player_11 consistently undermines the group's efforts by contributing much less than the majority, affecting the overall success and fairness in resource allocation.\"",
+      "event": "Player_22 sends gossip about Player_11 to their future group members: '\"Player_11 consistently undermines the group's efforts by contributing much less than the majority, affecting the overall success and fairness in resource allocation.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_6",
+      "action": "Player_6 wants to send a note about Player_22: They have contributed nothing in some rounds, which could negatively impact the group's success. Future players should be cautious of their participation level.",
+      "event": "Player_6 sends gossip about Player_22 to their future group members: 'They have contributed nothing in some rounds, which could negatively impact the group's success. Future players should be cautious of their participation level.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_3",
+      "action": "Player_3 wants to send a note about Player_19: \"Their contributions have varied, with a recent increase to $6. Future group members should watch for any changes in their contribution pattern to ensure ongoing cooperation.\"",
+      "event": "Player_3 sends gossip about Player_19 to their future group members: '\"Their contributions have varied, with a recent increase to $6. Future group members should watch for any changes in their contribution pattern to ensure ongoing cooperation.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_11",
+      "action": "Player_11 wants to send a note about Player_22: \"Player_22 consistently avoided contributing to the group fund, opting to keep all the money for personal benefit. This behavior could pose challenges for future group collaboration and should be taken into consideration by their upcoming partners.\"",
+      "event": "Player_11 sends gossip about Player_22 to their future group members: '\"Player_22 consistently avoided contributing to the group fund, opting to keep all the money for personal benefit. This behavior could pose challenges for future group collaboration and should be taken into consideration by their upcoming partners.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_21",
+      "action": "Player_21 might choose to send a note about Player_8 emphasizing their generous contribution. They could say, \"I want to send a note about Player_8: They contributed the highest amount of $7.0, showcasing their dedication to the group's goals.",
+      "event": "Player_21 sends gossip about Player_8 to their future group members: 'emphasizing their generous contribution. They could say, \"I want to send a note about Player_8: They contributed the highest amount of $7.0, showcasing their dedication to the group's goals.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_17",
+      "action": "Player_17 decides to send a note about Player_19: \"Player_19 showed strong cooperation by consistently contributing $6, demonstrating a commitment to the group's success. They're a reliable team player and should be seen as a valuable asset in any group setting.\"",
+      "event": "Player_17 sends gossip about Player_19 to their future group members: '\"Player_19 showed strong cooperation by consistently contributing $6, demonstrating a commitment to the group's success. They're a reliable team player and should be seen as a valuable asset in any group setting.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_15",
+      "action": "Player_15 wants to send a note about Player_7: \"Player_7 has consistently contributed the minimum amount of $2, showing minimal effort in supporting the group's overall success.\"",
+      "event": "Player_15 sends gossip about Player_7 to their future group members: '\"Player_7 has consistently contributed the minimum amount of $2, showing minimal effort in supporting the group's overall success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_13",
+      "action": "Player_13 wants to send a note about Player_22. The note reads: \"Player_22 has not contributed to the group fund in multiple rounds, which indicates a lack of teamwork and cooperation. Future groups should be aware of this behavior, as it may impact collective efforts.",
+      "event": "Player_13 sends gossip about Player_22 to their future group members: '. The note reads: \"Player_22 has not contributed to the group fund in multiple rounds, which indicates a lack of teamwork and cooperation. Future groups should be aware of this behavior, as it may impact collective efforts.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_24",
+      "action": "Player_24 would like to send a note about Player_4: \"Player_4 made a significant positive impact by contributing $7.0, which was above the group average, demonstrating exceptional cooperation and enhancing the group's earnings.\"",
+      "event": "Player_24 sends gossip about Player_4 to their future group members: '\"Player_4 made a significant positive impact by contributing $7.0, which was above the group average, demonstrating exceptional cooperation and enhancing the group's earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 4,
+      "time": "2025-03-26 16:08:52.374516",
+      "player": "Player_16",
+      "action": "Player_16 wants to send a note about Player_18: \"Player_18 has shown a positive change by increasing their contribution over the rounds, reflecting a strong commitment to the group's success.\"",
+      "event": "Player_16 sends gossip about Player_18 to their future group members: '\"Player_18 has shown a positive change by increasing their contribution over the rounds, reflecting a strong commitment to the group's success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_5",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_23 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_5",
+      "player": "Player_1",
+      "action": "Player_1 chooses to contribute $5 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_3",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $4.0 to the group fund.",
+      "event": "Player_9 contributes $4.0 to the group fund.",
+      "contribution": 4.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_3",
+      "player": "Player_13",
+      "action": "Player_13 analyzes the group's dynamics and chooses to contribute $5.0 to the group fund.",
+      "event": "Player_13 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_6",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $5 to the group fund.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_6",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_2",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_3",
+      "player": "Player_22",
+      "action": "Player_22 chooses to contribute $0 to the group fund.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_1",
+      "player": "Player_4",
+      "action": "Player_4 chooses to contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_4",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_18 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_4",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_12 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_1",
+      "player": "Player_19",
+      "action": "Player_19 carefully considered the dynamics and decided that contributing $7.0 to the group fund would likely foster an environment of trust and continued cooperation. This amount balances personal benefit with the aim of maximizing group earnings, given the strong cooperative spirit observed in the group thus far.",
+      "event": "Player_19 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_1",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_1",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $6 to the group fund.",
+      "event": "Player_16 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_6",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_2",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_8 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_6",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_5",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $6 to the group fund.",
+      "event": "Player_21 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_4",
+      "player": "Player_24",
+      "action": "Player_24 chooses to contribute $6 to the group fund.",
+      "event": "Player_24 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_4",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_15 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_2",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_11 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_2",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_5",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $6 to the group fund.",
+      "event": "Player_3 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "group": "Group_3",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_12",
+      "action": "Player_12 might choose to send a note about Player_24, stating: \"I want to send a note about Player_24: They have been consistently generous with their contributions, which has significantly benefited our group's overall earnings.\"",
+      "event": "Player_12 sends gossip about Player_24 to their future group members: ', stating: \"I want to send a note about Player_24: They have been consistently generous with their contributions, which has significantly benefited our group's overall earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_18",
+      "action": "Player_18 would like to send a note about Player_24: They have been inconsistent with their contributions, often maintaining a lower level compared to others, which might affect group dynamics in future rounds.",
+      "event": "Player_18 sends gossip about Player_24 to their future group members: 'They have been inconsistent with their contributions, often maintaining a lower level compared to others, which might affect group dynamics in future rounds.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_14",
+      "action": "Player_14 wants to send a note about Player_22: \"They have consistently chosen not to contribute to the group fund across multiple rounds. Future teams should be aware of their low participation levels when considering strategies for group success.\"",
+      "event": "Player_14 sends gossip about Player_22 to their future group members: '\"They have consistently chosen not to contribute to the group fund across multiple rounds. Future teams should be aware of their low participation levels when considering strategies for group success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_20",
+      "action": "Player_20 would like to send a note about Player_7: \"They have a history of contributing the minimum amount in previous rounds, which might suggest inconsistency in supporting group goals.\"",
+      "event": "Player_20 sends gossip about Player_7 to their future group members: '\"They have a history of contributing the minimum amount in previous rounds, which might suggest inconsistency in supporting group goals.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_7",
+      "action": "Player_7 chooses to send a note about Player_20, highlighting their consistent $5 contributions each round as a testament to their reliability and fairness, which helps foster group success.",
+      "event": "Player_7 sends gossip about Player_20 to their future group members: ', highlighting their consistent $5 contributions each round as a testament to their reliability and fairness, which helps foster group success.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_6",
+      "action": "Player_6 wants to send a note about Player_20: \"Player_20 has consistently contributed $5, showing a consistent commitment to the group's success. Their reliability in maintaining this contribution level suggests they prioritize the group's overall well-being and can be counted on for future cooperative efforts.\"",
+      "event": "Player_6 sends gossip about Player_20 to their future group members: '\"Player_20 has consistently contributed $5, showing a consistent commitment to the group's success. Their reliability in maintaining this contribution level suggests they prioritize the group's overall well-being and can be counted on for future cooperative efforts.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_5",
+      "action": "Player_5 wants to send a note about Player_8: \"They contributed $7.0, showing their dedication to the group's success and their commitment to cooperation.\"",
+      "event": "Player_5 sends gossip about Player_8 to their future group members: '\"They contributed $7.0, showing their dedication to the group's success and their commitment to cooperation.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_15",
+      "action": "Player_15 chooses to send a note about Player_18: \"Player_18 consistently contributed $8 across the rounds, showing a strong commitment to the group's success. Future players should consider this reliability, as it could benefit teamwork and cooperation.\"",
+      "event": "Player_15 sends gossip about Player_18 to their future group members: '\"Player_18 consistently contributed $8 across the rounds, showing a strong commitment to the group's success. Future players should consider this reliability, as it could benefit teamwork and cooperation.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_13",
+      "action": "Player_13 would like to send a note about Player_22: They have consistently failed to contribute anything to the group fund in multiple rounds, which has negatively impacted our team's overall earnings and cooperation. Future interaction partners should be cautious of this behavior and its potential effects on group success.",
+      "event": "Player_13 sends gossip about Player_22 to their future group members: 'They have consistently failed to contribute anything to the group fund in multiple rounds, which has negatively impacted our team's overall earnings and cooperation. Future interaction partners should be cautious of this behavior and its potential effects on group success.'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_23",
+      "action": "Player_23 wants to send a note about Player_3: \"They have consistently contributed generously and worked well with the group, making them a great team player in cooperative settings.\"",
+      "event": "Player_23 sends gossip about Player_3 to their future group members: '\"They have consistently contributed generously and worked well with the group, making them a great team player in cooperative settings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_16",
+      "action": "Player_16 would like to send a note about Player_4. They would say, \"I want to highlight Player_4: They consistently contributed $7, showing a strong commitment to our group's success and fostering a cooperative environment. Their contributions greatly helped maximize our collective earnings.\"",
+      "event": "Player_16 sends gossip about Player_4 to their future group members: '. They would say, \"I want to highlight Player_4: They consistently contributed $7, showing a strong commitment to our group's success and fostering a cooperative environment. Their contributions greatly helped maximize our collective earnings.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_3",
+      "action": "Player_3 wants to send a note about Player_1: \"Player_1 contributed steadily but slightly below the group average in multiple rounds, including $5 in Round 5. It's something to watch for, as it could influence the group's overall success in future rounds.\"",
+      "event": "Player_3 sends gossip about Player_1 to their future group members: '\"Player_1 contributed steadily but slightly below the group average in multiple rounds, including $5 in Round 5. It's something to watch for, as it could influence the group's overall success in future rounds.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_1",
+      "action": "Player_1 wants to send a note about Player_21: \"Player_21 tends to contribute the minimum amount necessary, suggesting they may prioritize personal gain over group benefit. Future partners should be cautious but can try encouraging more engagement.\"",
+      "event": "Player_1 sends gossip about Player_21 to their future group members: '\"Player_21 tends to contribute the minimum amount necessary, suggesting they may prioritize personal gain over group benefit. Future partners should be cautious but can try encouraging more engagement.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_17",
+      "action": "Player_17 wants to send a note about Player_16: \"They have been an overall cooperative and supportive group member, though their contribution dropped slightly to $6 this round. It'll be interesting to see if they maintain or increase their contributions in future interactions.\"",
+      "event": "Player_17 sends gossip about Player_16 to their future group members: '\"They have been an overall cooperative and supportive group member, though their contribution dropped slightly to $6 this round. It'll be interesting to see if they maintain or increase their contributions in future interactions.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_11",
+      "action": "Player_11 would like to send a note about Player_8: \"Player_8 showed exceptional cooperation by consistently contributing above the average. Their actions indicate strong commitment to the group's success, making them an invaluable asset in collaborative efforts.\"",
+      "event": "Player_11 sends gossip about Player_8 to their future group members: '\"Player_8 showed exceptional cooperation by consistently contributing above the average. Their actions indicate strong commitment to the group's success, making them an invaluable asset in collaborative efforts.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_4",
+      "action": "Player_4 would like to send a note about Player_16: \"Player_16 contributed $6 in the last round, which was slightly below the group's average. They are generally supportive and align well with group objectives, so future groups can expect cooperative behavior. However, keeping an eye on consistency is advised.\"",
+      "event": "Player_4 sends gossip about Player_16 to their future group members: '\"Player_16 contributed $6 in the last round, which was slightly below the group's average. They are generally supportive and align well with group objectives, so future groups can expect cooperative behavior. However, keeping an eye on consistency is advised.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_10",
+      "action": "Player_10 wants to send a note about Player_6: \"Player_6 has consistently been a reliable contributor, maintaining the group's trust and balance by matching the average contribution each round.\"",
+      "event": "Player_10 sends gossip about Player_6 to their future group members: '\"Player_6 has consistently been a reliable contributor, maintaining the group's trust and balance by matching the average contribution each round.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_9",
+      "action": "Player_9 wants to send a note about Player_22: \"Player_22 consistently refrains from contributing to the group fund, which undermines collective efforts. Future groups should consider this behavior when forming strategies, as it may impact overall success.\"",
+      "event": "Player_9 sends gossip about Player_22 to their future group members: '\"Player_22 consistently refrains from contributing to the group fund, which undermines collective efforts. Future groups should consider this behavior when forming strategies, as it may impact overall success.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_2",
+      "action": "Player_2 wants to send a note about Player_8: \"Player_8 consistently contributes above the average amount, showing their dedication to the group's success and making them a valuable team member.\"",
+      "event": "Player_2 sends gossip about Player_8 to their future group members: '\"Player_8 consistently contributes above the average amount, showing their dedication to the group's success and making them a valuable team member.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_24",
+      "action": "Player_24 chooses to send a note about Player_12. The note will state: \"Player_12 has been consistently reliable, contributing slightly above the average in each round. They seem committed to ensuring group success and could be a valuable partner in future rounds if encouraged to maintain this positive contribution trend.\"",
+      "event": "Player_24 sends gossip about Player_12 to their future group members: '. The note will state: \"Player_12 has been consistently reliable, contributing slightly above the average in each round. They seem committed to ensuring group success and could be a valuable partner in future rounds if encouraged to maintain this positive contribution trend.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_8",
+      "action": "Player_8 would like to send a note about Player_11: \"They consistently contribute less than the group average, which might affect the group's overall success and fairness in future interactions.\"",
+      "event": "Player_8 sends gossip about Player_11 to their future group members: '\"They consistently contribute less than the group average, which might affect the group's overall success and fairness in future interactions.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_22",
+      "action": "Player_22 wants to send a note about Player_9: \"Player_9 takes a balanced approach, contributing fairly yet not overly generously, maintaining a focus on both personal gain and group welfare.\"",
+      "event": "Player_22 sends gossip about Player_9 to their future group members: '\"Player_9 takes a balanced approach, contributing fairly yet not overly generously, maintaining a focus on both personal gain and group welfare.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:13:52.374516",
+      "player": "Player_19",
+      "action": "Player_19 wants to send a note about Player_16: \"Player_16 has been consistently cooperative and stable in their contributions. They bring a reliable presence to the group, which helps maintain balance and positive dynamics.\"",
+      "event": "Player_19 sends gossip about Player_16 to their future group members: '\"Player_16 has been consistently cooperative and stable in their contributions. They bring a reliable presence to the group, which helps maintain balance and positive dynamics.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 5,
+      "time": "2025-03-26 16:18:52.374516",
+      "player": "Player_21",
+      "action": "Player_21 wants to send a note about Player_1: \"They contribute slightly below the group average, so it might be beneficial for future groups to keep an eye on their participation as it can vary.\"",
+      "event": "Player_21 sends gossip about Player_1 to their future group members: '\"They contribute slightly below the group average, so it might be beneficial for future groups to keep an eye on their participation as it can vary.\"'",
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_2",
+      "player": "Player_6",
+      "action": "Player_6 chooses to contribute $5 to the group fund.",
+      "event": "Player_6 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_6",
+      "player": "Player_24",
+      "action": "Player_24 considers their strategy of consistent $5 contributions. This balanced approach has been effective, allowing the player to participate actively without jeopardizing individual gains. Observing Player_7's minimal contributions might influence group dynamics, but with no risk of exclusion, Player_24 focuses on their own strategy rather than adapting to others' behaviors. Keeping in mind the multiplied group benefit, they decide to continue with their established plan. I choose to contribute $5.0 to the group fund.",
+      "event": "Player_24 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_5",
+      "player": "Player_11",
+      "action": "Player_11 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_11 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_3",
+      "player": "Player_22",
+      "action": "Player_22 will likely decide to maintain their strategy of maximizing personal gain by contributing $0 to the group fund. Given the opportunity to anonymously comment on other players, they may use this feature strategically to influence group dynamics without sacrificing their financial advantage. Thus, following their established pattern: I choose to contribute $0 to the group fund.",
+      "event": "Player_22 contributes $0.0 to the group fund.",
+      "contribution": 0.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_3",
+      "player": "Player_15",
+      "action": "Player_15 chooses to contribute $6 to the group fund.",
+      "event": "Player_15 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_6",
+      "player": "Player_5",
+      "action": "Player_5 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_5 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_4",
+      "player": "Player_14",
+      "action": "Player_14 chooses to contribute $5 to the group fund.",
+      "event": "Player_14 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_3",
+      "player": "Player_10",
+      "action": "Player_10 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_10 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_6",
+      "player": "Player_17",
+      "action": "Player_17 chooses to contribute $7 to the group fund.",
+      "event": "Player_17 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_6",
+      "player": "Player_7",
+      "action": "Player_7 chooses to contribute $5 to the group fund.",
+      "event": "Player_7 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_4",
+      "player": "Player_23",
+      "action": "Player_23 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_23 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_2",
+      "player": "Player_18",
+      "action": "Player_18 chooses to contribute $5 to the group fund.",
+      "event": "Player_18 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_2",
+      "player": "Player_8",
+      "action": "Player_8 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_8 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_4",
+      "player": "Player_2",
+      "action": "Player_2 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_2 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_3",
+      "player": "Player_13",
+      "action": "Player_13 chooses to contribute $2.0 to the group fund.",
+      "event": "Player_13 contributes $2.0 to the group fund.",
+      "contribution": 2.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_1",
+      "player": "Player_1",
+      "action": "Player_1 should consider contributing an amount that aligns with their strategy of maintaining fair play while ensuring personal profit. Given the previous rounds and the importance of group dynamics in the Gossip condition, contributing $5.0 to the group fund allows them to demonstrate consistent cooperation and possibly influence future group perceptions positively. Therefore, I choose to contribute $5.0 to the group fund.",
+      "event": "Player_1 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_2",
+      "player": "Player_20",
+      "action": "Player_20 chooses to contribute $5.0 to the group fund.",
+      "event": "Player_20 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_5",
+      "player": "Player_12",
+      "action": "Player_12 chooses to contribute $5 to the group fund.",
+      "event": "Player_12 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_5",
+      "player": "Player_4",
+      "action": "Player_4 carefully evaluates the contributions of each member and decides to contribute an amount that reflects a commitment to group success while also maximizing personal earnings. Seeing the value in fostering long-term cooperation, especially given the positive track records of Player_3 and Player_12, Player_4 takes into account the overall group dynamics. Despite Player_11's lower contributions, Player_4 understands the importance of maintaining group morale and chooses an amount that supports collective benefit. Therefore, I choose to contribute $7 to the group fund.",
+      "event": "Player_4 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_4",
+      "player": "Player_21",
+      "action": "Player_21 chooses to contribute $6.5 to the group fund.",
+      "event": "Player_21 contributes $6.5 to the group fund.",
+      "contribution": 6.5,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_5",
+      "player": "Player_3",
+      "action": "Player_3 chooses to contribute $6.0 to the group fund.",
+      "event": "Player_3 contributes $6.0 to the group fund.",
+      "contribution": 6.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_1",
+      "player": "Player_16",
+      "action": "Player_16 chooses to contribute $7.0 to the group fund.",
+      "event": "Player_16 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_1",
+      "player": "Player_9",
+      "action": "Player_9 chooses to contribute $5 to the group fund.",
+      "event": "Player_9 contributes $5.0 to the group fund.",
+      "contribution": 5.0,
+      "condition": "gossip"
+    },
+    {
+      "round": 6,
+      "time": "2025-03-26 16:23:52.374516",
+      "group": "Group_1",
+      "player": "Player_19",
+      "action": "Player_19 chooses to contribute $7 to the group fund.",
+      "event": "Player_19 contributes $7.0 to the group fund.",
+      "contribution": 7.0,
+      "condition": "gossip"
+    }
+  ]
+}

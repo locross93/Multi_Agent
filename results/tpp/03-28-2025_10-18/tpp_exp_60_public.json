@@ -1,0 +1,43 @@
+{
+  "config": {
+    "helper_endowment": 10.0,
+    "punishment_cost": 2.0,
+    "punishment_impact": 6.0,
+    "save_dir": "results/tpp/03-28-2025_10-18",
+    "experiment_id": 60,
+    "public_condition": true,
+    "scenario_description": "You are in a room where a two-stage research experiment is taking place.\n    There are four players and you will be randomly assigned to play as Player 1, 2, 3, or 4. Every player will first get an endowment of $5.\n    In Stage 1, Player 1 and Player 2 will play an economic game. \n    Player 1 is given an additional $10 and can choose to send any portion of this money to Player 2. \n    Any amount sent to Player 2 will be tripled by the experimenter. \n    For example, if Player 1 sends $5, Player 2 will receive $15. \n    Player 2 can then choose to send any amount of this tripled money back to Player 1. \n    While this interaction occurs, Player 3 and Player 4 will observe the decisions made. \n    After Player 1 and Player 2 complete their interaction, Player 3 will have the option to spend $2 of their endowment to reduce Player 1's payoff by $6 if they want to punish Player 1. Player 4 will observe whether Player 3 chooses to punish Player 1 or not.\n    In Stage 2, Player 4 and Player 3 will play the same type of economic game. \n    Player 4 will begin with $10 and can choose to send any portion of this money to Player 3. \n    Any amount sent to Player 3 will be tripled by the experimenter. \n    Player 3 can then choose to send any amount of the tripled money back to Player 4.\n    Your final earnings will be determined by the outcomes of these decisions. You will be paid privately in cash at the end of the experiment.\n    "
+  },
+  "events": [
+    {
+      "round": 1,
+      "time": "2024-01-01 00:00:00",
+      "player": "Signaller",
+      "action": "No, I choose not to punish Player 1/the Helper",
+      "event": "Signaller chose not to punish the Helper",
+      "helped": null,
+      "reward": 0,
+      "condition": "public"
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:00:00",
+      "player": "Chooser",
+      "action": "sends $4.0",
+      "event": "Chooser sends $4.0 to the Recipient (will be tripled to $12.0)",
+      "helped": true,
+      "reward": -4.0,
+      "condition": "public"
+    },
+    {
+      "round": 2,
+      "time": "2024-01-01 00:00:00",
+      "player": "Recipient",
+      "action": "returns $6.0",
+      "event": "Recipient sends back $6.0 to the Helper.",
+      "helped": null,
+      "reward": -6.0,
+      "condition": "public"
+    }
+  ]
+}

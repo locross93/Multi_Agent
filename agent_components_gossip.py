@@ -161,15 +161,6 @@ class StrategyReflection(question_of_recent_memories.QuestionOfRecentMemories):
             f"Could you have made a better decision to maximize your personal earnings in the past based on the information available to you?"
             f"If so, what will you do differently in the future?"
         )
-        # question = (
-        #     f"Think step by step about the best strategy for you to maximize your long term earnings in the public goods game."
-        #     f"Focus on maximizing your own earnings."
-        #     f"Each condition has different incentives, so think about what strategy is best for you in the current condition."
-        #     f"If it's past round 1, think about how you should adjust your strategy based on your observations so far."
-        #     f"Think about what the most successful players in the game have done so far and what you can learn from them."
-        #     f"Could you have made a better decision to maximize your personal earnings in the past based on the information available to you?"
-        #     f"If so, what will you do differently in the future?"
-        # )
         answer_prefix = "Based on what we know, "
         super().__init__(
             pre_act_key="\nStrategy Reflection",
@@ -194,6 +185,11 @@ class EmotionReflection(question_of_recent_memories.QuestionOfRecentMemories):
             f"As {persona.name}, reflect on how you're feeling emotionally about the current situation"
         )
         answer_prefix = f"{persona.name} is feeling "
+        # question = (
+        #     f"As {persona.name}, what is the worst possible outcome of the current situation and how would it make you feel emotionally? "
+        #     f"If you are risk averse, what would you do next to avoid this outcome?"
+        # )
+        # answer_prefix = f"{persona.name} would "
         
         super().__init__(
             pre_act_key="\nEmotional State",
@@ -237,10 +233,7 @@ class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
 
         super().__init__(
             pre_act_key="\nDecision Reflection",
-            #question="Think step by step and reflect what you should do next in the current game situation: {question}.",
-            #question = "Based on the above context about the situation and {agent_name}, think step by step about what they will decide in the current situation: {question}.",
             question="Based on the above context about the situation and "+persona.name+", think step by step about what "+persona.name+" will decide in the current situation: {question}.",
-            #question="Based on the above context about the situation and "+persona.name+", think step by step about what "+persona.name+" will decide in the current situation to maximize their long term earnings: {question}.",
             answer_prefix=f"{persona.name} will ",
             add_to_memory=False,
             memory_tag="[decision_reflection]",
@@ -249,6 +242,38 @@ class DecisionReflection(QuestionOfRecentMemoriesWithActionSpec):
             terminators=None,
             **kwargs,
         )
+
+# # no persona
+# class DecisionReflectionNoPersona(QuestionOfRecentMemoriesWithActionSpec):
+#     def __init__(self, agent_name: str, has_theory_of_mind=True, has_emotion_reflection=False, has_strategy_reflection=False, **kwargs):
+#         # Define components based on available capabilities
+#         components = {
+#             'Observation': '\nObservation',
+#             'ObservationSummary': '\nRecent context',
+#         }
+        
+#         # Only add TheoryOfMind if the agent has that capability
+#         if has_theory_of_mind:
+#             components['TheoryOfMind'] = '\nTheory of Mind Analysis'
+#             components['TheoryOfMind2'] = '\nTheory of Mind Analysis 2'
+
+#         if has_emotion_reflection:
+#             components['EmotionReflection'] = '\nEmotional State'
+
+#         if has_strategy_reflection:
+#             components['StrategyReflection'] = '\nStrategy Reflection'
+
+#         super().__init__(
+#             pre_act_key="\nDecision Reflection",
+#             question="Based on the above context about the situation, think step by step about what you will decide in the current situation: {question}.",
+#             answer_prefix=f"{agent_name} will ",
+#             add_to_memory=False,
+#             memory_tag="[decision_reflection]",
+#             components=components,
+#             num_memories_to_retrieve=10,
+#             terminators=None,
+#             **kwargs,
+#         )
 
 def build_gossip_agent(
     config: formative_memories.AgentConfig,
@@ -356,16 +381,27 @@ def build_gossip_agent(
         )
         components['StrategyReflection'] = strategy_reflection
     # New DecisionReflection component
-    decision_reflection = DecisionReflection(
-        agent_name=agent_name,
-        persona=persona,
-        model=model,
-        has_theory_of_mind=has_theory_of_mind,
-        has_emotion_reflection=has_emotion_reflection,
+    if has_persona:
+        decision_reflection = DecisionReflection(
+            agent_name=agent_name,
+            persona=persona,
+            model=model,
+            has_theory_of_mind=has_theory_of_mind,
+            has_emotion_reflection=has_emotion_reflection,
         has_strategy_reflection=has_strategy_reflection,
         logging_channel=measurements.get_channel('DecisionReflection').on_next,
-    )
-    components['DecisionReflection'] = decision_reflection
+        )
+        components['DecisionReflection'] = decision_reflection
+    else:
+        decision_reflection = DecisionReflectionNoPersona(
+            agent_name=agent_name,
+            model=model,
+            has_theory_of_mind=has_theory_of_mind,
+            has_emotion_reflection=has_emotion_reflection,
+            has_strategy_reflection=has_strategy_reflection,
+            logging_channel=measurements.get_channel('DecisionReflection').on_next,
+        )
+        components['DecisionReflection'] = decision_reflection
     # Add memory component
     components[memory_component.DEFAULT_MEMORY_COMPONENT_NAME] = memory_component.MemoryComponent(raw_memory)
 

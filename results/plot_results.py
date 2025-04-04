@@ -165,8 +165,6 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
     
     plt.savefig(save_dir / 'punishment_percentage_comparison3.png', bbox_inches='tight', dpi=300)
     plt.close()
-
-    breakpoint()
     
     # 2. Average money sent by Chooser based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
@@ -187,8 +185,6 @@ def create_plots(data: pd.DataFrame, save_dir: pathlib.Path):
 
     # print difference in chooser amounts between punished and not punished
     print(f"Difference in chooser amounts between punished and not punished: {data['chooser_amount'][data['signaller_punished']].mean() - data['chooser_amount'][~data['signaller_punished']].mean()}")
-
-    breakpoint()
     
     # 3. Return percentage based on whether recipient (as signaller) punished
     plt.figure(figsize=(8, 6))
@@ -253,8 +249,13 @@ def main():
     #results_dir = "results/12-28-2024_12-55"
     #results_dir = "results/12-28-2024_13-04"
     #results_dir = "results/12-28-2024_17-35"
-    results_dir = "results/12-31-2024_15-05" # main results
+    #results_dir = "results/12-31-2024_15-05" # main results
     # results_dir = "results/01-04-2025_18-39" $ tom ablation
+    #results_dir = "results/tpp/03-28-2025_10-18"
+    #results_dir = "results/tpp/03-28-2025_12-19"
+    #results_dir = "results/tpp/03-28-2025_14-18"
+    #results_dir = "results/tpp/03-28-2025_14-14" # emotion reflection
+    results_dir = "results/tpp/03-28-2025_17-20" # strategy reflection
     experiments = load_experiments(results_dir)
     
     # Analyze data
